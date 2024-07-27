@@ -1,0 +1,1016 @@
+name: EssentialsA
+version: '${project.version}'
+main: org.achymake.essentialsa.EssentialsA
+api-version: '1.21'
+prefix: '${project.name}'
+load: STARTUP
+depend:
+  - Votifier
+  - Vault
+  - PlaceholderAPI
+  - WorldGuard
+author: AchyMake
+description: '${project.description}'
+commands:
+  chunk:
+    usage: /chunk
+    description: chunk command
+    permission: essentials.command.chunk
+    permission-message: You do not have the permission to execute the command
+  chunks:
+    usage: /chunks
+    description: chunks command
+    permission: essentials.command.chunks
+    permission-message: You do not have the permission to execute the command
+  announcement:
+    usage: /announcement message
+    description: announce the server
+    permission: essentials.command.announcement
+    permission-message: You do not have the permission to execute the command
+  anvil:
+    usage: /anvil
+    description: opens anvil by command
+    permission: essentials.command.anvil
+    permission-message: You do not have the permission to execute the command
+  autopick:
+    usage: /autopick
+    description: opens anvil by command
+    permission: essentials.command.autopick
+    permission-message: You do not have the permission to execute the command
+  baby:
+    usage: /baby
+    description: toggle baby or adult
+    permission: essentials.command.baby
+    permission-message: You do not have the permission to execute the command
+  back:
+    usage: /back
+    description: teleport back to recent or death location
+    permission: essentials.command.back
+    permission-message: You do not have the permission to execute the command
+  balance:
+    usage: /balance or /bal
+    description: check user balance
+    permission: essentials.command.balance
+    permission-message: You do not have the permission to execute the command
+    aliases:
+      - bal
+  ban:
+    usage: /ban target days reason
+    description: ban players
+    permission: essentials.command.ban
+    permission-message: You do not have the permission to execute the command
+  color:
+    usage: /color
+    description: check minecraft colors
+    permission: essentials.command.color
+    permission-message: You do not have the permission to execute the command
+  delhome:
+    usage: /delhome home
+    description: delete home
+    permission: essentials.command.delhome
+    permission-message: You do not have the permission to execute the command
+  delwarp:
+    usage: /delwarp warpName
+    description: delete warp
+    permission: essentials.command.delwarp
+    permission-message: You do not have the permission to execute the command
+  eco:
+    usage: /eco add player amount
+    description: change economy of players
+    permission: essentials.command.eco
+    permission-message: You do not have the permission to execute the command
+  enchant:
+    usage: /enchant enchantment amount
+    description: enchant held item
+    permission: essentials.command.enchant
+    permission-message: You do not have the permission to execute the command
+  enderchest:
+    usage: /enderchest
+    description: open enderchest by command
+    permission: essentials.command.enderchest
+    permission-message: You do not have the permission to execute the command
+  essentials:
+    usage: /essentials
+    description: main command
+    permission: essentials.command.reload
+    permission-message: You do not have the permission to execute the command
+    aliases:
+      - ess
+  feed:
+    usage: /feed
+    description: satisfy starvation by command
+    permission: essentials.command.feed
+    permission-message: You do not have the permission to execute the command
+  fly:
+    usage: /fly
+    description: fly around the world
+    permission: essentials.command.fly
+    permission-message: You do not have the permission to execute the command
+  flyspeed:
+    usage: /flyspeed 0.1
+    description: change fly speed
+    permission: essentials.command.flyspeed
+    permission-message: You do not have the permission to execute the command
+  freeze:
+    usage: /freeze target
+    description: freeze player
+    permission: essentials.command.freeze
+    permission-message: You do not have the permission to execute the command
+  give:
+    usage: /give
+    description: gives items
+    permission: essentials.command.give
+    permission-message: You do not have the permission to execute the command
+  gamemode:
+    usage: /gamemode GameMode
+    description: changes gamemode
+    permission: essentials.command.gamemode
+    permission-message: You do not have the permission to execute the command
+  gma:
+    usage: /gma
+    description: changes gamemode to adventure
+    permission: essentials.command.gamemode.adventure
+    permission-message: You do not have the permission to execute the command
+  gmc:
+    usage: /gmc
+    description: changes gamemode to creative
+    permission: essentials.command.gamemode.creative
+    permission-message: You do not have the permission to execute the command
+  gms:
+    usage: /gms
+    description: changes gamemode to survival
+    permission: essentials.command.gamemode.survival
+    permission-message: You do not have the permission to execute the command
+  gmsp:
+    usage: /gmsp
+    description: changes gamemode to spectator
+    permission: essentials.command.gamemode.spectator
+    permission-message: You do not have the permission to execute the command
+  hat:
+    usage: /hat
+    description: allows to wear held item as helmet
+    permission: essentials.command.hat
+    permission-message: You do not have the permission to execute the command
+  heal:
+    usage: /heal
+    description: satisfy health by command
+    permission: essentials.command.heal
+    permission-message: You do not have the permission to execute the command
+  help:
+    usage: /help
+    description: list of help messages
+    permission: essentials.command.help
+    permission-message: You do not have the permission to execute the command
+    aliases:
+      - ?
+  home:
+    usage: /home
+    description: teleports home
+    permission: essentials.command.home
+    permission-message: You do not have the permission to execute the command
+  homes:
+    usage: /homes
+    description: check homes
+    permission: essentials.command.homes
+    permission-message: You do not have the permission to execute the command
+  information:
+    usage: /information target
+    description: check player info
+    permission: essentials.command.information
+    permission-message: You do not have the permission to execute the command
+  inventory:
+    usage: /inventory target
+    description: check player inventory
+    permission: essentials.command.inventory
+    permission-message: You do not have the permission to execute the command
+  jail:
+    usage: /jail
+    description: toggle jail
+    permission: essentials.command.jail
+    permission-message: You do not have the permission to execute the command
+  kit:
+    usage: /kit
+    description: receive kit
+    permission: essentials.command.kit
+    permission-message: You do not have the permission to execute the command
+  motd:
+    usage: /motd
+    description: message of the days
+    permission: essentials.command.motd
+    permission-message: You do not have the permission to execute the command
+  mute:
+    usage: /mute
+    description: toggle mute
+    permission: essentials.command.mute
+    permission-message: You do not have the permission to execute the command
+  nickname:
+    usage: /nickname
+    description: changes nickname
+    permission: essentials.command.nickname
+    permission-message: You do not have the permission to execute the command
+  pay:
+    usage: /pay
+    description: pay players
+    permission: essentials.command.pay
+    permission-message: You do not have the permission to execute the command
+  pvp:
+    usage: /pvp
+    description: toggle pvp
+    permission: essentials.command.pvp
+    permission-message: You do not have the permission to execute the command
+  repair:
+    usage: /repair
+    description: repair held item
+    permission: essentials.command.repair
+    permission-message: You do not have the permission to execute the command
+  respond:
+    usage: /r message
+    description: responds to latest whisper
+    permission: essentials.command.respond
+    permission-message: You do not have the permission to execute the command
+    aliases:
+      - r
+  rtp:
+    usage: /rtp
+    description: teleport random location
+    permission: essentials.command.rtp
+    permission-message: You do not have the permission to execute the command
+  rules:
+    usage: /rules
+    description: check rules
+    permission: essentials.command.rules
+    permission-message: You do not have the permission to execute the command
+  scale:
+    usage: /scale
+    description: change scale
+    permission: essentials.command.scale
+    permission-message: You do not have the permission to execute the command
+  sell:
+    usage: /sell
+    description: sell items from worth
+    permission: essentials.command.sell
+    permission-message: You do not have the permission to execute the command
+  sethome:
+    usage: /sethome homeName
+    description: sets home
+    permission: essentials.command.sethome
+    permission-message: You do not have the permission to execute the command
+  setjail:
+    usage: /setjail
+    description: sets jail
+    permission: essentials.command.setjail
+    permission-message: You do not have the permission to execute the command
+  setspawn:
+    usage: /setspawn
+    description: sets spawn
+    permission: essentials.command.setspawn
+    permission-message: You do not have the permission to execute the command
+  setwarp:
+    usage: /setwarp
+    description: sets warp
+    permission: essentials.command.setwarp
+    permission-message: You do not have the permission to execute the command
+  setworth:
+    usage: /setworth
+    description: sets worth of an item
+    permission: essentials.command.setworth
+    permission-message: You do not have the permission to execute the command
+  skull:
+    usage: /skull offlinePlayer
+    description: spawns skulls
+    permission: essentials.command.skull
+    permission-message: You do not have the permission to execute the command
+  spawn:
+    usage: /spawn
+    description: teleport to spawn
+    permission: essentials.command.spawn
+    permission-message: You do not have the permission to execute the command
+  spawner:
+    usage: /spawner
+    description: message
+    permission: essentials.command.spawner
+    permission-message: You do not have the permission to execute the command
+  store:
+    usage: /store
+    description: sends store link
+    permission: essentials.command.store
+    permission-message: You do not have the permission to execute the command
+  tpaccept:
+    usage: /tpaccept
+    description: accepts tpa request
+    permission: essentials.command.tpaccept
+    permission-message: You do not have the permission to execute the command
+  tpa:
+    usage: /tpa
+    description: sends tpa request
+    permission: essentials.command.tpa
+    permission-message: You do not have the permission to execute the command
+  tpcancel:
+    usage: /tpcancel
+    description: cancels tpa request
+    permission: essentials.command.tpcancel
+    permission-message: You do not have the permission to execute the command
+  tp:
+    usage: /tp target
+    description: teleport to player
+    permission: essentials.command.tp
+    permission-message: You do not have the permission to execute the command
+  tpdeny:
+    usage: /tpdeny
+    description: denies tpa request
+    permission: essentials.command.tpdeny
+    permission-message: You do not have the permission to execute the command
+  tphere:
+    usage: /tphere
+    description: teleports target to sender
+    permission: essentials.command.tphere
+    permission-message: You do not have the permission to execute the command
+  unban:
+    usage: /unban target
+    description: gets unbanned
+    permission: essentials.command.unban
+    permission-message: You do not have the permission to execute the command
+  vanish:
+    usage: /vanish
+    description: toggle vanish
+    permission: essentials.command.vanish
+    permission-message: You do not have the permission to execute the command
+  vote:
+    usage: /vote
+    description: check voting website
+    permission: essentials.command.vote
+    permission-message: You do not have the permission to execute the command
+  walkspeed:
+    usage: /walkspeed 0.2
+    description: change walk speed
+    permission: essentials.command.walkspeed
+    permission-message: You do not have the permission to execute the command
+  warp:
+    usage: /warp
+    description: warps to warpName
+    permission: essentials.command.warp
+    permission-message: You do not have the permission to execute the command
+  whisper:
+    usage: /whisper
+    description: whispers
+    permission: essentials.command.whisper
+    permission-message: You do not have the permission to execute the command
+  workbench:
+    usage: /workbench
+    description: opens crafting table by command
+    permission: essentials.command.workbench
+    permission-message: You do not have the permission to execute the command
+  worth:
+    usage: /worth item
+    description: check worth
+    permission: essentials.command.worth
+    permission-message: You do not have the permission to execute the command
+permissions:
+  essentials.command.chunk:
+    description: message
+    default: op
+  essentials.command.chunk.ban:
+    description: message
+    default: op
+  essentials.command.chunk.banned:
+    description: message
+    default: op
+  essentials.command.chunk.claim:
+    description: message
+    default: op
+  essentials.command.chunk.help:
+    description: message
+    default: op
+  essentials.command.chunk.members:
+    description: message
+    default: op
+  essentials.command.chunk.tnt:
+    description: message
+    default: op
+  essentials.command.chunk.unban:
+    description: message
+    default: op
+  essentials.command.chunk.view:
+    description: message
+    default: op
+  essentials.command.chunks:
+    description: message
+    default: op
+  essentials.command.chunks.edit:
+    description: message
+    default: op
+  essentials.command.chunks.effect:
+    description: message
+    default: op
+  essentials.command.chunks.help:
+    description: message
+    default: op
+  essentials.command.chunks.info:
+    description: message
+    default: op
+  essentials.command.chunks.setowner:
+    description: message
+    default: op
+  essentials.command.chunks.unclaim:
+    description: message
+    default: op
+  essentials.command.announcement:
+    description: message
+    default: op
+  essentials.command.anvil:
+    description: message
+    default: op
+  essentials.command.anvil.other:
+    description: message
+    default: op
+  essentials.command.anvil.exempt:
+    description: message
+    default: op
+  essentials.command.autopick:
+    description: message
+    default: op
+  essentials.command.baby:
+    description: message
+    default: op
+  essentials.command.baby.other:
+    description: message
+    default: op
+  essentials.command.baby.exempt:
+    description: message
+    default: op
+  essentials.command.back:
+    description: message
+    default: op
+  essentials.command.back.death:
+    description: message
+    default: op
+  essentials.command.back.other:
+    description: message
+    default: op
+  essentials.command.back.exempt:
+    description: message
+    default: op
+  essentials.command.back.world.world:
+    description: message
+    default: op
+  essentials.command.back.world.world_nether:
+    description: message
+    default: op
+  essentials.command.back.world.world_the_end:
+    description: message
+    default: op
+  essentials.command.balance:
+    description: message
+    default: op
+  essentials.command.balance.other:
+    description: message
+    default: op
+  essentials.command.balance.exempt:
+    description: message
+    default: op
+  essentials.command.ban:
+    description: message
+    default: op
+  essentials.command.ban.exempt:
+    description: message
+    default: op
+  essentials.command.color:
+    description: message
+    default: op
+  essentials.command.color.other:
+    description: message
+    default: op
+  essentials.command.color.exempt:
+    description: message
+    default: op
+  essentials.command.delhome:
+    description: message
+    default: op
+  essentials.command.delwarp:
+    description: message
+    default: op
+  essentials.command.eco:
+    description: message
+    default: op
+  essentials.command.eco.add:
+    description: message
+    default: op
+  essentials.command.eco.remove:
+    description: message
+    default: op
+  essentials.command.eco.reset:
+    description: message
+    default: op
+  essentials.command.eco.set:
+    description: message
+    default: op
+  essentials.command.enchant:
+    description: message
+    default: op
+  essentials.command.enderchest:
+    description: message
+    default: op
+  essentials.command.enderchest.other:
+    description: message
+    default: op
+  essentials.command.enderchest.exempt:
+    description: message
+    default: op
+  essentials.command.reload:
+    description: message
+    default: op
+  essentials.command.feed:
+    description: message
+    default: op
+  essentials.command.feed.other:
+    description: message
+    default: op
+  essentials.command.feed.exempt:
+    description: message
+    default: op
+  essentials.command.fly:
+    description: message
+    default: op
+  essentials.command.fly.other:
+    description: message
+    default: op
+  essentials.command.fly.exempt:
+    description: message
+    default: op
+  essentials.command.flyspeed:
+    description: message
+    default: op
+  essentials.command.flyspeed.other:
+    description: message
+    default: op
+  essentials.command.flyspeed.exempt:
+    description: message
+    default: op
+  essentials.command.freeze:
+    description: message
+    default: op
+  essentials.command.freeze.exempt:
+    description: message
+    default: op
+  essentials.command.give:
+    description: message
+    default: op
+  essentials.command.give.other:
+    description: message
+    default: op
+  essentials.command.give.exempt:
+    description: message
+    default: op
+  essentials.command.gamemode:
+    description: message
+    default: op
+  essentials.command.gamemode.adventure:
+    description: message
+    default: op
+  essentials.command.gamemode.creative:
+    description: message
+    default: op
+  essentials.command.gamemode.survival:
+    description: message
+    default: op
+  essentials.command.gamemode.spectator:
+    description: message
+    default: op
+  essentials.command.gamemode.other:
+    description: message
+    default: op
+  essentials.command.gamemode.exempt:
+    description: message
+    default: op
+  essentials.command.hat:
+    description: message
+    default: op
+  essentials.command.heal:
+    description: message
+    default: op
+  essentials.command.heal.other:
+    description: message
+    default: op
+  essentials.command.heal.exempt:
+    description: message
+    default: op
+  essentials.command.help:
+    description: message
+    default: op
+  essentials.command.help.other:
+    description: message
+    default: op
+  essentials.command.help.exempt:
+    description: message
+    default: op
+  essentials.command.home:
+    description: message
+    default: op
+  essentials.command.home.bed:
+    description: message
+    default: op
+  essentials.command.homes:
+    description: message
+    default: op
+  essentials.command.homes.delete:
+    description: message
+    default: op
+  essentials.command.homes.teleport:
+    description: message
+    default: op
+  essentials.command.information:
+    description: message
+    default: op
+  essentials.command.inventory:
+    description: message
+    default: op
+  essentials.command.inventory.exempt:
+    description: message
+    default: op
+  essentials.command.jail:
+    description: message
+    default: op
+  essentials.command.jail.exempt:
+    description: message
+    default: op
+  essentials.command.kit:
+    description: message
+    default: op
+  essentials.command.kit.starter:
+    description: message
+    default: op
+  essentials.command.kit.other:
+    description: message
+    default: op
+  essentials.command.kit.exempt:
+    description: message
+    default: op
+  essentials.command.motd:
+    description: message
+    default: op
+  essentials.command.motd.other:
+    description: message
+    default: op
+  essentials.command.motd.exempt:
+    description: message
+    default: op
+  essentials.command.mute:
+    description: message
+    default: op
+  essentials.command.mute.exempt:
+    description: message
+    default: op
+  essentials.command.nickname:
+    description: message
+    default: op
+  essentials.command.nickname.other:
+    description: message
+    default: op
+  essentials.command.nickname.exempt:
+    description: message
+    default: op
+  essentials.command.pay:
+    description: message
+    default: op
+  essentials.command.pvp:
+    description: message
+    default: op
+  essentials.command.pvp.other:
+    description: message
+    default: op
+  essentials.command.pvp.exempt:
+    description: message
+    default: op
+  essentials.command.repair:
+    description: message
+    default: op
+  essentials.command.respond:
+    description: message
+    default: op
+  essentials.command.rtp:
+    description: message
+    default: op
+  essentials.command.rtp.force:
+    description: message
+    default: op
+  essentials.command.rules:
+    description: message
+    default: op
+  essentials.command.rules.other:
+    description: message
+    default: op
+  essentials.command.rules.exempt:
+    description: message
+    default: op
+  essentials.command.scale:
+    description: message
+    default: op
+  essentials.command.scale.other:
+    description: message
+    default: op
+  essentials.command.scale.exempt:
+    description: message
+    default: op
+  essentials.command.sell:
+    description: message
+    default: op
+  essentials.command.sethome:
+    description: message
+    default: op
+  essentials.command.sethome.multiple.default:
+    description: message
+    default: op
+  essentials.command.setjail:
+    description: message
+    default: op
+  essentials.command.setspawn:
+    description: message
+    default: op
+  essentials.command.setspawn.other:
+    description: message
+    default: op
+  essentials.command.setspawn.exempt:
+    description: message
+    default: op
+  essentials.command.setwarp:
+    description: message
+    default: op
+  essentials.command.setworth:
+    description: message
+    default: op
+  essentials.command.skull:
+    description: message
+    default: op
+  essentials.command.spawn:
+    description: message
+    default: op
+  essentials.command.spawn.other:
+    description: message
+    default: op
+  essentials.command.spawn.exempt:
+    description: message
+    default: op
+  essentials.command.spawner:
+    description: message
+    default: op
+  essentials.command.store:
+    description: message
+    default: op
+  essentials.command.store.other:
+    description: message
+    default: op
+  essentials.command.store.exempt:
+    description: message
+    default: op
+  essentials.command.tpaccept:
+    description: message
+    default: op
+  essentials.command.tpa:
+    description: message
+    default: op
+  essentials.command.tpcancel:
+    description: message
+    default: op
+  essentials.command.tp:
+    description: message
+    default: op
+  essentials.command.tpdeny:
+    description: message
+    default: op
+  essentials.command.tphere:
+    description: message
+    default: op
+  essentials.command.tphere.exempt:
+    description: message
+    default: op
+  essentials.command.unban:
+    description: message
+    default: op
+  essentials.command.vanish:
+    description: message
+    default: op
+  essentials.command.vanish.other:
+    description: message
+    default: op
+  essentials.command.vanish.exempt:
+    description: message
+    default: op
+  essentials.command.vote:
+    description: message
+    default: op
+  essentials.command.vote.other:
+    description: message
+    default: op
+  essentials.command.vote.exempt:
+    description: message
+    default: op
+  essentials.command.walkspeed:
+    description: message
+    default: op
+  essentials.command.walkspeed.other:
+    description: message
+    default: op
+  essentials.command.walkspeed.exempt:
+    description: message
+    default: op
+  essentials.command.warp:
+    description: message
+    default: op
+  essentials.command.warp.[warpName]:
+    description: message
+    default: op
+  essentials.command.warp.other:
+    description: message
+    default: op
+  essentials.command.warp.exempt:
+    description: message
+    default: op
+  essentials.command.whisper:
+    description: message
+    default: op
+  essentials.command.workbench:
+    description: message
+    default: op
+  essentials.command.workbench.other:
+    description: message
+    default: op
+  essentials.command.workbench.exempt:
+    description: message
+    default: op
+  essentials.command.worth:
+    description: message
+    default: op
+  essentials.event.anvil.color:
+    description: message
+    default: op
+  essentials.event.chat.color:
+    description: message
+    default: op
+  essentials.event.sign.color:
+    description: message
+    default: op
+  essentials.event.block-break.notify:
+    description: message
+    default: op
+  essentials.event.block-place.notify:
+    description: message
+    default: op
+  essentials.event.bucket-empty.notify:
+    description: message
+    default: op
+  essentials.event.command.exempt:
+    description: message
+    default: op
+  essentials.event.login.full-server:
+    description: message
+    default: op
+  essentials.event.join.update:
+    description: message
+    default: op
+  essentials.event.join.message:
+    description: message
+    default: op
+  essentials.event.quit.message:
+    description: message
+    default: op
+  essentials.event.join.notify:
+    description: message
+    default: op
+  essentials.event.quit.notify:
+    description: message
+    default: op
+  essentials.event.death.location:
+    description: message
+    default: op
+  essentials.silk_touch.budding_amethyst:
+    description: message
+    default: op
+  essentials.silk_touch.spawner:
+    description: message
+    default: op
+  essentials.carry.allay:
+    description: message
+    default: op
+  essentials.carry.armadillo:
+    description: message
+    default: op
+  essentials.carry.axolotl:
+    description: message
+    default: op
+  essentials.carry.bat:
+    description: message
+    default: op
+  essentials.carry.camel:
+    description: message
+    default: op
+  essentials.carry.cat:
+    description: message
+    default: op
+  essentials.carry.chicken:
+    description: message
+    default: op
+  essentials.carry.cod:
+    description: message
+    default: op
+  essentials.carry.cow:
+    description: message
+    default: op
+  essentials.carry.donkey:
+    description: message
+    default: op
+  essentials.carry.frog:
+    description: message
+    default: op
+  essentials.carry.horse:
+    description: message
+    default: op
+  essentials.carry.mooshroom:
+    description: message
+    default: op
+  essentials.carry.mule:
+    description: message
+    default: op
+  essentials.carry.ocelot:
+    description: message
+    default: op
+  essentials.carry.parrot:
+    description: message
+    default: op
+  essentials.carry.pig:
+    description: message
+    default: op
+  essentials.carry.rabbit:
+    description: message
+    default: op
+  essentials.carry.sheep:
+    description: message
+    default: op
+  essentials.carry.skeleton_horse:
+    description: message
+    default: op
+  essentials.carry.sniffer:
+    description: message
+    default: op
+  essentials.carry.snow_golem:
+    description: message
+    default: op
+  essentials.carry.strider:
+    description: message
+    default: op
+  essentials.carry.turtle:
+    description: message
+    default: op
+  essentials.carry.villager:
+    description: message
+    default: op
+  essentials.carry.wandering_trader:
+    description: message
+    default: op
+  essentials.carry.bee:
+    description: message
+    default: op
+  essentials.carry.dolphin:
+    description: message
+    default: op
+  essentials.carry.fox:
+    description: message
+    default: op
+  essentials.carry.goat:
+    description: message
+    default: op
+  essentials.carry.iron_golem:
+    description: message
+    default: op
+  essentials.carry.llama:
+    description: message
+    default: op
+  essentials.carry.panda:
+    description: message
+    default: op
+  essentials.carry.polar_bear:
+    description: message
+    default: op
+  essentials.carry.trader_llama:
+    description: message
+    default: op
+  essentials.carry.wolf:
+    description: message
+    default: op
+  essentials.harvester.wooden_hoe:
+    description: message
+    default: op
+  essentials.harvester.stone_hoe:
+    description: message
+    default: op
+  essentials.harvester.iron_hoe:
+    description: message
+    default: op
+  essentials.harvester.golden_hoe:
+    description: message
+    default: op
+  essentials.harvester.diamond_hoe:
+    description: message
+    default: op
+  essentials.harvester.netherite_hoe:
+    description: message
+    default: op

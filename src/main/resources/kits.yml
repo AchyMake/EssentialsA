@@ -1,0 +1,57 @@
+starter:
+  cooldown: 3600
+  cost: 75.00
+  items:
+    sword:
+      type: STONE_SWORD
+      amount: 1
+      name: '&6Stone Sword'
+      lore:
+        - '&9from'
+        - '&7-&6 Starter'
+      enchantments:
+        unbreaking:
+          type: UNBREAKING
+          amount: 1
+    pickaxe:
+      type: STONE_PICKAXE
+      amount: 1
+      name: '&6Stone Pickaxe'
+      lore:
+        - '&9from'
+        - '&7-&6 Starter'
+      enchantments:
+        unbreaking:
+          type: UNBREAKING
+          amount: 1
+    axe:
+      type: STONE_AXE
+      amount: 1
+      name: '&6Stone Axe'
+      lore:
+        - '&9from'
+        - '&7-&6 Starter'
+      enchantments:
+        unbreaking:
+          type: UNBREAKING
+          amount: 1
+    shovel:
+      type: STONE_SHOVEL
+      amount: 1
+      name: '&6Stone Shovel'
+      lore:
+        - '&9from'
+        - '&7-&6 Starter'
+      enchantments:
+        unbreaking:
+          type: UNBREAKING
+          amount: 1
+    food:
+      type: COOKED_BEEF
+      amount: 16
+food:
+  cooldown: 1800
+  materials:
+    food:
+      type: COOKED_BEEF
+      amount: 16

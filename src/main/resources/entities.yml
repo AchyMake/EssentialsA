@@ -1,0 +1,2145 @@
+ALLAY:
+  name: Allay
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+AREA_EFFECT_CLOUD:
+  name: Area Effect Cloud
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: false
+  disable-block-form: false
+  disable-block-change: false
+ARMADILLO:
+  name: Armadillo
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ARMOR_STAND:
+  name: Armor Stand
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: false
+  disable-block-form: false
+  disable-block-change: false
+ARROW:
+  name: Arrow
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: false
+  disable-block-form: false
+  disable-block-change: false
+AXOLOTL:
+  name: Axolotl
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+BAT:
+  name: Bat
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+BEE:
+  name: Bee
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+BLAZE:
+  name: Blaze
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+BLOCK_DISPLAY:
+  name: Block Display
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: false
+  disable-block-form: false
+  disable-block-change: false
+BOAT:
+  name: Boat
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+BOGGED:
+  name: Bogged
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+BREEZE:
+  name: Breeze
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+BREEZE_WIND_CHARGE:
+  name: Breeze Wind Charge
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: false
+  disable-block-form: false
+  disable-block-change: false
+CAMEL:
+  name: Camel
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+CAT:
+  name: Cat
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+CAVE_SPIDER:
+  name: Cave Spider
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+CHEST_BOAT:
+  name: Chest Boat
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+CHEST_MINECART:
+  name: Chest Minecart
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+CHICKEN:
+  name: Chicken
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+COD:
+  name: Cod
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+COMMAND_BLOCK_MINECART:
+  name: Command Block Minecart
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: false
+  disable-block-form: false
+  disable-block-change: false
+COW:
+  name: Cow
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+CREEPER:
+  name: Creeper
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+DOLPHIN:
+  name: Dolphin
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+DONKEY:
+  name: Donkey
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+DRAGON_FIREBALL:
+  name: Dragon Fireball
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+DROWNED:
+  name: Drowned
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+EGG:
+  name: Egg
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+ELDER_GUARDIAN:
+  name: Elder Guardian
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+END_CRYSTAL:
+  name: End Crystal
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+ENDER_DRAGON:
+  name: Ender Dragon
+  hostile: true
+  chunk-limit: 1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+ENDER_PEARL:
+  name: Ender Pearl
+  hostile: true
+  chunk-limit: 16
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+ENDERMAN:
+  name: Enderman
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ENDERMITE:
+  name: Endermite
+  hostile: true
+  chunk-limit: 16
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+EVOKER:
+  name: Evoker
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+EVOKER_FANGS:
+  name: Evoker Fangs
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+EXPERIENCE_BOTTLE:
+  name: Experience Bottle
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+EXPERIENCE_ORB:
+  name: Experience Orb
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+EYE_OF_ENDER:
+  name: Eye Of Ender
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+FALLING_BLOCK:
+  name: Falling Block
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+FIREBALL:
+  name: Fireball
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+FISHING_BOBBER:
+  name: Fishing Bobber
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+FOX:
+  name: Fox
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+FROG:
+  name: Frog
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+FURNACE_MINECART:
+  name: Furnace Minecart
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+GHAST:
+  name: Ghast
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+GIANT:
+  name: Giant
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+GLOW_ITEM_FRAME:
+  name: Glow Item Frame
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+GLOW_SQUID:
+  name: Glow Squid
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+GOAT:
+  name: Goat
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+GUARDIAN:
+  name: Guardian
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+HOGLIN:
+  name: Hoglin
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+HOPPER_MINECART:
+  name: Hopper Minecart
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+HORSE:
+  name: Horse
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+HUSK:
+  name: Husk
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ILLUSIONER:
+  name: Illusioner
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+INTERACTION:
+  name: Interaction
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+IRON_GOLEM:
+  name: Iron Golem
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ITEM:
+  name: Item
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+ITEM_DISPLAY:
+  name: Item Display
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+ITEM_FRAME:
+  name: Item Frame
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+LEASH_KNOT:
+  name: Leash Knot
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+LIGHTING_BOLT:
+  name: Lighting Bolt
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+LLAMA:
+  name: Llama
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+LLAMA_SPIT:
+  name: Llama Spit
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+MAGMA_CUBE:
+  name: Magma Cube
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+MARKER:
+  name: Marker
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+MINECART:
+  name: Minecart
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+MOOSHROOM:
+  name: Mooshroom
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+MULE:
+  name: Mule
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+OCELOT:
+  name: Ocelot
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+OMINOUS_ITEM_SPAWNER:
+  name: Ominous Item Spawner
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+PAINTING:
+  name: Painting
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+PANDA:
+  name: Panda
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+PARROT:
+  name: Parrot
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+PHANTOM:
+  name: Phantom
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+PIG:
+  name: Pig
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+PIGLIN:
+  name: Piglin
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+PIGLIN_BRUTE:
+  name: Piglin Brute
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+PILLAGER:
+  name: Pillager
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+POLAR_BEAR:
+  name: Polar Bear
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+POTION:
+  name: Potion
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+PUFFERFISH:
+  name: Pufferfish
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+RABBIT:
+  name: Rabbit
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+RAVAGER:
+  name: Ravager
+  hostile: true
+  chunk-limit: 4
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SALMON:
+  name: Salmon
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SHEEP:
+  name: Sheep
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SHULKER:
+  name: Shulker
+  hostile: true
+  chunk-limit: 16
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SHULKER_BULLET:
+  name: Shulker Bullet
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+SILVERFISH:
+  name: Silverfish
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SKELETON:
+  name: Skeleton
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SKELETON_HORSE:
+  name: Skeleton Horse
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SLIME:
+  name: Slime
+  hostile: true
+  chunk-limit: 16
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SMALL_FIREBALL:
+  name: Small Fireball
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+SNIFFER:
+  name: Sniffer
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SNOW_GOLEM:
+  name: Snowman
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SNOWBALL:
+  name: Snowball
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+SPAWNER_MINECART:
+  name: Spawner Minecart
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+SPECTRAL_ARROW:
+  name: Spectral Arrow
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+SPIDER:
+  name: Spider
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+SQUID:
+  name: Squid
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+STRAY:
+  name: Stray
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+STRIDER:
+  name: Strider
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+TADPOLE:
+  name: Tadpole
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+TEXT_DISPLAY:
+  name: Text Display
+  hostile: false
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+TNT:
+  name: TNT
+  hostile: true
+  chunk-limit: 16
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+TNT_MINECART:
+  name: TNT Minecart
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+TRADER_LLAMA:
+  name: Trader Llama
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+TRIDENT:
+  name: Trident
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+TROPICAL_FISH:
+  name: Tropical Fish
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+TURTLE:
+  name: Turtle
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+UNKNOWN:
+  name: Unknown
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+VEX:
+  name: Vex
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+VILLAGER:
+  name: Villager
+  hostile: false
+  chunk-limit: 16
+  disable-spawn: false
+  disable-block-damage: false
+  disable-block-form: false
+  disable-block-change: false
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+VINDICATOR:
+  name: Vindicator
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+WANDERING_TRADER:
+  name: Wandering Trader
+  hostile: false
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+WARDEN:
+  name: Warden
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+WIND_CHARGE:
+  name: Wind Charge
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+WITCH:
+  name: Witch
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+WITHER:
+  name: Wither
+  hostile: true
+  chunk-limit: 4
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+WITHER_SKELETON:
+  name: Wither Skeleton
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+WITHER_SKULL:
+  name: Wither Skull
+  hostile: true
+  chunk-limit: -1
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+WOLF:
+  name: Wolf
+  hostile: false
+  chunk-limit: 2
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ZOGLIN:
+  name: Zoglin
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ZOMBIE:
+  name: Zombie
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ZOMBIE_HORSE:
+  name: Zombie Horse
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ZOMBIE_VILLAGER:
+  name: Zombie Villager
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0
+ZOMBIFIED_PIGLIN:
+  name: Zombified Piglin
+  hostile: true
+  chunk-limit: 8
+  disable-spawn: false
+  disable-block-damage: true
+  disable-block-form: true
+  disable-block-change: true
+  disable-block-interact:
+    FARMLAND: true
+    TURTLE_EGG: true
+    SNIFFER_EGG: true
+  disable-target:
+    VILLAGER: false
+  disable-damage:
+    VILLAGER: false
+  carry:
+    enable: true
+    weight:
+      adult: 1
+      baby: 0

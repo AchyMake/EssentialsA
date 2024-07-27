@@ -1,0 +1,109 @@
+enable: true
+rewards:
+  common:
+    commands:
+      - eco add %player% 25
+    items:
+      diamond:
+        type: DIAMOND
+        name: Diamond
+        amount: 1
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
+      emerald:
+        type: EMERALD
+        name: Emerald
+        amount: 3
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
+  uncommon:
+    chance: 75
+    commands:
+      - eco add %player% 25
+    items:
+      diamond:
+        type: DIAMOND
+        name: Diamond
+        amount: 2
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
+      emerald:
+        type: EMERALD
+        name: Emerald
+        amount: 6
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
+  rare:
+    chance: 50
+    commands:
+      - eco add %player% 25
+    items:
+      diamond:
+        type: DIAMOND
+        name: Diamond
+        amount: 4
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
+      emerald:
+        type: EMERALD
+        name: Emerald
+        amount: 12
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
+  epic:
+    chance: 25
+    commands:
+      - eco add %player% 25
+    items:
+      diamond:
+        type: DIAMOND
+        name: Diamond
+        amount: 6
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
+      emerald:
+        type: EMERALD
+        name: Emerald
+        amount: 24
+        lore:
+          - '&9from'
+          - '&7-&6 Vote'
+        enchantments:
+          unbreaking:
+            type: UNBREAKING
+            amount: 1
