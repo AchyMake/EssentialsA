@@ -10,6 +10,7 @@ import org.achymake.essentialsa.api.VaultEcoProvider;
 import org.achymake.essentialsa.commands.*;
 import org.achymake.essentialsa.commands.chunk.ChunkCommand;
 import org.achymake.essentialsa.commands.chunks.ChunksCommand;
+import org.achymake.essentialsa.commands.villager.VillagerCommand;
 import org.achymake.essentialsa.data.*;
 import org.achymake.essentialsa.listeners.*;
 import org.achymake.essentialsa.net.UpdateChecker;
@@ -118,6 +119,7 @@ public final class EssentialsA extends JavaPlugin {
     private void commands() {
         getCommand("chunk").setExecutor(new ChunkCommand(this));
         getCommand("chunks").setExecutor(new ChunksCommand(this));
+        getCommand("villager").setExecutor(new VillagerCommand(this));
         getCommand("announcement").setExecutor(new AnnouncementCommand(this));
         getCommand("anvil").setExecutor(new AnvilCommand(this));
         getCommand("autopick").setExecutor(new AutoPickCommand(this));
@@ -196,12 +198,14 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new BlockRedstone(this), this);
         getManager().registerEvents(new CauldronChangeLevel(this), this);
         getManager().registerEvents(new EntityBlockForm(this), this);
+        getManager().registerEvents(new EntityBreed(this), this);
         getManager().registerEvents(new EntityChangeBlock(this), this);
         getManager().registerEvents(new EntityDamage(this), this);
         getManager().registerEvents(new EntityDamageByEntity(this), this);
         getManager().registerEvents(new EntityDeath(this), this);
         getManager().registerEvents(new EntityExplode(this), this);
         getManager().registerEvents(new EntityInteract(this), this);
+        getManager().registerEvents(new EntityPickupItem(this), this);
         getManager().registerEvents(new EntitySpawn(this), this);
         getManager().registerEvents(new EntityTarget(this), this);
         getManager().registerEvents(new EntityTargetLivingEntity(this), this);
@@ -227,6 +231,9 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerTeleport(this), this);
         getManager().registerEvents(new PrepareAnvil(this), this);
         getManager().registerEvents(new SignChange(this), this);
+        getManager().registerEvents(new VillagerAcquireTrade(this), this);
+        getManager().registerEvents(new VillagerCareerChange(this), this);
+        getManager().registerEvents(new VillagerReplenishTrade(this), this);
         getManager().registerEvents(new Votifier(this), this);
     }
     public StateFlag getFlagHarvest() {

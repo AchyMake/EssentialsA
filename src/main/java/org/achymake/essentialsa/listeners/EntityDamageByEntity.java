@@ -70,6 +70,13 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                 }
                 default -> {
+                    if (getEntities().isNPC(entity)) {
+                        event.setCancelled(true);
+                    } else {
+                        if (event.getDamager() instanceof Player)return;
+                        if (!getEntities().disableDamage(event.getDamager(), event.getEntity()))return;
+                        event.setCancelled(true);
+                    }
                 }
             }
         } else {
@@ -193,9 +200,13 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     }
                 }
                 default -> {
-                    if (event.getDamager() instanceof Player)return;
-                    if (!getEntities().disableDamage(event.getDamager(), event.getEntity()))return;
-                    event.setCancelled(true);
+                    if (getEntities().isNPC(entity)) {
+                        event.setCancelled(true);
+                    } else {
+                        if (event.getDamager() instanceof Player)return;
+                        if (!getEntities().disableDamage(event.getDamager(), event.getEntity()))return;
+                        event.setCancelled(true);
+                    }
                 }
             }
         }

@@ -38,7 +38,7 @@ public record Chunkdata(EssentialsA plugin) {
         return plugin.getServer();
     }
     public File getFile(Chunk chunk) {
-        return new File(getDataFolder(), "database/" + chunk.getWorld().getName() + "/" + chunk.getChunkKey() + ".yml");
+        return new File(getDataFolder(), "chunks/" + chunk.getWorld().getName() + "/" + chunk.getChunkKey() + ".yml");
     }
     public boolean exist(Chunk chunk) {
         return getFile(chunk).exists();
@@ -368,10 +368,10 @@ public record Chunkdata(EssentialsA plugin) {
         }
     }
     public void reload() {
-        File folder = new File(getDataFolder(), "database");
+        File folder = new File(getDataFolder(), "chunks");
         if (!folder.exists())return;
         for (String worlds : folder.list()) {
-            File folders = new File(getDataFolder(), "database/" + worlds);
+            File folders = new File(getDataFolder(), "chunks/" + worlds);
             if (!folders.exists())return;
             for (File files : folders.listFiles()) {
                 FileConfiguration config = YamlConfiguration.loadConfiguration(files);

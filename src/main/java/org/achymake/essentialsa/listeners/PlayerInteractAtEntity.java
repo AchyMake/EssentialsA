@@ -9,6 +9,7 @@ import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -34,6 +35,16 @@ public record PlayerInteractAtEntity(EssentialsA plugin) implements Listener {
         Chunk chunk = entity.getChunk();
         if (isDisabled(player)) {
             event.setCancelled(true);
+        } else if (getEntities().isNPC(entity)) {
+            event.setCancelled(true);
+            if (getEntities().hasCommand(entity)) {
+                if (getEntities().isCommandPlayer(entity)) {
+                    player.getServer().dispatchCommand(player, getEntities().getCommand(entity));
+                }
+                if (getEntities().isCommandConsole(entity)) {
+                    player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getEntities().getCommand(entity).replaceAll("%player%", player.getName()));
+                }
+            }
         } else if (getChunkdata().isClaimed(chunk)) {
             if (getEntities().isHostile(entity))return;
             if (entity.isInvulnerable())return;
@@ -41,6 +52,7 @@ public record PlayerInteractAtEntity(EssentialsA plugin) implements Listener {
                 if (!player.isSneaking())return;
                 if (player.getPassenger() != null)return;
                 if (entity.getPassenger() != null)return;
+                if (getEntities().isNPC(entity))return;
                 if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
                 if (!getEntities().isEnableCarry(entity))return;
                 if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
@@ -57,6 +69,7 @@ public record PlayerInteractAtEntity(EssentialsA plugin) implements Listener {
             if (!player.isSneaking())return;
             if (player.getPassenger() != null)return;
             if (entity.getPassenger() != null)return;
+            if (getEntities().isNPC(entity))return;
             if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
             if (!getEntities().isEnableCarry(entity))return;
             if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;

@@ -22,6 +22,11 @@ commands:
     description: chunks command
     permission: essentials.command.chunks
     permission-message: You do not have the permission to execute the command
+  villager:
+    usage: /villager
+    description: villager npc
+    permission: essentials.command.villager
+    permission-message: You do not have the permission to execute the command
   announcement:
     usage: /announcement message
     description: announce the server
@@ -412,6 +417,9 @@ permissions:
     description: message
     default: op
   essentials.command.chunks.unclaim:
+    description: message
+    default: op
+  essentials.command.villager:
     description: message
     default: op
   essentials.command.announcement:
