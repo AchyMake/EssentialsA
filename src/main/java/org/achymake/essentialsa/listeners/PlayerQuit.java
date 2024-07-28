@@ -108,6 +108,17 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
                 getDatabase().setString(player, "tpa.from", null);
             }
             getDatabase().setString(target, "task.tpa", null);
+        } else if (getDatabase().getConfig(player).isString("tpahere.from")) {
+            String uuidString = getDatabase().getConfig(player).getString("tpahere.from");
+            UUID uuid = UUID.fromString(uuidString);
+            OfflinePlayer target = getServer().getOfflinePlayer(uuid);
+            getDatabase().setString(target, "tpahere.sent", null);
+            int taskID = getDatabase().getConfig(target).getInt("task.tpa");
+            if (plugin.getScheduler().isQueued(taskID)) {
+                plugin.getScheduler().cancelTask(taskID);
+                getDatabase().setString(player, "tpahere.from", null);
+            }
+            getDatabase().setString(target, "task.tpa", null);
         } else if (getDatabase().getConfig(player).isString("tpa.sent")) {
             String uuidString = getDatabase().getConfig(player).getString("tpa.sent");
             UUID uuid = UUID.fromString(uuidString);
@@ -119,6 +130,17 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
                 getDatabase().setString(player, "task.tpa", null);
             }
             getDatabase().setString(player, "tpa.sent", null);
+        } else if (getDatabase().getConfig(player).isString("tpahere.sent")) {
+            String uuidString = getDatabase().getConfig(player).getString("tpahere.sent");
+            UUID uuid = UUID.fromString(uuidString);
+            OfflinePlayer target = getServer().getOfflinePlayer(uuid);
+            getDatabase().setString(target, "tpahere.from", null);
+            int taskID = getDatabase().getConfig(player).getInt("task.tpa");
+            if (plugin.getScheduler().isQueued(taskID)) {
+                plugin.getScheduler().cancelTask(taskID);
+                getDatabase().setString(player, "task.tpa", null);
+            }
+            getDatabase().setString(player, "tpahere.sent", null);
         }
     }
 }
