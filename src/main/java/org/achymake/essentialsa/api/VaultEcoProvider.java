@@ -3,17 +3,32 @@ package org.achymake.essentialsa.api;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Server;
 
 import java.util.Collections;
 import java.util.List;
 
-public record VaultEcoProvider(EssentialsA plugin) implements Economy {
+public class VaultEcoProvider implements Economy {
+    private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
+    private org.achymake.essentialsa.data.Economy getEconomy() {
+        return plugin.getEconomy();
+    }
+    private Server getServer() {
+        return plugin.getServer();
+    }
+    public VaultEcoProvider(EssentialsA plugin) {
+        this.plugin = plugin;
+    }
     public boolean isEnabled() {
         return plugin.isEnabled();
     }
     public String getName() {
-        return plugin.getDescription().getName();
+        return plugin.getName();
     }
     public boolean hasBankSupport() {
         return false;
@@ -22,19 +37,19 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         return -1;
     }
     public String format(double amount) {
-        return plugin.getEconomy().format(amount);
+        return getEconomy().format(amount);
     }
     public String currencyNamePlural() {
         return currencyNameSingular();
     }
     public String currencyNameSingular() {
-        return plugin.getEconomy().currency();
+        return getEconomy().currency();
     }
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
-        return plugin.getDatabase().exist(offlinePlayer);
+        return getDatabase().exist(offlinePlayer);
     }
     public boolean hasAccount(String playerName) {
-        return plugin.getDatabase().exist(plugin.getServer().getOfflinePlayer(playerName));
+        return getDatabase().exist(getServer().getOfflinePlayer(playerName));
     }
     public boolean hasAccount(String playerName, String worldName) {
         return hasAccount(playerName);
@@ -43,10 +58,10 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         return hasAccount(player);
     }
     public double getBalance(OfflinePlayer offlinePlayer) {
-        return plugin.getEconomy().get(offlinePlayer);
+        return getEconomy().get(offlinePlayer);
     }
     public double getBalance(String playerName) {
-        return plugin.getEconomy().get(plugin.getServer().getOfflinePlayer(playerName));
+        return getEconomy().get(getServer().getOfflinePlayer(playerName));
     }
     public double getBalance(String playerName, String world) {
         return getBalance(playerName);
@@ -55,10 +70,10 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         return getBalance(player);
     }
     public boolean has(OfflinePlayer offlinePlayer, double amount) {
-        return plugin.getEconomy().has(offlinePlayer, amount);
+        return getEconomy().has(offlinePlayer, amount);
     }
     public boolean has(String playerName, double amount) {
-        return plugin.getEconomy().has(plugin.getServer().getOfflinePlayer(playerName), amount);
+        return getEconomy().has(getServer().getOfflinePlayer(playerName), amount);
     }
     public boolean has(String playerName, String worldName, double amount) {
         return has(playerName, amount);
@@ -72,7 +87,7 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds!");
         } else {
-            plugin.getEconomy().remove(offlinePlayer, amount);
+            getEconomy().remove(offlinePlayer, amount);
             return new EconomyResponse(amount, getBalance(offlinePlayer), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -82,7 +97,7 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds!");
         } else {
-            plugin.getEconomy().remove(plugin.getServer().getOfflinePlayer(playerName), amount);
+            getEconomy().remove(getServer().getOfflinePlayer(playerName), amount);
             return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -98,7 +113,7 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot deposit negative funds");
         } else {
-            plugin.getEconomy().add(offlinePlayer, amount);
+            getEconomy().add(offlinePlayer, amount);
             return new EconomyResponse(amount, getBalance(offlinePlayer), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -108,7 +123,7 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot deposit negative funds");
         } else {
-            plugin.getEconomy().add(plugin.getServer().getOfflinePlayer(playerName), amount);
+            getEconomy().add(getServer().getOfflinePlayer(playerName), amount);
             return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -119,11 +134,11 @@ public record VaultEcoProvider(EssentialsA plugin) implements Economy {
         return depositPlayer(player, amount);
     }
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
-        plugin.getDatabase().setup(offlinePlayer);
+        getDatabase().setup(offlinePlayer);
         return true;
     }
     public boolean createPlayerAccount(String playerName) {
-        plugin.getDatabase().setup(plugin.getServer().getOfflinePlayer(playerName));
+        getDatabase().setup(getServer().getOfflinePlayer(playerName));
         return true;
     }
     public boolean createPlayerAccount(String playerName, String worldName) {

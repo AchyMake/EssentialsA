@@ -13,8 +13,11 @@ public record Economy(EssentialsA plugin) {
     private Database getDatabase() {
         return plugin.getDatabase();
     }
+    private FileConfiguration getConfig(OfflinePlayer offlinePlayer) {
+        return getDatabase().getConfig(offlinePlayer);
+    }
     public double get(OfflinePlayer offlinePlayer) {
-        return getDatabase().getConfig(offlinePlayer).getDouble("account");
+        return getConfig(offlinePlayer).getDouble("account");
     }
     public boolean has(OfflinePlayer offlinePlayer, double amount) {
         return get(offlinePlayer) >= amount;

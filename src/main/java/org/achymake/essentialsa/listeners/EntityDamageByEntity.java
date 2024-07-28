@@ -1,10 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
-import org.achymake.essentialsa.data.Entities;
-import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.*;
 import org.bukkit.Chunk;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -22,6 +19,9 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
     }
+    private Worlds getWorlds() {
+        return plugin.getWorlds();
+    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -35,39 +35,44 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
             if (getEntities().isHostile(entity))return;
             switch (damager) {
                 case Arrow arrow -> {
-                    if (!(arrow.getShooter() instanceof Player player)) return;
-                    if (getChunkdata().hasAccess(player, chunk)) return;
-                    event.setCancelled(true);
-                    getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    if (arrow.getShooter() instanceof Player player) {
+                        if (getChunkdata().hasAccess(player, chunk))return;
+                        event.setCancelled(true);
+                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    }
                 }
                 case Player player -> {
-                    if (getChunkdata().hasAccess(player, chunk)) return;
+                    if (getChunkdata().hasAccess(player, chunk))return;
                     event.setCancelled(true);
                     getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                 }
                 case Snowball snowball -> {
-                    if (!(snowball.getShooter() instanceof Player player)) return;
-                    if (getChunkdata().hasAccess(player, chunk)) return;
-                    event.setCancelled(true);
-                    getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    if (snowball.getShooter() instanceof Player player) {
+                        if (getChunkdata().hasAccess(player, chunk))return;
+                        event.setCancelled(true);
+                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    }
                 }
                 case SpectralArrow spectralArrow -> {
-                    if (!(spectralArrow.getShooter() instanceof Player player)) return;
-                    if (getChunkdata().hasAccess(player, chunk)) return;
-                    event.setCancelled(true);
-                    getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    if (spectralArrow.getShooter() instanceof Player player) {
+                        if (getChunkdata().hasAccess(player, chunk))return;
+                        event.setCancelled(true);
+                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    }
                 }
                 case ThrownPotion thrownPotion -> {
-                    if (!(thrownPotion.getShooter() instanceof Player player)) return;
-                    if (getChunkdata().hasAccess(player, chunk)) return;
-                    event.setCancelled(true);
-                    getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    if (thrownPotion.getShooter() instanceof Player player) {
+                        if (getChunkdata().hasAccess(player, chunk))return;
+                        event.setCancelled(true);
+                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    }
                 }
                 case Trident trident -> {
-                    if (!(trident.getShooter() instanceof Player player)) return;
-                    if (getChunkdata().hasAccess(player, chunk)) return;
-                    event.setCancelled(true);
-                    getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    if (trident.getShooter() instanceof Player player) {
+                        if (getChunkdata().hasAccess(player, chunk))return;
+                        event.setCancelled(true);
+                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                    }
                 }
                 default -> {
                     if (getEntities().isNPC(entity)) {
@@ -79,134 +84,174 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     }
                 }
             }
-        } else {
-            switch (damager) {
-                case Arrow arrow -> {
-                    if (!(arrow.getShooter() instanceof Player player)) return;
+        }
+        switch (damager) {
+            case Arrow arrow -> {
+                if (arrow.getShooter() instanceof Player player) {
                     if (isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
-                            if (player == target) return;
-                            if (!getDatabase().isPVP(player)) {
+                            if (player == target)return;
+                            if (getWorlds().isPVP(target.getWorld())) {
+                                if (!getDatabase().isPVP(player)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                                } else if (!getDatabase().isPVP(target)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
+                                }
+                            } else {
+                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but you're PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
                 }
-                case Player player -> {
+            }
+            case Player player -> {
+                if (isDisabled(player)) {
+                    event.setCancelled(true);
+                } else {
+                    if (entity instanceof Player target) {
+                        if (player == target)return;
+                        if (getWorlds().isPVP(target.getWorld())) {
+                            if (!getDatabase().isPVP(player)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                            } else if (!getDatabase().isPVP(target)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
+                            }
+                        } else {
+                            getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+            }
+            case Snowball snowball -> {
+                if (snowball.getShooter() instanceof Player player) {
                     if (isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
-                            if (player == target) return;
-                            if (!getDatabase().isPVP(player)) {
+                            if (player == target)return;
+                            if (getWorlds().isPVP(target.getWorld())) {
+                                if (!getDatabase().isPVP(player)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                                } else if (!getDatabase().isPVP(target)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
+                                }
+                            } else {
+                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but you're PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
                 }
-                case Snowball snowball -> {
-                    if (!(snowball.getShooter() instanceof Player player)) return;
+            }
+            case SpectralArrow spectralArrow -> {
+                if (spectralArrow.getShooter() instanceof Player player) {
                     if (isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
-                            if (player == target) return;
-                            if (!getDatabase().isPVP(player)) {
+                            if (player == target)return;
+                            if (getWorlds().isPVP(target.getWorld())) {
+                                if (!getDatabase().isPVP(player)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                                } else if (!getDatabase().isPVP(target)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
+                                }
+                            } else {
+                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but you're PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
                 }
-                case SpectralArrow spectralArrow -> {
-                    if (!(spectralArrow.getShooter() instanceof Player player)) return;
+            }
+            case ThrownPotion thrownPotion -> {
+                if (thrownPotion.getShooter() instanceof Player player) {
                     if (isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
-                            if (player == target) return;
-                            if (!getDatabase().isPVP(player)) {
+                            if (player == target)return;
+                            if (getWorlds().isPVP(target.getWorld())) {
+                                if (!getDatabase().isPVP(player)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                                } else if (!getDatabase().isPVP(target)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
+                                }
+                            } else {
+                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but you're PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
                 }
-                case ThrownPotion thrownPotion -> {
-                    if (!(thrownPotion.getShooter() instanceof Player player)) return;
+            }
+            case Trident trident -> {
+                if (trident.getShooter() instanceof Player player) {
                     if (isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
-                            if (player == target) return;
-                            if (!getDatabase().isPVP(player)) {
+                            if (player == target)return;
+                            if (getWorlds().isPVP(target.getWorld())) {
+                                if (!getDatabase().isPVP(player)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                                } else if (!getDatabase().isPVP(target)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
+                                }
+                            } else {
+                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but you're PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
                 }
-                case Trident trident -> {
-                    if (!(trident.getShooter() instanceof Player player)) return;
+            }
+            case WindCharge windCharge -> {
+                if (windCharge.getShooter() instanceof Player player) {
                     if (isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
-                            if (player == target) return;
-                            if (!getDatabase().isPVP(player)) {
+                            if (player == target)return;
+                            if (getWorlds().isPVP(target.getWorld())) {
+                                if (!getDatabase().isPVP(player)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                                } else if (!getDatabase().isPVP(target)) {
+                                    event.setCancelled(true);
+                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
+                                }
+                            } else {
+                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but you're PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
                 }
-                case WindCharge windCharge -> {
-                    if (!(windCharge.getShooter() instanceof Player player)) return;
-                    if (isDisabled(player)) {
-                        event.setCancelled(true);
-                    } else {
-                        if (entity instanceof Player target) {
-                            if (player == target) return;
-                            if (!getDatabase().isPVP(player)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but you're PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry, but&f " + target.getName() + "&7's PVP is Disabled");
-                            }
-                        }
-                    }
-                }
-                default -> {
-                    if (getEntities().isNPC(entity)) {
-                        event.setCancelled(true);
-                    } else {
-                        if (event.getDamager() instanceof Player)return;
-                        if (!getEntities().disableDamage(event.getDamager(), event.getEntity()))return;
-                        event.setCancelled(true);
-                    }
+            }
+            default -> {
+                if (getEntities().isNPC(entity)) {
+                    event.setCancelled(true);
+                } else {
+                    if (event.getDamager() instanceof Player)return;
+                    if (!getEntities().disableDamage(event.getDamager(), event.getEntity()))return;
+                    event.setCancelled(true);
                 }
             }
         }

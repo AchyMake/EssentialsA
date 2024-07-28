@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Worth;
@@ -16,11 +17,11 @@ import java.util.List;
 
 public class SetWorthCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Worth getWorth() {
-        return plugin.getWorth();
-    }
     private Economy getEconomy() {
         return plugin.getEconomy();
+    }
+    private Worth getWorth() {
+        return plugin.getWorth();
     }
     private Message getMessage() {
         return plugin.getMessage();

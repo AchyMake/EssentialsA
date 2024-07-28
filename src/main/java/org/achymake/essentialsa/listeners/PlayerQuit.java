@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Chairs;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.OfflinePlayer;
@@ -25,6 +26,9 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     private Database getDatabase() {
         return plugin.getDatabase();
     }
+    private Chairs getChairs() {
+        return plugin.getChairs();
+    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -40,6 +44,10 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         removeTeleportTask(player);
         removeTPAonQuit(player);
         getDatabase().setLocation(player, "quit");
+        if (getChairs().hasChair(player)) {
+            getChairs().removeOccupied(player.getLocation().add(0,1,0).getBlock());
+            getChairs().dismount(player);
+        }
         if (getDatabase().isVanished(player)) {
             removeVanishTask(player);
             plugin.getVanished().remove(player);

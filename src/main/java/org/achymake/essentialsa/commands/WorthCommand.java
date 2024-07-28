@@ -19,11 +19,11 @@ public class WorthCommand implements CommandExecutor, TabCompleter {
     private Database getDatabase() {
         return plugin.getDatabase();
     }
-    private Worth getWorth() {
-        return plugin.getWorth();
-    }
     private Economy getEconomy() {
         return plugin.getEconomy();
+    }
+    private Worth getWorth() {
+        return plugin.getWorth();
     }
     private Message getMessage() {
         return plugin.getMessage();

@@ -1,9 +1,10 @@
 package org.achymake.essentialsa.commands.chunk.sub;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.commands.chunk.ChunkSubCommand;
 import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Database;
+import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,11 +15,11 @@ public class ClaimCommand extends ChunkSubCommand {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
-    }
     private Economy getEconomy() {
         return plugin.getEconomy();
+    }
+    private Chunkdata getChunkdata() {
+        return plugin.getChunkdata();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -56,7 +57,6 @@ public class ClaimCommand extends ChunkSubCommand {
                         } else {
                             double cost = getConfig().getDouble("chunks.economy.cost");
                             int claimed = getChunkdata().getClaimCount(player);
-                            String currency = getEconomy().currency();
                             if (claimed > 0) {
                                 int multiply = getConfig().getInt("chunks.economy.multiply");
                                 double calculator = multiply * cost / 100 * claimed;
@@ -66,9 +66,9 @@ public class ClaimCommand extends ChunkSubCommand {
                                     getChunkdata().claimEffect(player, chunk);
                                     getChunkdata().claimSound(player);
                                     getEconomy().remove(player, result);
-                                    getMessage().send(player, "&6You claimed a chunk for&a " + currency + getEconomy().format(result));
+                                    getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currency() + getEconomy().format(result));
                                 } else {
-                                    getMessage().send(player, "&cYou do not have&a " +  currency + result + "&c to claim it");
+                                    getMessage().send(player, "&cYou do not have&a " +  getEconomy().currency() + result + "&c to claim it");
                                 }
                             } else {
                                 if (getEconomy().has(player, cost)) {
@@ -76,10 +76,9 @@ public class ClaimCommand extends ChunkSubCommand {
                                     getChunkdata().claimEffect(player, chunk);
                                     getChunkdata().claimSound(player);
                                     getEconomy().remove(player, cost);
-                                    getMessage().send(player, "&6You claimed a chunk for&a " + currency + getEconomy().format(cost));
+                                    getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currency() + getEconomy().format(cost));
                                 } else {
-                                    String value = currency + getEconomy().format(cost);
-                                    getMessage().send(player, "&cYou do not have&a " +  value + "&c to claim it");
+                                    getMessage().send(player, "&cYou do not have&a " +  getEconomy().currency() + getEconomy().format(cost) + "&c to claim it");
                                 }
                             }
                         }

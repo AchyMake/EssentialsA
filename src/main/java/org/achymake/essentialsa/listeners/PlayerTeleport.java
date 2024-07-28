@@ -1,7 +1,10 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Chairs;
 import org.achymake.essentialsa.data.Database;
+import org.achymake.essentialsa.data.Message;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,13 +14,20 @@ public record PlayerTeleport(EssentialsA plugin) implements Listener {
     private Database getDatabase() {
         return plugin.getDatabase();
     }
+    private Chairs getChairs() {
+        return plugin.getChairs();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
+    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        PlayerTeleportEvent.TeleportCause teleportCause = event.getCause();
-        if (!isSelfEvent(teleportCause))return;
-        getDatabase().setLocation(event.getPlayer(), "recent");
-    }
-    private boolean isSelfEvent(PlayerTeleportEvent.TeleportCause teleportCause) {
-        return teleportCause.equals(PlayerTeleportEvent.TeleportCause.COMMAND) || teleportCause.equals(PlayerTeleportEvent.TeleportCause.PLUGIN);
+        Player player = event.getPlayer();
+        if (getChairs().hasChair(player)) {
+            event.setCancelled(true);
+            getMessage().send(player, "&cYou can't teleport while using a chair");
+        } else if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
+            getDatabase().setLocation(player, "recent");
+        }
     }
 }

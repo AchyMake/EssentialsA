@@ -1,9 +1,9 @@
 package org.achymake.essentialsa.commands.chunk.sub;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.commands.chunk.ChunkSubCommand;
 import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,11 +14,11 @@ public class UnClaimCommand extends ChunkSubCommand {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
-    }
     private Economy getEconomy() {
         return plugin.getEconomy();
+    }
+    private Chunkdata getChunkdata() {
+        return plugin.getChunkdata();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -45,7 +45,7 @@ public class UnClaimCommand extends ChunkSubCommand {
                 Chunk chunk = player.getLocation().getChunk();
                 if (getChunkdata().isClaimed(chunk)) {
                     if (getChunkdata().isOwner(player, chunk)) {
-                        getMessage().send(player, "&6You unclaimed current chunk and got refunded&a " + getEconomy().currency() + getEconomy().format(getConfig().getDouble("economy.refund")));
+                        getMessage().send(player, "&6You unclaimed current chunk and got refunded&a " + getEconomy().currency() + getEconomy().format(getConfig().getDouble("chunks.economy.refund")));
                         getChunkdata().remove(player, chunk);
                         getChunkdata().unclaimEffect(player, chunk);
                         getChunkdata().unclaimSound(player);
@@ -59,7 +59,7 @@ public class UnClaimCommand extends ChunkSubCommand {
             if (args.length == 2) {
                 if (args[1].equalsIgnoreCase("all")) {
                     getChunkdata().removeAll(player);
-                    getMessage().send(player, "&6You unclaimed all chunks and got refunded each for&a " + getEconomy().currency() + getEconomy().format(getConfig().getDouble("economy.refund")));
+                    getMessage().send(player, "&6You unclaimed all chunks and got refunded each for&a " + getEconomy().currency() + getEconomy().format(getConfig().getDouble("chunks.economy.refund")));
                 }
             }
         }

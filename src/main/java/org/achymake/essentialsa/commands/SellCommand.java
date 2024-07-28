@@ -5,7 +5,6 @@ import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Worth;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,17 +17,14 @@ import java.util.List;
 
 public class SellCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Worth getWorth() {
-        return plugin.getWorth();
-    }
     private Economy getEconomy() {
         return plugin.getEconomy();
     }
+    private Worth getWorth() {
+        return plugin.getWorth();
+    }
     private Message getMessage() {
         return plugin.getMessage();
-    }
-    private Server getServer() {
-        return plugin.getServer();
     }
     public SellCommand(EssentialsA plugin) {
         this.plugin = plugin;

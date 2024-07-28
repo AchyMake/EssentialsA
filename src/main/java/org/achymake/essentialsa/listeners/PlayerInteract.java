@@ -4,8 +4,12 @@ import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.*;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -22,6 +26,12 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
     }
     private Database getDatabase() {
         return plugin.getDatabase();
+    }
+    private ChestShop getChestShop() {
+        return plugin.getChestShop();
+    }
+    private Chairs getChairs() {
+        return plugin.getChairs();
     }
     private Entities getEntities() {
         return plugin.getEntities();
@@ -57,6 +67,46 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
             }
         } else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (event.getHand() != EquipmentSlot.HAND)return;
+            if (Tag.WALL_SIGNS.isTagged(block.getType())) {
+                Sign sign = (Sign) block.getState();
+                if (!getChestShop().isShop(sign))return;
+                WallSign wallSign = (WallSign) sign.getBlockData();
+                if (wallSign.getFacing().equals(BlockFace.EAST)) {
+                    if (sign.getLocation().add(-1,0,0).getBlock().getState() instanceof Chest chest) {
+                        event.setCancelled(true);
+                        getChestShop().buy(player, sign, chest);
+                    }
+                } else if (wallSign.getFacing().equals(BlockFace.NORTH)) {
+                    if (sign.getLocation().add(0,0,1).getBlock().getState() instanceof Chest chest) {
+                        event.setCancelled(true);
+                        getChestShop().buy(player, sign, chest);
+                    }
+                } else if (wallSign.getFacing().equals(BlockFace.WEST)) {
+                    if (sign.getLocation().add(1,0,0).getBlock().getState() instanceof Chest chest) {
+                        event.setCancelled(true);
+                        getChestShop().buy(player, sign, chest);
+                    }
+                } else if (wallSign.getFacing().equals(BlockFace.SOUTH)) {
+                    if (sign.getLocation().add(0,0,-1).getBlock().getState() instanceof Chest chest) {
+                        event.setCancelled(true);
+                        getChestShop().buy(player, sign, chest);
+                    }
+                }
+            } else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
+                Chest chest = (Chest) block.getState();
+                if (player == getChestShop().getOwner(chest))return;
+                event.setCancelled(true);
+            }
+            if (event.getBlockFace().equals(BlockFace.UP)) {
+                if (!getChairs().isAboveAir(block))return;
+                if (!player.getInventory().getItemInMainHand().getType().isAir())return;
+                if (!player.getInventory().getItemInOffHand().getType().isAir())return;
+                if (!player.isOnGround())return;
+                if (player.isSneaking())return;
+                if (getChairs().hasChair(player))return;
+                if (getChairs().isOccupied(block))return;
+                getChairs().sit(player, block);
+            }
             if (getChunkdata().isClaimed(chunk)) {
                 if (getChunkdata().hasAccess(player, chunk)) {
                     if (getHarvester().isHoe(player.getInventory().getItemInMainHand())) {

@@ -11,6 +11,7 @@ import org.achymake.essentialsa.commands.*;
 import org.achymake.essentialsa.commands.chunk.ChunkCommand;
 import org.achymake.essentialsa.commands.chunks.ChunksCommand;
 import org.achymake.essentialsa.commands.villager.VillagerCommand;
+import org.achymake.essentialsa.commands.world.WorldCommand;
 import org.achymake.essentialsa.data.*;
 import org.achymake.essentialsa.listeners.*;
 import org.achymake.essentialsa.net.UpdateChecker;
@@ -30,6 +31,8 @@ import java.util.logging.Level;
 
 public final class EssentialsA extends JavaPlugin {
     private static EssentialsA instance;
+    private static Chairs chairs;
+    private static ChestShop chestShop;
     private static Chunkdata chunkdata;
     private static Database database;
     private static Economy economy;
@@ -41,6 +44,7 @@ public final class EssentialsA extends JavaPlugin {
     private static Reward reward;
     private static Spawn spawn;
     private static Warps warps;
+    private static Worlds worlds;
     private static Worth worth;
     private static UpdateChecker updateChecker;
     private final List<Player> vanished = new ArrayList<>();
@@ -84,7 +88,9 @@ public final class EssentialsA extends JavaPlugin {
     public void onEnable() {
         instance = this;
         message = new Message(this);
-        updateChecker = new UpdateChecker(this);
+        chairs = new Chairs(this);
+        chestShop = new ChestShop(this);
+        chunkdata = new Chunkdata(this);
         database = new Database(this);
         economy = new Economy(this);
         entities = new Entities(this);
@@ -94,13 +100,15 @@ public final class EssentialsA extends JavaPlugin {
         reward = new Reward(this);
         spawn = new Spawn(this);
         warps = new Warps(this);
+        worlds = new Worlds(this);
         worth = new Worth(this);
-        chunkdata = new Chunkdata(this);
+        updateChecker = new UpdateChecker(this);
         reload();
         getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, new VaultEcoProvider(this), this, ServicePriority.Normal);
         new PlaceholderProvider().register();
         commands();
         events();
+        getWorlds().setupWorlds();
         getMessage().sendLog(Level.INFO, "Enabled " + getDescription().getName() + " " + getDescription().getVersion());
         getUpdateChecker().getUpdate();
     }
@@ -120,6 +128,7 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("chunk").setExecutor(new ChunkCommand(this));
         getCommand("chunks").setExecutor(new ChunksCommand(this));
         getCommand("villager").setExecutor(new VillagerCommand(this));
+        getCommand("world").setExecutor(new WorldCommand(this));
         getCommand("announcement").setExecutor(new AnnouncementCommand(this));
         getCommand("anvil").setExecutor(new AnvilCommand(this));
         getCommand("autopick").setExecutor(new AutoPickCommand(this));
@@ -131,6 +140,7 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("delhome").setExecutor(new DelHomeCommand(this));
         getCommand("delwarp").setExecutor(new DelWarpCommand(this));
         getCommand("eco").setExecutor(new EcoCommand(this));
+        getCommand("eliminate").setExecutor(new EliminateCommand(this));
         getCommand("enchant").setExecutor(new EnchantCommand(this));
         getCommand("enderchest").setExecutor(new EnderChestCommand(this));
         getCommand("essentials").setExecutor(new EssentialsCommand(this));
@@ -204,6 +214,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new EntityDamage(this), this);
         getManager().registerEvents(new EntityDamageByEntity(this), this);
         getManager().registerEvents(new EntityDeath(this), this);
+        getManager().registerEvents(new EntityDismount(this), this);
         getManager().registerEvents(new EntityExplode(this), this);
         getManager().registerEvents(new EntityInteract(this), this);
         getManager().registerEvents(new EntityPickupItem(this), this);
@@ -291,8 +302,14 @@ public final class EssentialsA extends JavaPlugin {
     public List<Player> getVanished() {
         return vanished;
     }
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
+    }
     public Worth getWorth() {
         return worth;
+    }
+    public Worlds getWorlds() {
+        return worlds;
     }
     public Warps getWarps() {
         return warps;
@@ -302,6 +319,9 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Reward getReward() {
         return reward;
+    }
+    public Message getMessage() {
+        return message;
     }
     public Kits getKits() {
         return kits;
@@ -324,11 +344,11 @@ public final class EssentialsA extends JavaPlugin {
     public Chunkdata getChunkdata() {
         return chunkdata;
     }
-    public UpdateChecker getUpdateChecker() {
-        return updateChecker;
+    public ChestShop getChestShop() {
+        return chestShop;
     }
-    public Message getMessage() {
-        return message;
+    public Chairs getChairs() {
+        return chairs;
     }
     public static EssentialsA getInstance() {
         return instance;

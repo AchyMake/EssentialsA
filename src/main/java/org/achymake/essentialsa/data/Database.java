@@ -14,10 +14,12 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -42,6 +44,9 @@ public record Database(EssentialsA plugin) {
     }
     private UpdateChecker getUpdateChecker() {
         return plugin.getUpdateChecker();
+    }
+    public PersistentDataContainer getData(Player player) {
+        return player.getPersistentDataContainer();
     }
     public File getFile(OfflinePlayer offlinePlayer) {
         return new File(getDataFolder(), "userdata/" + offlinePlayer.getUniqueId() + ".yml");

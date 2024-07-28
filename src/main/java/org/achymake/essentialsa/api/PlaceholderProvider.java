@@ -81,6 +81,15 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                 case "chunk_claims_left" -> {
                     return String.valueOf(EssentialsA.getInstance().getConfig().getInt("chunks.claim.max-claims") - EssentialsA.getInstance().getChunkdata().getClaimCount(player));
                 }
+                case "world_name" -> {
+                    return EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getString("name");
+                }
+                case "world_display_name" -> {
+                    return EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getString("display-name");
+                }
+                case "world_pvp" -> {
+                    return String.valueOf(EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getBoolean("pvp"));
+                }
             }
         }
         return super.onPlaceholderRequest(player, params);

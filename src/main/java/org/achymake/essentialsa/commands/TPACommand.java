@@ -27,7 +27,7 @@ public class TPACommand implements CommandExecutor, TabCompleter {
         return plugin.getServer();
     }
     private BukkitScheduler getScheduler() {
-        return Bukkit.getScheduler();
+        return plugin.getScheduler();
     }
     public TPACommand(EssentialsA plugin) {
         this.plugin = plugin;

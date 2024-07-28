@@ -13,11 +13,11 @@ import java.util.List;
 
 public class KitCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Kits getKits() {
-        return plugin.getKits();
-    }
     private Economy getEconomy() {
         return plugin.getEconomy();
+    }
+    private Kits getKits() {
+        return plugin.getKits();
     }
     private Message getMessage() {
         return plugin.getMessage();

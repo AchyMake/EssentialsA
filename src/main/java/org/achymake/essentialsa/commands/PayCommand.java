@@ -19,11 +19,11 @@ import java.util.List;
 
 public class PayCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
-    }
     private FileConfiguration getConfig() {
         return plugin.getConfig();
+    }
+    private Database getDatabase() {
+        return plugin.getDatabase();
     }
     private Economy getEconomy() {
         return plugin.getEconomy();
