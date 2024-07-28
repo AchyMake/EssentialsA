@@ -175,6 +175,7 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("store").setExecutor(new StoreCommand(this));
         getCommand("tpaccept").setExecutor(new TPAcceptCommand(this));
         getCommand("tpa").setExecutor(new TPACommand(this));
+        getCommand("tpahere").setExecutor(new TPAHereCommand(this));
         getCommand("tpcancel").setExecutor(new TPCancelCommand(this));
         getCommand("tp").setExecutor(new TPCommand(this));
         getCommand("tpdeny").setExecutor(new TPDenyCommand(this));

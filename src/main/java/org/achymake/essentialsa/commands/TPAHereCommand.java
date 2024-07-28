@@ -1,4 +1,88 @@
 package org.achymake.essentialsa.commands;
 
-public class TPAHereCommand {
+import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
+import org.achymake.essentialsa.data.Message;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TPAHereCommand implements CommandExecutor, TabCompleter {
+    private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
+    }
+    private Server getServer() {
+        return plugin.getServer();
+    }
+    private BukkitScheduler getScheduler() {
+        return Bukkit.getScheduler();
+    }
+    public TPAHereCommand(EssentialsA plugin) {
+        this.plugin = plugin;
+    }
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player player) {
+            if (args.length == 1) {
+                if (getDatabase().isFrozen(player) || getDatabase().isJailed(player)) {
+                    return false;
+                } else {
+                    Player target = getServer().getPlayerExact(args[0]);
+                    if (target == null) {
+                        getMessage().send(player, args[0] + "&c is currently offline");
+                    } else if (target == player) {
+                        getMessage().send(player, "&cYou can't send request to your self");
+                    } else if (getDatabase().getConfig(player).isString("tpa.sent")) {
+                        getMessage().send(player, "&cYou already sent tp request");
+                        getMessage().send(player, "&cYou can type&f /tpcancel");
+                    } else {
+                        int taskID = getScheduler().runTaskLater(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                getDatabase().setString(target, "tpahere.from", null);
+                                getDatabase().setString(player, "tpahere.sent", null);
+                                getDatabase().setString(player, "task.tpa", null);
+                                getMessage().send(player, "&cTeleport request has expired");
+                                getMessage().send(target, "&cTeleport request has expired");
+                            }
+                        }, 300).getTaskId();
+                        getDatabase().setString(target, "tpahere.from", player.getUniqueId().toString());
+                        getDatabase().setString(player, "tpahere.sent", target.getUniqueId().toString());
+                        getDatabase().setInt(player, "task.tpa", taskID);
+                        getMessage().send(target, player.getName() + "&6 has sent you a tpahere request");
+                        getMessage().send(target, "&6You can type&a /tpaccept&6 or&c /tpdeny");
+                        getMessage().send(player, "&6You have sent a tpahere request to&f " + target.getName());
+                        getMessage().send(player, "&6You can type&c /tpcancel");
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        List<String> commands = new ArrayList<>();
+        if (sender instanceof Player) {
+            if (args.length == 1) {
+                for (Player players : getServer().getOnlinePlayers()) {
+                    if (!plugin.getVanished().contains(players)) {
+                        commands.add(players.getName());
+                    }
+                }
+            }
+        }
+        return commands;
+    }
 }

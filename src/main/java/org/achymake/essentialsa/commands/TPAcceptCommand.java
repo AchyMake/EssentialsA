@@ -38,9 +38,7 @@ public class TPAcceptCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 0) {
                 if (getDatabase().getConfig(player).isString("tpa.from")) {
-                    String uuidString = getDatabase().getConfig(player).getString("tpa.from");
-                    UUID uuid = UUID.fromString(uuidString);
-                    Player target = getServer().getPlayer(uuid);
+                    Player target = getServer().getPlayer(UUID.fromString(getDatabase().getConfig(player).getString("tpa.from")));
                     if (target != null) {
                         int taskID = getDatabase().getConfig(target).getInt("task.tpa");
                         if (getScheduler().isQueued(taskID)) {
@@ -53,7 +51,21 @@ public class TPAcceptCommand implements CommandExecutor, TabCompleter {
                             getDatabase().setString(player, "tpa.from", null);
                         }
                     }
-                } else {
+                } else if (getDatabase().getConfig(player).isString("tpahere.from")) {
+                    Player target = getServer().getPlayer(UUID.fromString(getDatabase().getConfig(player).getString("tpahere.from")));
+                    if (target != null) {
+                        int taskID = getDatabase().getConfig(target).getInt("task.tpa");
+                        if (getScheduler().isQueued(taskID)) {
+                            getScheduler().cancelTask(taskID);
+                            player.teleport(target);
+                            getMessage().sendActionBar(target, "&6Teleporting to&f " + player.getName());
+                            getMessage().send(player, "&6You accepted&f " + target.getName() + "&6's tpahere request");
+                            getDatabase().setString(target, "tpahere.sent", null);
+                            getDatabase().setString(target, "task.tpa", null);
+                            getDatabase().setString(player, "tpahere.from", null);
+                        }
+                    }
+                } else  {
                     getMessage().send(player, "&cYou don't have any tpa request");
                 }
             }

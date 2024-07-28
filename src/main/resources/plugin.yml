@@ -310,6 +310,11 @@ commands:
     description: sends tpa request
     permission: essentials.command.tpa
     permission-message: You do not have the permission to execute the command
+  tpahere:
+    usage: /tpahere
+    description: sends tpahere request
+    permission: essentials.command.tpahere
+    permission-message: You do not have the permission to execute the command
   tpcancel:
     usage: /tpcancel
     description: cancels tpa request
@@ -774,6 +779,9 @@ permissions:
     description: message
     default: op
   essentials.command.tpa:
+    description: message
+    default: op
+  essentials.command.tpahere:
     description: message
     default: op
   essentials.command.tpcancel:

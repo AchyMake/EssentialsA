@@ -45,7 +45,7 @@ public class TPACommand implements CommandExecutor, TabCompleter {
                     } else if (target == player) {
                         getMessage().send(player, "&cYou can't send request to your self");
                     } else if (getDatabase().getConfig(player).isString("tpa.sent")) {
-                        getMessage().send(player, "&cYou already sent tpa request");
+                        getMessage().send(player, "&cYou already sent tp request");
                         getMessage().send(player, "&cYou can type&f /tpcancel");
                     } else {
                         int taskID = getScheduler().runTaskLater(plugin, new Runnable() {
