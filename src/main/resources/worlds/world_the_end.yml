@@ -1,0 +1,5 @@
+name: world_the_end
+display-name: world_the_end
+environment: THE_END
+seed: seed
+pvp: true
