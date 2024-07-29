@@ -6,7 +6,7 @@
 
     <groupId>org.achymake</groupId>
     <artifactId>EssentialsA</artifactId>
-    <version>12</version>
+    <version>13</version>
     <packaging>jar</packaging>
 
     <name>EssentialsA</name>

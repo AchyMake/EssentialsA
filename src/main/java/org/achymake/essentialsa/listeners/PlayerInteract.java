@@ -119,6 +119,7 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                         Entity passenger = getEntities().getPassenger(player);
                         if (!getEntities().isEnableCarry(passenger))return;
                         if (!player.hasPermission("essentials.carry." + passenger.getType().toString().toLowerCase()))return;
+                        event.setCancelled(true);
                         player.swingMainHand();
                         getEntities().removeMount(player, passenger, block);
                     }
@@ -137,7 +138,8 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                     if (!getEntities().isAllowCarry(block)) return;
                     Entity passenger = player.getPassenger();
                     if (!getEntities().isEnableCarry(passenger)) return;
-                    if (!player.hasPermission("essentials.carry." + passenger.getType().toString().toLowerCase())) return;
+                    if (!player.hasPermission("essentials.carry." + passenger.getType().toString().toLowerCase()))return;
+                    event.setCancelled(true);
                     player.swingMainHand();
                     getEntities().removeMount(player, passenger, block);
                 }
