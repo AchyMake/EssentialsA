@@ -58,7 +58,7 @@ connection:
   join:
     # if false permission: 'essentials.event.join.message'
     enable: true
-    message: "{0}&e has joined the server [&a+&e]"
+    message: "%player%&e has joined the server [&a+&e]"
     sound:
       enable: true
       type: ENTITY_FOX_AMBIENT
@@ -67,7 +67,7 @@ connection:
   quit:
     # if false permission: 'essentials.event.quit.message'
     enable: true
-    message: "{0}&e has left the server [&c-&e]"
+    message: "%player%&e has left the server [&c-&e]"
     sound:
       enable: true
       type: ENTITY_FOX_AMBIENT

@@ -4,6 +4,7 @@ import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,31 +26,40 @@ public record UpdateChecker(EssentialsA plugin) {
     private String getPluginVersion() {
         return plugin.getDescription().getVersion();
     }
+    private BukkitScheduler getScheduler() {
+        return plugin.getScheduler();
+    }
     public void getUpdate(Player player) {
-        if (!player.hasPermission("essentials.event.join.update"))return;
-        if (!notifyUpdate())return;
-        getLatest((latest) -> {
-            if (!getPluginVersion().equals(latest)) {
-                getMessage().send(player, getPluginName() + "&6 has new update:");
-                getMessage().send(player, "-&a https://www.spigotmc.org/resources/118371/");
-            }
-        });
+        if (notifyUpdate()) {
+            getScheduler().runTaskLater(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    getLatest((latest) -> {
+                        if (!getPluginVersion().equals(latest)) {
+                            getMessage().send(player, getPluginName() + "&6 has new update:");
+                            getMessage().send(player, "-&a https://www.spigotmc.org/resources/118371/");
+                        }
+                    });
+                }
+            }, 20);
+        }
     }
     public void getUpdate() {
-        if (!notifyUpdate())return;
-        plugin.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                getLatest((latest) -> {
-                    if (getPluginVersion().equals(latest)) {
-                        getMessage().sendLog(Level.INFO, "You are using the latest version");
-                    } else {
-                        getMessage().sendLog(Level.INFO, getPluginName() + " has new update:");
-                        getMessage().sendLog(Level.INFO, "- https://www.spigotmc.org/resources/118371/");
-                    }
-                });
-            }
-        });
+        if (notifyUpdate()) {
+            getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    getLatest((latest) -> {
+                        if (getPluginVersion().equals(latest)) {
+                            getMessage().sendLog(Level.INFO, "You are using the latest version");
+                        } else {
+                            getMessage().sendLog(Level.INFO, getPluginName() + " has new update:");
+                            getMessage().sendLog(Level.INFO, "- https://www.spigotmc.org/resources/118371/");
+                        }
+                    });
+                }
+            });
+        }
     }
     public void getLatest(Consumer<String> consumer) {
         try {

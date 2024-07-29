@@ -16,10 +16,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -44,6 +44,9 @@ public record Database(EssentialsA plugin) {
     }
     private UpdateChecker getUpdateChecker() {
         return plugin.getUpdateChecker();
+    }
+    private BukkitScheduler getScheduler() {
+        return plugin.getScheduler();
     }
     public PersistentDataContainer getData(Player player) {
         return player.getPersistentDataContainer();
@@ -511,6 +514,30 @@ public record Database(EssentialsA plugin) {
     }
     public void getUpdate(Player player) {
         getUpdateChecker().getUpdate(player);
+    }
+    public void sendJoinSound() {
+        if (getConfig().getBoolean("connection.join.sound.enable")) {
+            String soundType = getConfig().getString("connection.join.sound.type");
+            float soundVolume = (float) getConfig().getDouble("connection.join.sound.volume");
+            float soundPitch = (float) getConfig().getDouble("connection.join.sound.pitch");
+            for (Player players : getServer().getOnlinePlayers()) {
+                players.playSound(players, Sound.valueOf(soundType), soundVolume, soundPitch);
+            }
+        }
+    }
+    public void sendMotd(Player player, String motd) {
+        getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (getConfig().isList("message-of-the-day." + motd)) {
+                    for (String messages : getConfig().getStringList("message-of-the-day." + motd)) {
+                        getMessage().send(player, messages.replaceAll("%player%", player.getName()));
+                    }
+                } else if (getConfig().isString("message-of-the-day." + motd)) {
+                    getMessage().send(player, getConfig().getString("message-of-the-day." + motd).replaceAll("%player%", player.getName()));
+                }
+            }
+        }, 3);
     }
     public void reload(OfflinePlayer[] offlinePlayers) {
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
