@@ -40,6 +40,7 @@ public final class EssentialsA extends JavaPlugin {
     private static Harvester harvester;
     private static Jail jail;
     private static Kits kits;
+    private static Levels levels;
     private static Message message;
     private static Reward reward;
     private static Spawn spawn;
@@ -97,6 +98,7 @@ public final class EssentialsA extends JavaPlugin {
         harvester = new Harvester(this);
         jail = new Jail(this);
         kits = new Kits(this);
+        levels = new Levels(this);
         reward = new Reward(this);
         spawn = new Spawn(this);
         warps = new Warps(this);
@@ -232,6 +234,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerJoin(this), this);
         getManager().registerEvents(new PlayerJump(this), this);
         getManager().registerEvents(new PlayerLeashEntity(this), this);
+        getManager().registerEvents(new PlayerLevelChange(this), this);
         getManager().registerEvents(new PlayerLogin(this), this);
         getManager().registerEvents(new PlayerMount(this), this);
         getManager().registerEvents(new PlayerMove(this), this);
@@ -279,6 +282,7 @@ public final class EssentialsA extends JavaPlugin {
         getHarvester().reload();
         getJail().reload();
         getKits().reload();
+        getLevels().reload();
         getReward().reload();
         getSpawn().reload();
         getWarps().reload();
@@ -322,6 +326,9 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Message getMessage() {
         return message;
+    }
+    public Levels getLevels() {
+        return levels;
     }
     public Kits getKits() {
         return kits;

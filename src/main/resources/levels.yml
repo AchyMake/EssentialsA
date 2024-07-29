@@ -1,0 +1,272 @@
+enable: true
+level-up:
+  particle:
+    enable: true
+    type: TOTEM
+    count: 25
+    offsetX: 0.3
+    offsetY: 0.7
+    offsetZ: 0.3
+  sound:
+    enable: true
+    type: ENTITY_VEX_AMBIENT
+    volume: 2.5
+    pitch: 1.0
+level-down:
+  particle:
+    enable: true
+    type: SOUL
+    count: 25
+    offsetX: 0.3
+    offsetY: 0.7
+    offsetZ: 0.3
+  sound:
+    enable: true
+    type: ENTITY_VEX_AMBIENT
+    volume: 2.5
+    pitch: 1.0
+levels:
+  '0':
+    enable: true
+    health: 20
+    damage: 1.0
+  '1':
+    enable: true
+    health: 20
+    damage: 1.0
+  '2':
+    enable: true
+    health: 20
+    damage: 1.0
+  '3':
+    enable: true
+    health: 21
+    damage: 1.0
+  '4':
+    enable: true
+    health: 21
+    damage: 1.0
+  '5':
+    enable: true
+    health: 21
+    damage: 1.0
+  '6':
+    enable: true
+    health: 22
+    damage: 1.0
+  '7':
+    enable: true
+    health: 22
+    damage: 1.0
+  '8':
+    enable: true
+    health: 22
+    damage: 1.0
+  '9':
+    enable: true
+    health: 23
+    damage: 1.0
+  '10':
+    enable: true
+    health: 23
+    damage: 1.0
+  '11':
+    enable: true
+    health: 23
+    damage: 1.0
+  '12':
+    enable: true
+    health: 24
+    damage: 1.0
+  '13':
+    enable: true
+    health: 24
+    damage: 1.0
+  '14':
+    enable: true
+    health: 24
+    damage: 1.0
+  '15':
+    enable: true
+    health: 25
+    damage: 1.0
+  '16':
+    enable: true
+    health: 25
+    damage: 1.0
+  '17':
+    enable: true
+    health: 25
+    damage: 1.0
+  '18':
+    enable: true
+    health: 26
+    damage: 1.0
+  '19':
+    enable: true
+    health: 26
+    damage: 1.0
+  '20':
+    enable: true
+    health: 26
+    damage: 1.0
+  '21':
+    enable: true
+    health: 27
+    damage: 1.0
+  '22':
+    enable: true
+    health: 27
+    damage: 1.0
+  '23':
+    enable: true
+    health: 27
+    damage: 1.0
+  '24':
+    enable: true
+    health: 28
+    damage: 1.0
+  '25':
+    enable: true
+    health: 28
+    damage: 1.0
+  '26':
+    enable: true
+    health: 28
+    damage: 1.0
+  '27':
+    enable: true
+    health: 29
+    damage: 1.0
+  '28':
+    enable: true
+    health: 29
+    damage: 1.0
+  '29':
+    enable: true
+    health: 29
+    damage: 1.0
+  '30':
+    enable: true
+    health: 30
+    damage: 1.0
+  '31':
+    enable: true
+    health: 30
+    damage: 1.0
+  '32':
+    enable: true
+    health: 30
+    damage: 1.0
+  '33':
+    enable: true
+    health: 31
+    damage: 1.0
+  '34':
+    enable: true
+    health: 31
+    damage: 1.0
+  '35':
+    enable: true
+    health: 31
+    damage: 1.0
+  '36':
+    enable: true
+    health: 32
+    damage: 1.0
+  '37':
+    enable: true
+    health: 32
+    damage: 1.0
+  '38':
+    enable: true
+    health: 32
+    damage: 1.0
+  '39':
+    enable: true
+    health: 33
+    damage: 1.0
+  '40':
+    enable: true
+    health: 33
+    damage: 1.0
+  '41':
+    enable: true
+    health: 33
+    damage: 1.0
+  '42':
+    enable: true
+    health: 34
+    damage: 1.0
+  '43':
+    enable: true
+    health: 34
+    damage: 1.0
+  '44':
+    enable: true
+    health: 34
+    damage: 1.0
+  '45':
+    enable: true
+    health: 35
+    damage: 1.0
+  '46':
+    enable: true
+    health: 35
+    damage: 1.0
+  '47':
+    enable: true
+    health: 35
+    damage: 1.0
+  '48':
+    enable: true
+    health: 36
+    damage: 1.0
+  '49':
+    enable: true
+    health: 36
+    damage: 1.0
+  '50':
+    enable: true
+    health: 36
+    damage: 1.0
+  '51':
+    enable: true
+    health: 37
+    damage: 1.0
+  '52':
+    enable: true
+    health: 37
+    damage: 1.0
+  '53':
+    enable: true
+    health: 37
+    damage: 1.0
+  '54':
+    enable: true
+    health: 38
+    damage: 1.0
+  '55':
+    enable: true
+    health: 38
+    damage: 1.0
+  '56':
+    enable: true
+    health: 38
+    damage: 1.0
+  '57':
+    enable: true
+    health: 39
+    damage: 1.0
+  '58':
+    enable: true
+    health: 39
+    damage: 1.0
+  '59':
+    enable: true
+    health: 39
+    damage: 1.0
+  '60':
+    enable: true
+    health: 40
+    damage: 1.0
