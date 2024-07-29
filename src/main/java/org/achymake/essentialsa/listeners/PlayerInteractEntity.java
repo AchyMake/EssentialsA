@@ -9,13 +9,12 @@ import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-public record PlayerInteractAtEntity(EssentialsA plugin) implements Listener {
+public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
     private Entities getEntities() {
         return plugin.getEntities();
     }
@@ -29,7 +28,7 @@ public record PlayerInteractAtEntity(EssentialsA plugin) implements Listener {
         return plugin.getMessage();
     }
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
         Chunk chunk = entity.getChunk();
@@ -57,8 +56,8 @@ public record PlayerInteractAtEntity(EssentialsA plugin) implements Listener {
                 if (!getEntities().isEnableCarry(entity))return;
                 if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                 event.setCancelled(true);
-                player.swingMainHand();
                 getEntities().addMount(player, entity);
+                player.swingMainHand();
             } else {
                 if (entity.getType().equals(EntityType.PLAYER))return;
                 if (entity.getType().equals(EntityType.MINECART))return;
@@ -75,8 +74,8 @@ public record PlayerInteractAtEntity(EssentialsA plugin) implements Listener {
             if (!getEntities().isEnableCarry(entity))return;
             if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
             event.setCancelled(true);
-            player.swingMainHand();
             getEntities().addMount(player, entity);
+            player.swingMainHand();
         }
     }
     private boolean isDisabled(Player player) {

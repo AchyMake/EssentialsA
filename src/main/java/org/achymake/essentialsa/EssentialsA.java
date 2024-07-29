@@ -228,7 +228,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerDeath(this), this);
         getManager().registerEvents(new PlayerHarvestBlock(this), this);
         getManager().registerEvents(new PlayerInteract(this), this);
-        getManager().registerEvents(new PlayerInteractAtEntity(this), this);
+        getManager().registerEvents(new PlayerInteractEntity(this), this);
         getManager().registerEvents(new PlayerJoin(this), this);
         getManager().registerEvents(new PlayerJump(this), this);
         getManager().registerEvents(new PlayerLeashEntity(this), this);
