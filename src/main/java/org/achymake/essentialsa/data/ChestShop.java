@@ -15,9 +15,6 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public record ChestShop(EssentialsA plugin) {
-    private Database getDatabase() {
-        return plugin.getDatabase();
-    }
     private Economy getEconomy() {
         return plugin.getEconomy();
     }
@@ -50,35 +47,29 @@ public record ChestShop(EssentialsA plugin) {
     }
     public void setupShop(Player player, Sign sign, Chest chest) {
         String line1 = sign.getLine(0);
-        String line2= sign.getLine(1);
-        String line3 = sign.getLine(2);
-        String line4 = sign.getLine(3);
+        int line2= Integer.parseInt(sign.getLine(1));
+        String line3 = sign.getLine(2).toUpperCase().replace(" ", "_");
+        double line4 = Double.parseDouble(sign.getLine(3));
         if (line1.equalsIgnoreCase("[sell]")) {
-            if (line2.equals(String.valueOf(Integer.valueOf(line2)))) {
-                if (line3.equalsIgnoreCase(getDatabase().getMaterial(line3).toString())) {
-                    if (line4.equals(String.valueOf(Double.valueOf(line4)))) {
-                        if (!player.hasPermission("essentials.chestshop.create"))return;
-                        plugin.getScheduler().runTaskLater(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                addAmount(sign, Integer.parseInt(sign.getLine(1)));
-                                addMaterial(sign, sign.getLine(2).toUpperCase().replace(" ", "_"));
-                                addValue(sign, Double.parseDouble(sign.getLine(3)));
-                                sign.setLine(0, getMessage().addColor("&6" + player.getName()));
-                                sign.setLine(1, getMessage().addColor("&f" + getAmount(sign)));
-                                sign.setLine(2, getMessage().addColor("&f" + getMaterial(sign).name()));
-                                sign.setLine(3, getMessage().addColor("&a" + getEconomy().currency() + getEconomy().format(getValue(sign))));
-                                sign.setWaxed(true);
-                                addOwner(player, chest);
-                                addOwner(player, sign);
-                                chest.update();
-                                sign.update();
-                                getMessage().send(player, "&6You created a chest shop");
-                            }
-                        },3);
-                    }
+            if (!player.hasPermission("essentials.chestshop.create"))return;
+            plugin.getScheduler().runTaskLater(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    addAmount(sign, line2);
+                    addMaterial(sign, line3);
+                    addValue(sign, line4);
+                    sign.setLine(0, getMessage().addColor("&6" + player.getName()));
+                    sign.setLine(1, getMessage().addColor("&f" + getAmount(sign)));
+                    sign.setLine(2, getMessage().addColor("&f" + getMaterial(sign).name()));
+                    sign.setLine(3, getMessage().addColor("&a" + getEconomy().currency() + getEconomy().format(getValue(sign))));
+                    sign.setWaxed(true);
+                    addOwner(player, sign);
+                    sign.update();
+                    addOwner(player, chest);
+                    chest.update();
+                    getMessage().send(player, "&6You created a chest shop");
                 }
-            }
+            },3);
         }
     }
     public void buy(Player player, Sign sign, Chest chest) {
