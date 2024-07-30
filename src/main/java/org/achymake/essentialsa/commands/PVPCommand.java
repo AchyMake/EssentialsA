@@ -36,6 +36,7 @@ public class PVPCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().sendActionBar(player, "&6&lPVP:&c Disabled");
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.pvp.other")) {
@@ -75,6 +76,7 @@ public class PVPCommand implements CommandExecutor, TabCompleter {
                             }
                         }
                     }
+                    return true;
                 }
             }
         }
@@ -105,9 +107,10 @@ public class PVPCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                     }
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -115,11 +118,9 @@ public class PVPCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.pvp.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.pvp.exempt")) {
-                            if (!plugin.getVanished().contains(players)) {
-                                commands.add(players.getName());
-                            }
+                            commands.add(players.getName());
                         }
                     }
                     commands.add(player.getName());

@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.GameMode;
 import org.bukkit.Server;
@@ -12,6 +13,9 @@ import java.util.List;
 
 public class GMCCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -31,6 +35,7 @@ public class GMCCommand implements CommandExecutor, TabCompleter {
                     player.setGameMode(GameMode.CREATIVE);
                     getMessage().send(player, "&6You changed gamemode to&f Creative");
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.gamemode.other")) {
@@ -59,6 +64,7 @@ public class GMCCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, "&cError:&7 You do not have the permissions to execute the command");
                 }
+                return true;
             }
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
@@ -69,11 +75,12 @@ public class GMCCommand implements CommandExecutor, TabCompleter {
                         target.setGameMode(GameMode.CREATIVE);
                         getMessage().send(target, "&6Your gamemode has changed to&f Creative");
                         getMessage().send(consoleCommandSender, "You changed " + target.getName() + " gamemode to Creative");
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -81,7 +88,7 @@ public class GMCCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.gamemode.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.gamemode.exempt")) {
                             commands.add(players.getName());
                         }

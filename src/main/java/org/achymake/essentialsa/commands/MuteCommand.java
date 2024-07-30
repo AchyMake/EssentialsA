@@ -40,7 +40,9 @@ public class MuteCommand implements CommandExecutor, TabCompleter {
                     }
                 } else {
                     if (target != null) {
-                        if (!target.hasPermission("essentials.command.mute.exempt")) {
+                        if (target.hasPermission("essentials.command.mute.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to mute&f " + target.getName());
+                        } else {
                             getDatabase().setBoolean(target, "settings.muted", !getDatabase().isMuted(target));
                             if (getDatabase().isMuted(target)) {
                                 getMessage().send(player, "&6You muted&f " + target.getName());
@@ -62,6 +64,7 @@ public class MuteCommand implements CommandExecutor, TabCompleter {
                         }
                     }
                 }
+                return true;
             }
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
@@ -87,21 +90,21 @@ public class MuteCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(consoleCommandSender,offlinePlayer.getName() + " has never joined");
                     }
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
-        if (sender instanceof Player player) {
+        if (sender instanceof Player) {
             if (args.length == 1) {
-                for (Player players : getServer().getOnlinePlayers()) {
+                for (Player players : getDatabase().getOnlinePlayers()) {
                     if (!players.hasPermission("essentials.command.mute.exempt")) {
                         commands.add(players.getName());
                     }
                 }
-                commands.add(player.getName());
             }
         }
         return commands;

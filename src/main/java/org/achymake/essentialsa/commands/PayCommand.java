@@ -58,19 +58,18 @@ public class PayCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player) {
             if (args.length == 1) {
-                for (Player players : getServer().getOnlinePlayers()) {
-                    if (!plugin.getVanished().contains(players)) {
-                        commands.add(players.getName());
-                    }
+                for (Player players : getDatabase().getOnlinePlayers()) {
+                    commands.add(players.getName());
                 }
             }
         }

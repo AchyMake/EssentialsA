@@ -34,9 +34,10 @@ public class SetWarpCommand implements CommandExecutor, TabCompleter {
                     getWarps().setLocation(args[0], player.getLocation());
                     getMessage().send(player, args[0] + "&6 has been set");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

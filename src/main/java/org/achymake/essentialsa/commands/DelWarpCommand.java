@@ -27,21 +27,24 @@ public class DelWarpCommand implements CommandExecutor, TabCompleter {
                 if (getWarps().locationExist(args[0])) {
                     getWarps().delWarp(args[0]);
                     getMessage().send(player, args[0] + "&6 has been deleted");
+                    return true;
                 }
             }
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
             if (args.length == 0) {
                 getMessage().send(consoleCommandSender, "Usage: /delwarp warpName");
+                return true;
             }
             if (args.length == 1) {
                 if (getWarps().locationExist(args[0])) {
                     getWarps().delWarp(args[0]);
                     getMessage().send(consoleCommandSender, args[0] + " has been deleted");
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

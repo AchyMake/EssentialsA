@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -14,6 +15,9 @@ import java.util.List;
 
 public class InventoryCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -30,15 +34,18 @@ public class InventoryCommand implements CommandExecutor, TabCompleter {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
                     if (target != player) {
-                        if (!target.hasPermission("essentials.command.inventory.exempt")) {
+                        if (target.hasPermission("essentials.command.inventory.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to open inventory of&f " + target.getName());
+                        } else {
                             player.openInventory(target.getInventory());
                             getMessage().send(player, "&6Opened inventory of " + target.getName());
                         }
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -46,7 +53,7 @@ public class InventoryCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.inventory")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.inventory.exempt")) {
                             commands.add(players.getName());
                         }

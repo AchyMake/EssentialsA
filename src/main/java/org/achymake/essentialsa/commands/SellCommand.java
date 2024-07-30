@@ -46,6 +46,7 @@ public class SellCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(player, itemStack.getType() + "&c is not able to sell");
                     }
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("all")) {
@@ -60,6 +61,7 @@ public class SellCommand implements CommandExecutor, TabCompleter {
                             } else {
                                 getMessage().send(player, itemStack.getType() + "&c is not able to sell");
                             }
+                            return true;
                         }
                     }
                 } else if (args[0].equalsIgnoreCase("hand")) {
@@ -76,6 +78,7 @@ public class SellCommand implements CommandExecutor, TabCompleter {
                             getMessage().send(player, itemStack.getType() + "&c is not able to sell");
                         }
                     }
+                    return true;
                 } else {
                     int amount = Integer.parseInt(args[0]);
                     ItemStack itemStack = player.getInventory().getItemInMainHand();
@@ -96,10 +99,11 @@ public class SellCommand implements CommandExecutor, TabCompleter {
                             getMessage().send(player, itemStack.getType() + "&c is not able to sell");
                         }
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

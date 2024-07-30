@@ -30,6 +30,7 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 0) {
                 getDatabase().setVanish(player, !getDatabase().isVanished(player));
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.vanish.other")) {
@@ -38,7 +39,9 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                         if (target == player) {
                             getDatabase().setVanish(target, !getDatabase().isVanished(target));
                         } else {
-                            if (!target.hasPermission("essentials.command.vanish.exempt")) {
+                            if (target.hasPermission("essentials.command.vanish.exempt")) {
+                                getMessage().send(player, "&cYou are not allowed to set vanish for&f " + target.getName());
+                            } else {
                                 getDatabase().setVanish(target, !getDatabase().isVanished(target));
                                 if (getDatabase().isVanished(target)) {
                                     getMessage().send(target, player.getName() + "&6 made you vanish");
@@ -62,6 +65,7 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                             getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                         }
                     }
+                    return true;
                 }
             }
             if (args.length == 2) {
@@ -73,12 +77,15 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                             if (target == player) {
                                 getDatabase().setVanish(target, true);
                             } else {
-                                if (!target.hasPermission("essentials.command.vanish.exempt")) {
+                                if (target.hasPermission("essentials.command.vanish.exempt")) {
+                                    getMessage().send(player, "&cYou are not allowed to set vanish for&f " + target.getName());
+                                } else {
                                     getDatabase().setVanish(target, true);
                                     getMessage().send(target, player.getName() + "&6 made you vanish");
                                     getMessage().send(player, target.getName() + "&6 is now vanished");
                                 }
                             }
+                            return true;
                         }
                     } else {
                         OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(args[0]);
@@ -94,6 +101,7 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                         }
+                        return true;
                     }
                 } else {
                     if (target != null) {
@@ -101,12 +109,15 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                             if (target == player) {
                                 getDatabase().setVanish(target, false);
                             } else {
-                                if (!target.hasPermission("essentials.command.vanish.exempt")) {
+                                if (target.hasPermission("essentials.command.vanish.exempt")) {
+                                    getMessage().send(player, "&cYou are not allowed to set vanish for&f " + target.getName());
+                                } else {
                                     getDatabase().setVanish(target, false);
                                     getMessage().send(target, player.getName() + "&6 made you no longer vanish");
                                     getMessage().send(player, target.getName() + "&6 is no longer vanished");
                                 }
                             }
+                            return true;
                         }
                     } else {
                         OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(args[0]);
@@ -122,6 +133,7 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                         }
+                        return true;
                     }
                 }
             }
@@ -149,6 +161,7 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                     }
                 }
+                return true;
             }
             if (args.length == 2) {
                 Player target = getServer().getPlayerExact(args[0]);
@@ -158,6 +171,7 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                         if (!getDatabase().isVanished(target)) {
                             getDatabase().setVanish(target, true);
                             getMessage().send(consoleCommandSender, target.getName() + " is now vanished");
+                            return true;
                         }
                     } else {
                         OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(args[0]);
@@ -173,12 +187,14 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                         }
+                        return true;
                     }
                 } else {
                     if (target != null) {
                         if (getDatabase().isVanished(target)) {
                             getDatabase().setVanish(target, false);
                             getMessage().send(consoleCommandSender, target.getName() + " is no longer vanished");
+                            return true;
                         }
                     } else {
                         OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(args[0]);
@@ -194,11 +210,12 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                         }
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -206,12 +223,11 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.vanish.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.vanish.exempt")) {
                             commands.add(players.getName());
                         }
                     }
-                    commands.add(player.getName());
                 }
             }
             if (args.length == 2) {

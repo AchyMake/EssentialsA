@@ -42,11 +42,14 @@ public class TPACommand implements CommandExecutor, TabCompleter {
                     Player target = getServer().getPlayerExact(args[0]);
                     if (target == null) {
                         getMessage().send(player, args[0] + "&c is currently offline");
+                        return true;
                     } else if (target == player) {
                         getMessage().send(player, "&cYou can't send request to your self");
+                        return true;
                     } else if (getDatabase().getConfig(player).isString("tpa.sent")) {
                         getMessage().send(player, "&cYou already sent tp request");
                         getMessage().send(player, "&cYou can type&f /tpcancel");
+                        return true;
                     } else {
                         int taskID = getScheduler().runTaskLater(plugin, new Runnable() {
                             @Override
@@ -65,21 +68,20 @@ public class TPACommand implements CommandExecutor, TabCompleter {
                         getMessage().send(target, "&6You can type&a /tpaccept&6 or&c /tpdeny");
                         getMessage().send(player, "&6You have sent a tpa request to&f " + target.getName());
                         getMessage().send(player, "&6You can type&c /tpcancel");
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player) {
             if (args.length == 1) {
-                for (Player players : getServer().getOnlinePlayers()) {
-                    if (!plugin.getVanished().contains(players)) {
-                        commands.add(players.getName());
-                    }
+                for (Player players : getDatabase().getOnlinePlayers()) {
+                    commands.add(players.getName());
                 }
             }
         }

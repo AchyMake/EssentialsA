@@ -32,7 +32,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().isFrozen(player) || getDatabase().isJailed(player)) {
+                if (getDatabase().isDisabled(player)) {
                     return false;
                 } else {
                     if (getWarps().getWarps().isEmpty()) {
@@ -45,10 +45,11 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                             }
                         }
                     }
+                    return true;
                 }
             }
             if (args.length == 1) {
-                if (getDatabase().isFrozen(player) || getDatabase().isJailed(player)) {
+                if (getDatabase().isDisabled(player)) {
                     return false;
                 } else {
                     if (player.hasPermission("essentials.command.warp." + args[0])) {
@@ -57,6 +58,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(player, args[0] + "&c does not exist");
                         }
+                        return true;
                     }
                 }
             }
@@ -64,7 +66,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                 if (player.hasPermission("essentials.command.warp.other")) {
                     Player target = getServer().getPlayerExact(args[1]);
                     if (target != null) {
-                        if (getDatabase().isFrozen(target) || getDatabase().isJailed(target)) {
+                        if (getDatabase().isDisabled(target)) {
                             return false;
                         } else {
                             if (getWarps().locationExist(args[0])) {
@@ -76,6 +78,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                             } else {
                                 getMessage().send(player, args[0] + "&c does not exist");
                             }
+                            return true;
                         }
                     }
                 }
@@ -85,7 +88,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
             if (args.length == 2) {
                 Player target = getServer().getPlayerExact(args[1]);
                 if (target != null) {
-                    if (getDatabase().isFrozen(target) || getDatabase().isJailed(target)) {
+                    if (getDatabase().isDisabled(target)) {
                         return false;
                     } else {
                         if (getWarps().locationExist(args[0])) {
@@ -93,12 +96,13 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(consoleCommandSender, args[0] + " does not exist");
                         }
+                        return true;
                     }
                 }
             }
 
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -113,7 +117,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.warp.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.warp.exempt")) {
                             commands.add(players.getName());
                         }

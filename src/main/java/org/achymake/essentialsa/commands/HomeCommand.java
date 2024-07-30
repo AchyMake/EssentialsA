@@ -26,7 +26,7 @@ public class HomeCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (getDatabase().isFrozen(player) || getDatabase().isJailed(player)) {
+            if (getDatabase().isDisabled(player)) {
                 return false;
             } else {
                 if (args.length == 0) {
@@ -35,6 +35,7 @@ public class HomeCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, "home&c does not exist");
                     }
+                    return true;
                 }
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("bed")) {
@@ -52,10 +53,11 @@ public class HomeCommand implements CommandExecutor, TabCompleter {
                             getMessage().send(player, args[0] + "&c does not exist");
                         }
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

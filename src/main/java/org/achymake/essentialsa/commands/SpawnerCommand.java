@@ -23,13 +23,14 @@ public class SpawnerCommand implements CommandExecutor, TabCompleter {
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player player) {
+        if (sender instanceof Player) {
             if (args.length == 3) {
                 if (args[0].equalsIgnoreCase("give")) {
                     Player target = getServer().getPlayerExact(args[1]);
                     String entityType = args[2];
                     if (target != null) {
                         getDatabase().giveItem(target, getDatabase().getSpawner(entityType, 1));
+                        return true;
                     }
                 }
             }
@@ -40,16 +41,17 @@ public class SpawnerCommand implements CommandExecutor, TabCompleter {
                     int amount = Integer.parseInt(args[3]);
                     if (target != null) {
                         getDatabase().giveItem(target, getDatabase().getSpawner(entityType, amount));
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
-        if (sender instanceof Player player) {
+        if (sender instanceof Player) {
             if (args.length == 1) {
                 commands.add("give");
             }

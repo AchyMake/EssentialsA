@@ -45,6 +45,7 @@ public class RepairCommand implements CommandExecutor, TabCompleter {
                         }
                     }
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("force")) {
@@ -61,11 +62,12 @@ public class RepairCommand implements CommandExecutor, TabCompleter {
                                 getMessage().send(player, "&cThe item is fully repaired");
                             }
                         }
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

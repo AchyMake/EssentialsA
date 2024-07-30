@@ -584,12 +584,6 @@ permissions:
   essentials.command.give:
     description: message
     default: op
-  essentials.command.give.other:
-    description: message
-    default: op
-  essentials.command.give.exempt:
-    description: message
-    default: op
   essentials.command.gamemode:
     description: message
     default: op
@@ -612,6 +606,12 @@ permissions:
     description: message
     default: op
   essentials.command.hat:
+    description: message
+    default: op
+  essentials.command.hat.other:
+    description: message
+    default: op
+  essentials.command.hat.exempt:
     description: message
     default: op
   essentials.command.heal:
@@ -870,6 +870,9 @@ permissions:
     description: message
     default: op
   essentials.command.worth:
+    description: message
+    default: op
+  essentials.notify.whispers:
     description: message
     default: op
   essentials.event.anvil.color:

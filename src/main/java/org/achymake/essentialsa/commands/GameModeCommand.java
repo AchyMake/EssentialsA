@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.GameMode;
 import org.bukkit.Server;
@@ -12,6 +13,9 @@ import java.util.List;
 
 public class GameModeCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -32,6 +36,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                         player.setGameMode(GameMode.ADVENTURE);
                         getMessage().send(player, "&6You changed gamemode to&f adventure");
                     }
+                    return true;
                 }
                 if (args[0].equalsIgnoreCase("creative")) {
                     if (player.getGameMode().equals(GameMode.CREATIVE)) {
@@ -40,6 +45,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                         player.setGameMode(GameMode.CREATIVE);
                         getMessage().send(player, "&6You changed gamemode to&f creative");
                     }
+                    return true;
                 }
                 if (args[0].equalsIgnoreCase("survival")) {
                     if (player.getGameMode().equals(GameMode.SURVIVAL)) {
@@ -48,6 +54,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                         player.setGameMode(GameMode.SURVIVAL);
                         getMessage().send(player, "&6You changed gamemode to&f survival");
                     }
+                    return true;
                 }
                 if (args[0].equalsIgnoreCase("spectator")) {
                     if (player.getGameMode().equals(GameMode.SPECTATOR)) {
@@ -56,6 +63,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                         player.setGameMode(GameMode.SPECTATOR);
                         getMessage().send(player, "&6You changed gamemode to&f spectator");
                     }
+                    return true;
                 }
             }
             if (args.length == 2) {
@@ -69,6 +77,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                                 target.setGameMode(GameMode.ADVENTURE);
                                 getMessage().send(player, "&6You changed gamemode to&f Adventure");
                             }
+                            return true;
                         }
                         if (args[0].equalsIgnoreCase("creative")) {
                             if (target.getGameMode().equals(GameMode.CREATIVE)) {
@@ -77,6 +86,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                                 target.setGameMode(GameMode.CREATIVE);
                                 getMessage().send(player, "&6You changed gamemode to&f Creative");
                             }
+                            return true;
                         }
                         if (args[0].equalsIgnoreCase("survival")) {
                             if (target.getGameMode().equals(GameMode.SURVIVAL)) {
@@ -85,6 +95,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                                 target.setGameMode(GameMode.SURVIVAL);
                                 getMessage().send(player, "&6You changed gamemode to&f Survival");
                             }
+                            return true;
                         }
                         if (args[0].equalsIgnoreCase("spectator")) {
                             if (target.getGameMode().equals(GameMode.SPECTATOR)) {
@@ -93,6 +104,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                                 target.setGameMode(GameMode.SPECTATOR);
                                 getMessage().send(player, "&6You changed gamemode to&f Spectator");
                             }
+                            return true;
                         }
                     } else {
                         if (target != null) {
@@ -137,6 +149,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(player, args[1] + "&c is currently offline");
                         }
+                        return true;
                     }
                 }
             }
@@ -184,9 +197,10 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(consoleCommandSender, args[1] + " is currently offline");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -208,7 +222,7 @@ public class GameModeCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.gamemode.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.gamemode.exempt")) {
                             commands.add(players.getName());
                         }

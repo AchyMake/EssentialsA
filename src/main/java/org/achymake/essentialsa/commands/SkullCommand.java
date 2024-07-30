@@ -40,9 +40,10 @@ public class SkullCommand implements CommandExecutor, TabCompleter {
                     player.getWorld().dropItem(player.getLocation(), getDatabase().getOfflinePlayerHead(offlinePlayer, 1));
                 }
                 getMessage().send(player, "&6You received&f " + offlinePlayer.getName() + "&6's skull");
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

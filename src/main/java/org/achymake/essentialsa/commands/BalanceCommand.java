@@ -35,15 +35,26 @@ public class BalanceCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 0) {
                 getMessage().send(player, "&6Balance:&a " + getEconomy().currency() + getEconomy().format(getEconomy().get(player)));
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.balance.other")) {
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                    if (getDatabase().exist(offlinePlayer)) {
-                        getMessage().send(player, offlinePlayer.getName() + "&6's balance:&a " + getEconomy().currency() + getEconomy().format(getEconomy().get(offlinePlayer)));
+                    Player target = getServer().getPlayerExact(args[0]);
+                    if (target != null) {
+                        if (target.hasPermission("essentials.command.balance.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to check&f " + target.getName() + "&c's balance");
+                        } else {
+                            getMessage().send(player, target.getName() + "&6's balance:&a " + getEconomy().currency() + getEconomy().format(getEconomy().get(target)));
+                        }
                     } else {
-                        getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
+                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
+                        if (getDatabase().exist(offlinePlayer)) {
+                            getMessage().send(player, offlinePlayer.getName() + "&6's balance:&a " + getEconomy().currency() + getEconomy().format(getEconomy().get(offlinePlayer)));
+                        } else {
+                            getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
+                        }
                     }
+                    return true;
                 }
             }
         }
@@ -55,9 +66,10 @@ public class BalanceCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -65,9 +77,9 @@ public class BalanceCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.balance.other")) {
-                    for (OfflinePlayer offlinePlayer : getServer().getOfflinePlayers()) {
-                        if (getDatabase().exist(offlinePlayer)) {
-                            commands.add(offlinePlayer.getName());
+                    for (Player players : getDatabase().getOnlinePlayers()) {
+                        if (!players.hasPermission("essentials.command.balance.exempt")) {
+                            commands.add(players.getName());
                         }
                     }
                 }

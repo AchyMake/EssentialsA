@@ -47,12 +47,13 @@ public class RespondCommand implements CommandExecutor, TabCompleter {
                                     getMessage().send(players, "&7" + player.getName() + " > " + target.getName() + ": " + builder);
                                 }
                             }
+                            return true;
                         }
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List onTabComplete(CommandSender sender, Command command, String label, String[] args) {

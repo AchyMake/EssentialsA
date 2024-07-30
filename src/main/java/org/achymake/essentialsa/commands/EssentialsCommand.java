@@ -21,25 +21,29 @@ public class EssentialsCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 0) {
                 getMessage().send(player, "&6" + plugin.getDescription().getName() + " " + plugin.getDescription().getVersion());
+                return true;
             }
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     plugin.reload();
                     getMessage().send(player, "&6Essentials:&f reloaded");
+                    return true;
                 }
             }
         } else if (sender instanceof ConsoleCommandSender consoleCommandSender) {
             if (args.length == 0) {
                 getMessage().send(consoleCommandSender, plugin.getDescription().getName() + " " + plugin.getDescription().getVersion());
+                return true;
             }
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     plugin.reload();
                     getMessage().send(consoleCommandSender, "Essentials: reloaded");
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

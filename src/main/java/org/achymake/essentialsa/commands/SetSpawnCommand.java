@@ -43,6 +43,7 @@ public class SetSpawnCommand implements CommandExecutor, TabCompleter {
                     getSpawn().setLocation(player.getLocation());
                     getMessage().send(player, "&6Spawn has been set");
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.setspawn.other")) {
@@ -58,10 +59,11 @@ public class SetSpawnCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

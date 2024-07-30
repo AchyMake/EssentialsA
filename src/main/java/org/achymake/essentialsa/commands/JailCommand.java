@@ -72,6 +72,7 @@ public class JailCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, args[0] + "&c is currently offline");
                 }
+                return true;
             }
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
@@ -98,21 +99,21 @@ public class JailCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(consoleCommandSender, args[0] + " is currently offline");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player player) {
             if (args.length == 1) {
-                for (Player players : getServer().getOnlinePlayers()) {
+                for (Player players : getDatabase().getOnlinePlayers()) {
                     if (!players.hasPermission("essentials.command.jail.exempt")) {
                         commands.add(players.getName());
                     }
                 }
-                commands.add(player.getName());
             }
         }
         return commands;

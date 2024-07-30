@@ -33,9 +33,10 @@ public class DelHomeCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, args[0] + "&c does not exist");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

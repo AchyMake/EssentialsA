@@ -41,6 +41,7 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(player, "- " + listedHomes);
                     }
                 }
+                return true;
             }
             if (args.length == 3) {
                 String arg0 = args[0];
@@ -59,6 +60,7 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(player, target + "&c has never joined");
                         }
+                        return true;
                     }
                 }
                 if (arg0.equalsIgnoreCase("teleport")) {
@@ -84,11 +86,12 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(player, target + "&c has never joined");
                         }
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {

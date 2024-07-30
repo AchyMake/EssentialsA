@@ -53,16 +53,17 @@ public class InformationCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player) {
             if (args.length == 1) {
-                for (OfflinePlayer offlinePlayer : getServer().getOfflinePlayers()) {
+                for (OfflinePlayer offlinePlayer : getDatabase().getOnlinePlayers()) {
                     commands.add(offlinePlayer.getName());
                 }
             }

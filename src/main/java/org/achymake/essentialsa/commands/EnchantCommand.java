@@ -38,6 +38,7 @@ public class EnchantCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(player, "&6You added&f " + enchantment.getName() + "&6 with lvl&f 1");
                     }
                 }
+                return true;
             }
             if (args.length == 2) {
                 if (player.getInventory().getItemInMainHand().getType().isAir()) {
@@ -52,9 +53,10 @@ public class EnchantCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(player, "&6You removed&f " + enchantment.getName());
                     }
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {

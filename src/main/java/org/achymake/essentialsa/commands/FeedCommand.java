@@ -36,14 +36,20 @@ public class FeedCommand implements CommandExecutor, TabCompleter {
                     getDatabase().addCooldown(player, "feed");
                     getMessage().send(player, "&6You satisfied&f " + player.getName() + "&6's starvation");
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.feed.other")) {
                     Player target = getServer().getPlayerExact(args[0]);
                     if (target != null) {
-                        target.setFoodLevel(20);
-                        getMessage().sendActionBar(target, "&6Your starvation has been satisfied");
-                        getMessage().send(player, "&6You satisfied&f " + target.getName() + "&6's starvation");
+                        if (target.hasPermission("essentials.command.feed.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to feed&f " + target.getName());
+                        } else {
+                            target.setFoodLevel(20);
+                            getMessage().sendActionBar(target, "&6Your starvation has been satisfied");
+                            getMessage().send(player, "&6You satisfied&f " + target.getName() + "&6's starvation");
+                        }
+                        return true;
                     }
                 }
             }
@@ -55,10 +61,11 @@ public class FeedCommand implements CommandExecutor, TabCompleter {
                     target.setFoodLevel(20);
                     getMessage().sendActionBar(target, "&6Your starvation has been satisfied");
                     getMessage().send(consoleCommandSender, "You satisfied " + target.getName() + "'s starvation");
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -66,8 +73,10 @@ public class FeedCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.feed.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
-                        commands.add(players.getName());
+                    for (Player players : getDatabase().getOnlinePlayers()) {
+                        if (!players.hasPermission("essentials.command.feed.exempt")) {
+                            commands.add(players.getName());
+                        }
                     }
                 }
             }

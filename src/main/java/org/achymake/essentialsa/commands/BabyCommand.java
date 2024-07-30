@@ -37,6 +37,7 @@ public class BabyCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, "&6You changed to an adult");
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.baby.other")) {
@@ -55,10 +56,11 @@ public class BabyCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, args[0] + "&c is not online");
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -66,7 +68,7 @@ public class BabyCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.baby.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.baby.exempt")) {
                             commands.add(players.getName());
                         }

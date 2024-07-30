@@ -50,14 +50,16 @@ public class TPDenyCommand implements CommandExecutor, TabCompleter {
                             getDatabase().setString(target, "tpa.sent", null);
                             getDatabase().setString(target, "task.tpa", null);
                             getDatabase().setString(player, "tpa.from", null);
+                            return true;
                         }
                     }
                 } else {
                     getMessage().send(player, "&cYou haven't have any tpa request");
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List onTabComplete(CommandSender sender, Command command, String label, String[] args) {

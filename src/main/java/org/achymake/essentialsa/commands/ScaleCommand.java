@@ -37,6 +37,7 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
             if (args.length == 0) {
                 getDatabase().setScale(player, 1.0);
                 getMessage().send(player, "&6You changed you're scale to&f 1.0");
+                return true;
             }
             if (args.length == 1) {
                 double value = Double.parseDouble(args[0]);
@@ -50,6 +51,7 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
                     getDatabase().setScale(player, value);
                     getMessage().send(player, "&6You changed you're scale to&f " + args[0]);
                 }
+                return true;
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.scale.other")) {
@@ -73,10 +75,11 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, args[1] + "&c is not online");
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -90,7 +93,7 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.scale.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.scale.exempt")) {
                             commands.add(players.getName());
                         }

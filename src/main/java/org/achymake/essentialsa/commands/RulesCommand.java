@@ -1,10 +1,10 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.*;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.List;
 
 public class RulesCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private FileConfiguration getConfig() {
-        return plugin.getConfig();
+    private Database getDatabase() {
+        return plugin.getDatabase();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -26,18 +26,43 @@ public class RulesCommand implements CommandExecutor, TabCompleter {
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length == 0) {
-            sendRules(sender);
-        }
-        if (args.length == 1) {
-            if (sender.hasPermission("essentials.command.rules.other")) {
-                Player target = getServer().getPlayerExact(args[0]);
-                if (target != null) {
-                    sendRules(target);
+        if (sender instanceof Player player) {
+            if (args.length == 0) {
+                getMessage().send("rules", player);
+                return true;
+            }
+            if (args.length == 1) {
+                if (player.hasPermission("essentials.command.rules.other")) {
+                    Player target = getServer().getPlayerExact(args[0]);
+                    if (target != null) {
+                        if (target == player) {
+                            getMessage().send("rules", target);
+                        } else {
+                            if (target.hasPermission("essentials.command.rules.exempt")) {
+                                getMessage().send(player, "&cYou are not allowed to send rules to&f " + target.getName());
+                            } else {
+                                getMessage().send("rules", target);
+                            }
+                        }
+                        return true;
+                    }
                 }
             }
         }
-        return true;
+        if (sender instanceof ConsoleCommandSender consoleCommandSender) {
+            if (args.length == 0) {
+                getMessage().send("rules", consoleCommandSender);
+                return true;
+            }
+            if (args.length == 1) {
+                Player target = getServer().getPlayerExact(args[0]);
+                if (target != null) {
+                    getMessage().send("rules", target);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -45,8 +70,8 @@ public class RulesCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             if (args.length == 1) {
                 if (sender.hasPermission("essentials.command.rules.other")) {
-                    for (Player players : sender.getServer().getOnlinePlayers()) {
-                        if (!plugin.getVanished().contains(players)) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
+                        if (!players.hasPermission("essentials.command.rules.exempt")) {
                             commands.add(players.getName());
                         }
                     }
@@ -54,25 +79,5 @@ public class RulesCommand implements CommandExecutor, TabCompleter {
             }
         }
         return commands;
-    }
-    private void sendRules(CommandSender sender) {
-        if (sender instanceof Player player) {
-            if (getConfig().isList("rules")) {
-                for (String messages : getConfig().getStringList("rules")) {
-                    getMessage().send(player, messages.replaceAll("%player%", player.getName()));
-                }
-            } else if (getConfig().isString("rules")) {
-                getMessage().send(player, getConfig().getString("rules").replaceAll("%player%", player.getName()));
-            }
-        }
-        if (sender instanceof ConsoleCommandSender commandSender) {
-            if (getConfig().isList("rules")) {
-                for (String messages : getConfig().getStringList("rules")) {
-                    getMessage().send(commandSender, messages.replaceAll("%player%", commandSender.getName()));
-                }
-            } else if (getConfig().isString("rules")) {
-                getMessage().send(commandSender, getConfig().getString("rules").replaceAll("%player%", commandSender.getName()));
-            }
-        }
     }
 }

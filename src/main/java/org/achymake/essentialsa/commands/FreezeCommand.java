@@ -40,7 +40,9 @@ public class FreezeCommand implements CommandExecutor, TabCompleter {
                     }
                 } else {
                     if (target != null) {
-                        if (!target.hasPermission("essentials.command.freeze.exempt")) {
+                        if (target.hasPermission("essentials.command.freeze.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to freeze&f " + target.getName());
+                        } else {
                             getDatabase().setBoolean(target, "settings.frozen", !getDatabase().isFrozen(target));
                             if (getDatabase().isFrozen(target)) {
                                 getMessage().send(player, "&6You froze&f " + target.getName());
@@ -62,6 +64,7 @@ public class FreezeCommand implements CommandExecutor, TabCompleter {
                         }
                     }
                 }
+                return true;
             }
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
@@ -87,16 +90,17 @@ public class FreezeCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                     }
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player player) {
             if (args.length == 1) {
-                for (Player players : getServer().getOnlinePlayers()) {
+                for (Player players : getDatabase().getOnlinePlayers()) {
                     if (!players.hasPermission("essentials.command.freeze.exempt")) {
                         commands.add(players.getName());
                     }

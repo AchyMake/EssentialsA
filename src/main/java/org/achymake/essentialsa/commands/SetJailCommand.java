@@ -34,9 +34,10 @@ public class SetJailCommand implements CommandExecutor, TabCompleter {
                     getJail().setLocation(player.getLocation());
                     getMessage().send(player, "&6Jail has been set");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List onTabComplete(CommandSender sender, Command command, String label, String[] args) {

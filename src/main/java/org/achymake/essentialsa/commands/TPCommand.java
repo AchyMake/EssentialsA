@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -29,12 +30,17 @@ public class TPCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    player.teleport(target.getLocation());
-                    getMessage().sendActionBar(player, "&6Teleporting to&f " + target.getName());
+                    if (target.hasPermission("essentials.command.tp.exempt")) {
+                        getMessage().send(player, "&cYou are not allowed to tp to&f " + target.getName());
+                    } else {
+                        player.teleport(target.getLocation());
+                        getMessage().sendActionBar(player, "&6Teleporting to&f " + target.getName());
+                    }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -42,7 +48,9 @@ public class TPCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             if (args.length == 1) {
                 for (Player players : getServer().getOnlinePlayers()) {
-                    commands.add(players.getName());
+                    if (!players.hasPermission("essentials.command.tp.exempt")) {
+                        commands.add(players.getName());
+                    }
                 }
             }
         }

@@ -59,7 +59,7 @@ public record Levels(EssentialsA plugin) {
     public void reload() {
         File file = getFile();
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-        if (exists()) {
+        if (file.exists()) {
             try {
                 config.load(file);
             } catch (IOException | InvalidConfigurationException e) {
@@ -164,7 +164,7 @@ public record Levels(EssentialsA plugin) {
             config.set("level.24.damage", 1.0);
             config.set("level.25.enable", true);
             config.set("level.25.health", 36.0);
-            config.set("level.25damage", 1.0);
+            config.set("level.25.damage", 1.0);
             config.set("level.26.enable", true);
             config.set("level.26.health", 36.0);
             config.set("level.26.damage", 1.0);

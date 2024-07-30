@@ -36,6 +36,7 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
                 if (!displayName.equals(name)) {
                     getDatabase().setString(player, "display-name", name);
                     getMessage().send(player, "&6You reset your nickname");
+                    return true;
                 }
             }
             if (args.length == 1) {
@@ -46,25 +47,31 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
                     getDatabase().setString(player, "display-name", rename);
                     getMessage().send(player, "&6You changed your nickname to&f " + rename);
                 }
+                return true;
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.nickname.other")) {
                     String rename = args[0];
                     Player target = getServer().getPlayerExact(args[1]);
                     if (target != null) {
-                        if (!getDatabase().getConfig(target).getString("display-name").equals(rename)) {
-                            getDatabase().setString(target, "display-name", rename);
-                            getMessage().send(player, "&6You changed " + target.getName() + " nickname to&f " + args[0]);
+                        if (target.hasPermission("essentials.command.nickname.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to change nickname for&f " + target.getName());
                         } else {
-                            getMessage().send(player, target.getName() + "&c already have&f " + args[0] + "&c as nickname");
+                            if (!getDatabase().getConfig(target).getString("display-name").equals(rename)) {
+                                getDatabase().setString(target, "display-name", rename);
+                                getMessage().send(player, "&6You changed " + target.getName() + " nickname to&f " + args[0]);
+                            } else {
+                                getMessage().send(player, target.getName() + "&c already have&f " + args[0] + "&c as nickname");
+                            }
                         }
                     } else {
                         getMessage().send(player, args[1] + "&c is currently offline");
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -77,8 +84,10 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.nickname.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
-                        commands.add(players.getName());
+                    for (Player players : getDatabase().getOnlinePlayers()) {
+                        if (!players.hasPermission("essentials.command.nickname.exempt")) {
+                            commands.add(players.getName());
+                        }
                     }
                 }
             }

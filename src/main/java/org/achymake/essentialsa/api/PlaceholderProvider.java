@@ -48,7 +48,7 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                     return String.valueOf(EssentialsA.getInstance().getVanished().contains(player));
                 }
                 case "online_players" -> {
-                    return String.valueOf(player.getServer().getOnlinePlayers().size() - EssentialsA.getInstance().getVanished().size());
+                    return String.valueOf(EssentialsA.getInstance().getDatabase().getOnlinePlayers().size());
                 }
                 case "account" -> {
                     return EssentialsA.getInstance().getEconomy().currency() + EssentialsA.getInstance().getEconomy().format(EssentialsA.getInstance().getEconomy().get(player));
@@ -69,8 +69,9 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                         } else {
                             return "False";
                         }
+                    } else {
+                        return "True";
                     }
-                    return "True";
                 }
                 case "chunk_claimed" -> {
                     return String.valueOf(EssentialsA.getInstance().getChunkdata().getClaimCount(player));

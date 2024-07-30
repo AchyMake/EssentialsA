@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.*;
@@ -11,6 +12,9 @@ import java.util.List;
 
 public class FlyCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -30,6 +34,7 @@ public class FlyCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().sendActionBar(player, "&6&lFly:&c Disabled");
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.fly.other")) {
@@ -55,6 +60,7 @@ public class FlyCommand implements CommandExecutor, TabCompleter {
                             }
                         }
                     }
+                    return true;
                 }
             }
         }
@@ -70,10 +76,11 @@ public class FlyCommand implements CommandExecutor, TabCompleter {
                         getMessage().sendActionBar(target, "&6&lFly:&c Disabled");
                         getMessage().send(consoleCommandSender, "You disabled fly for " + target.getName());
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -81,7 +88,7 @@ public class FlyCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.fly.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.fly.exempt")) {
                             commands.add(players.getName());
                         }

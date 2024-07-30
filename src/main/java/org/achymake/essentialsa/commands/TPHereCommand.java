@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -14,6 +15,9 @@ import java.util.List;
 
 public class TPHereCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     private Server getServer() {
         return plugin.getServer();
     }
@@ -29,21 +33,28 @@ public class TPHereCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    getMessage().sendActionBar(target, "&6Teleporting to&f " + player.getName());
-                    getMessage().sendActionBar(player, "&6Teleporting&f " + target.getName() + "&6 to you");
-                    target.teleport(player.getLocation());
+                    if (target.hasPermission("essentials.command.tphere.exempt")) {
+                        getMessage().send(player, "&cYou are not allowed to tphere for&f " + target.getName());
+                    } else {
+                        getMessage().sendActionBar(target, "&6Teleporting to&f " + player.getName());
+                        getMessage().sendActionBar(player, "&6Teleporting&f " + target.getName() + "&6 to you");
+                        target.teleport(player.getLocation());
+                    }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player) {
             if (args.length == 1) {
-                for (Player players : getServer().getOnlinePlayers()) {
-                    commands.add(players.getName());
+                for (Player players : getDatabase().getOnlinePlayers()) {
+                    if (!players.hasPermission("essentials.command.tphere.exempt")) {
+                        commands.add(players.getName());
+                    }
                 }
             }
         }

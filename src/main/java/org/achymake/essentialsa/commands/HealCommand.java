@@ -36,15 +36,21 @@ public class HealCommand implements CommandExecutor, TabCompleter {
                     getMessage().sendActionBar(player, "&6Your health has been satisfied");
                     getDatabase().addCooldown(player, "heal");
                 }
+                return true;
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.heal.other")) {
                     Player target = getServer().getPlayerExact(args[0]);
                     if (target != null) {
-                        target.setFoodLevel(20);
-                        target.setHealth(target.getMaxHealth());
-                        getMessage().sendActionBar(target, "&6Your health has been satisfied by&f " + player.getName());
-                        getMessage().send(player, "&6You satisfied&f " + target.getName() + "&6's health");
+                        if (target.hasPermission("essentials.command.heal.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to heal&f " + target.getName());
+                        } else {
+                            target.setFoodLevel(20);
+                            target.setHealth(target.getMaxHealth());
+                            getMessage().sendActionBar(target, "&6Your health has been satisfied by&f " + player.getName());
+                            getMessage().send(player, "&6You satisfied&f " + target.getName() + "&6's health");
+                        }
+                        return true;
                     }
                 }
             }
@@ -57,10 +63,11 @@ public class HealCommand implements CommandExecutor, TabCompleter {
                     target.setHealth(target.getMaxHealth());
                     getMessage().sendActionBar(target, "&6Your health has been satisfied");
                     getMessage().send(consoleCommandSender, "You satisfied " + target.getName() + "'s health");
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -68,8 +75,10 @@ public class HealCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.heal.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
-                        commands.add(players.getName());
+                    for (Player players : getDatabase().getOnlinePlayers()) {
+                        if (!players.hasPermission("essentials.command.heal.exempt")) {
+                            commands.add(players.getName());
+                        }
                     }
                 }
             }

@@ -34,15 +34,15 @@ public record PlayerJoin(EssentialsA plugin) implements Listener {
         } else {
             getDatabase().hideVanished(player);
             if (getDatabase().hasJoined(player)) {
-                getDatabase().sendMotd(player, "welcome-back");
+                getMessage().sendMotd(player, "welcome-back");
             } else {
-                getDatabase().sendMotd(player, "welcome");
+                getMessage().sendMotd(player, "welcome");
             }
             if (getConfig().getBoolean("connection.join.enable")) {
-                getDatabase().sendJoinSound();
+                getMessage().sendJoinSound();
                 event.setJoinMessage(getMessage().addColor(getConfig().getString("connection.join.message").replaceAll("%player%", player.getName())));
             } else if (player.hasPermission("essentials.event.join.message")) {
-                getDatabase().sendJoinSound();
+                getMessage().sendJoinSound();
                 event.setJoinMessage(getMessage().addColor(getConfig().getString("connection.join.message").replaceAll("%player%", player.getName())));
             } else {
                 event.setJoinMessage(null);
@@ -54,7 +54,7 @@ public record PlayerJoin(EssentialsA plugin) implements Listener {
             }
         }
         if (player.hasPermission("essentials.event.join.update")) {
-            getDatabase().getUpdate(player);
+            getMessage().getUpdate(player);
         }
     }
 }

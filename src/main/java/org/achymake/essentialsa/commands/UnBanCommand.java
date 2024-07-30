@@ -40,9 +40,10 @@ public class UnBanCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, offlinePlayer.getName() + "&c is not banned");
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

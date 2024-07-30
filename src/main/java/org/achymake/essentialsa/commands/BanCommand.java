@@ -33,27 +33,61 @@ public class BanCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 1) {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                if (getDatabase().isBanned(offlinePlayer)) {
-                    getMessage().send(player, offlinePlayer.getName() + "&c is already banned");
+                Player target = getServer().getPlayerExact(args[0]);
+                if (target != null) {
+                    if (target.hasPermission("essentials.command.ban.exempt")) {
+                        getMessage().send(player, "&cYou are not allowed to ban&f " + target.getName());
+                    } else {
+                        if (getDatabase().isBanned(target)) {
+                            getMessage().send(player, target.getName() + "&c is already banned");
+                        } else {
+                            getDatabase().setBoolean(target, "settings.banned", true);
+                            getDatabase().setString(target, "settings.ban-reason", "None&6:&7 by " + player.getName());
+                            target.kickPlayer(getDatabase().getConfig(target).getString("settings.ban-reason"));
+                            getMessage().send(player, "You banned " + target.getName() + " for no reason");
+                        }
+                    }
                 } else {
-                    getDatabase().setBoolean(offlinePlayer, "settings.banned", true);
-                    getDatabase().setString(offlinePlayer, "settings.ban-reason", "None&6:&7 by " + player.getName());
-                    getMessage().send(player, "You banned " + offlinePlayer.getName() + " for no reason");
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
+                    if (getDatabase().isBanned(offlinePlayer)) {
+                        getMessage().send(player, offlinePlayer.getName() + "&c is already banned");
+                    } else {
+                        getDatabase().setBoolean(offlinePlayer, "settings.banned", true);
+                        getDatabase().setString(offlinePlayer, "settings.ban-reason", "None&6:&7 by " + player.getName());
+                        getMessage().send(player, "You banned " + offlinePlayer.getName() + " for no reason");
+                    }
                 }
+                return true;
             }
             if (args.length > 1) {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                if (offlinePlayer.isBanned()) {
-                    getMessage().send(player, offlinePlayer.getName() + "&c is already banned");
+                Player target = getServer().getPlayerExact(args[0]);
+                if (target != null) {
+                    if (target.hasPermission("essentials.command.ban.exempt")) {
+                        getMessage().send(player, "&cYou are not allowed to ban&f " + target.getName());
+                    } else {
+                        if (getDatabase().isBanned(target)) {
+                            getMessage().send(player, target.getName() + "&c is already banned");
+                        } else {
+                            getDatabase().setBoolean(target, "settings.banned", true);
+                            getDatabase().setString(target, "settings.ban-reason", "None&6:&7 by " + player.getName());
+                            target.kickPlayer(getDatabase().getConfig(target).getString("settings.ban-reason"));
+                            getMessage().send(player, "You banned " + target.getName() + " for no reason");
+                        }
+                    }
                 } else {
-                    getDatabase().setBoolean(offlinePlayer, "settings.banned", true);
-                    getDatabase().setString(offlinePlayer, "settings.ban-reason", args(args) + "&6:&7 by " + player.getName());
-                    getMessage().send(player, "You have banned " + offlinePlayer.getName() + " for " + args(args));
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
+                    if (getDatabase().isBanned(offlinePlayer)) {
+                        getMessage().send(player, offlinePlayer.getName() + "&c is already banned");
+                    } else {
+                        getDatabase().setBoolean(offlinePlayer, "settings.banned", true);
+                        getDatabase().setString(offlinePlayer, "settings.ban-reason", "None&6:&7 by " + player.getName());
+                        getMessage().send(player, "You banned " + offlinePlayer.getName() + " for no reason");
+                    }
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     private String args(String[] args) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -68,8 +102,8 @@ public class BanCommand implements CommandExecutor, TabCompleter {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player) {
             if (args.length == 1) {
-                for (OfflinePlayer offlinePlayer : getServer().getOfflinePlayers()) {
-                    commands.add(offlinePlayer.getName());
+                for (Player players : getDatabase().getOnlinePlayers()) {
+                    commands.add(players.getName());
                 }
             }
         }

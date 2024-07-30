@@ -37,6 +37,7 @@ public class GiveCommand implements CommandExecutor, TabCompleter {
                     String type = args[1];
                     getDatabase().giveItem(target, getDatabase().getItem(type, 1));
                     getMessage().send(player, "&6You gave&f " + target.getName() + " &61&f " + type);
+                    return true;
                 }
             }
             if (args.length == 3) {
@@ -46,10 +47,11 @@ public class GiveCommand implements CommandExecutor, TabCompleter {
                     int amount = Integer.parseInt(args[2]);
                     getDatabase().giveItem(target, getDatabase().getItem(type, amount));
                     getMessage().send(player, "&6You gave&f " + target.getName() + " &6" + amount + "&f " + type);
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class GiveCommand implements CommandExecutor, TabCompleter {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player) {
             if (args.length == 1) {
-                for (Player players : getServer().getOnlinePlayers()) {
+                for (Player players : getDatabase().getOnlinePlayers()) {
                     commands.add(players.getName());
                 }
             }

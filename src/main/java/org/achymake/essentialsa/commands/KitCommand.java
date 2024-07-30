@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Kits;
 import org.achymake.essentialsa.data.Message;
@@ -13,6 +14,9 @@ import java.util.List;
 
 public class KitCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     private Economy getEconomy() {
         return plugin.getEconomy();
     }
@@ -38,6 +42,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(player, "- " + kitNames);
                     }
                 }
+                return true;
             }
             if (args.length == 1) {
                 String kitName = args[0].toLowerCase();
@@ -60,15 +65,21 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                             getMessage().send(player, "&6You received&f " + kitName);
                         }
                     }
+                    return true;
                 }
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.kit.other")) {
                     Player target = getServer().getPlayerExact(args[1]);
                     if (target != null) {
-                        getKits().giveKit(target, args[0]);
-                        getMessage().send(target, "&6You received&f " + args[0] + "&6 kit");
-                        getMessage().send(player, "&6You gave&f " + args[0] + "&6 kit to&f " + target.getName());
+                        if (target.hasPermission("essentials.command.kit.exempt")) {
+                            getMessage().send(player, "&cYou are not allowed to send kit to&f " + target.getName());
+                        } else {
+                            getKits().giveKit(target, args[0]);
+                            getMessage().send(target, "&6You received&f " + args[0] + "&6 kit");
+                            getMessage().send(player, "&6You gave&f " + args[0] + "&6 kit to&f " + target.getName());
+                        }
+                        return true;
                     }
                 }
             }
@@ -79,6 +90,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                 for (String kitNames : getKits().getKits()) {
                     getMessage().send(consoleCommandSender, "- " + kitNames);
                 }
+                return true;
             }
             if (args.length == 2) {
                 Player target = getServer().getPlayerExact(args[1]);
@@ -86,10 +98,11 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                     getKits().giveKit(target, args[0]);
                     getMessage().send(target, "&6You received&f " + args[0] + "&6 kit");
                     getMessage().send(consoleCommandSender, "You gave " + args[0] + " kit to " + target.getName());
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -104,8 +117,10 @@ public class KitCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.kit.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
-                        commands.add(players.getName());
+                    for (Player players : getDatabase().getOnlinePlayers()) {
+                        if (!players.hasPermission("essentials.command.kit.exempt")) {
+                            commands.add(players.getName());
+                        }
                     }
                 }
             }

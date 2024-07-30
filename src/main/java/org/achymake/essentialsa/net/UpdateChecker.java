@@ -41,7 +41,7 @@ public record UpdateChecker(EssentialsA plugin) {
                         }
                     });
                 }
-            }, 20);
+            }, 5);
         }
     }
     public void getUpdate() {

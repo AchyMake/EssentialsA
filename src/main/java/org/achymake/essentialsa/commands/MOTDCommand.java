@@ -4,10 +4,7 @@ import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -35,21 +32,45 @@ public class MOTDCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                getDatabase().sendMotd(player, "welcome");
+                getMessage().sendMotd(player, "welcome");
+                return true;
             }
             if (args.length == 1) {
-                getDatabase().sendMotd(player, args[0]);
+                getMessage().sendMotd(player, args[0]);
+                return true;
             }
-        }
-        if (args.length == 2) {
-            if (sender.hasPermission("essentials.command.motd.other")) {
-                Player target = getServer().getPlayerExact(args[1]);
-                if (target != null) {
-                    getDatabase().sendMotd(target, args[0]);
+            if (args.length == 2) {
+                if (player.hasPermission("essentials.command.motd.other")) {
+                    Player target = getServer().getPlayerExact(args[1]);
+                    if (target != null) {
+                        if (target.hasPermission("essentials.command.motd.exempt")) {
+                            getMessage().send(player, "You are not allowed to send motd to " + target.getName());
+                        } else {
+                            getMessage().sendMotd(target, args[0]);
+                        }
+                        return true;
+                    }
                 }
             }
         }
-        return true;
+        if (sender instanceof ConsoleCommandSender consoleCommandSender) {
+            if (args.length == 0) {
+                getMessage().sendMotd(consoleCommandSender, "welcome");
+                return true;
+            }
+            if (args.length == 1) {
+                getMessage().sendMotd(consoleCommandSender, args[0]);
+                return true;
+            }
+            if (args.length == 2) {
+                Player target = getServer().getPlayerExact(args[1]);
+                if (target != null) {
+                    getMessage().sendMotd(target, args[0]);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -60,8 +81,10 @@ public class MOTDCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.motd.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
-                        commands.add(players.getName());
+                    for (Player players : getDatabase().getOnlinePlayers()) {
+                        if (!players.hasPermission("essentials.command.motd.exempt")) {
+                            commands.add(players.getName());
+                        }
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -14,6 +15,9 @@ import java.util.List;
 
 public class FlySpeedCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -30,6 +34,7 @@ public class FlySpeedCommand implements CommandExecutor, TabCompleter {
                 float value = Float.parseFloat(args[0]);
                 player.setFlySpeed(value);
                 getMessage().send(player, "&6You're fly speed has changed to&f " + value);
+                return true;
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.flyspeed.other")) {
@@ -45,10 +50,11 @@ public class FlySpeedCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, args[1] + "&c is currently offline");
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -59,7 +65,7 @@ public class FlySpeedCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (player.hasPermission("essentials.command.flyspeed.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.flyspeed.exempt")) {
                             commands.add(players.getName());
                         }

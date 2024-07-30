@@ -50,14 +50,16 @@ public class TPCancelCommand implements CommandExecutor, TabCompleter {
                             getDatabase().setString(target, "tpa.from", null);
                             getDatabase().setString(player, "task.tpa", null);
                             getDatabase().setString(player, "tpa.sent", null);
+                            return true;
                         }
                     }
                 } else {
                     getMessage().send(player, "&cYou haven't sent any tpa request");
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List onTabComplete(CommandSender sender, Command command, String label, String[] args) {

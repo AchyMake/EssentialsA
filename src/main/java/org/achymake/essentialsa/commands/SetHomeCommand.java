@@ -32,6 +32,7 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
                 } else {
                     getMessage().send(player, "&cYou have reach your limit of&f " + getDatabase().getHomes(player).size() + "&c homes");
                 }
+                return true;
             }
             if (args.length == 1) {
                 String homeName = args[0];
@@ -44,9 +45,10 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(player, "&cYou have reach your limit of&f " + getDatabase().getHomes(player).size() + "&c homes");
                     }
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

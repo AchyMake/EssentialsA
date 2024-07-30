@@ -2,6 +2,7 @@ package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
+import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -17,17 +18,21 @@ public class BackCommand implements CommandExecutor, TabCompleter {
     private Server getServer() {
         return plugin.getServer();
     }
+    private Message getMessage() {
+        return plugin.getMessage();
+    }
     public BackCommand(EssentialsA plugin) {
         this.plugin = plugin;
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (getDatabase().isFrozen(player) || getDatabase().isJailed(player)) {
+            if (getDatabase().isDisabled(player)) {
                 return false;
             } else {
                 if (args.length == 0) {
                     teleportBack(player);
+                    return true;
                 }
                 if (args.length == 1) {
                     if (player.hasPermission("essentials.command.back.other")) {
@@ -36,10 +41,14 @@ public class BackCommand implements CommandExecutor, TabCompleter {
                             if (target == player) {
                                 teleportBack(player);
                             } else {
-                                if (!target.hasPermission("essentials.command.back.exempt")) {
+                                if (target.hasPermission("essentials.command.back.exempt")) {
+                                    getMessage().send(player, "&cYou are not allowed to tp back for&f " + target.getName());
+                                } else {
                                     teleportBack(target);
+                                    getMessage().send(player, target.getName() + "&6 has been teleported back");
                                 }
                             }
+                            return true;
                         }
                     }
                 }
@@ -48,16 +57,17 @@ public class BackCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof ConsoleCommandSender) {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
-                if (getDatabase().isFrozen(target) || getDatabase().isJailed(target)) {
+                if (getDatabase().isDisabled(target)) {
                     return false;
                 } else {
                     if (target != null) {
                         teleportBack(target);
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -65,7 +75,7 @@ public class BackCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.back.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.back.exempt")) {
                             commands.add(players.getName());
                         }

@@ -27,6 +27,7 @@ public class AnnouncementCommand implements CommandExecutor, TabCompleter {
                 for (Player players : getServer().getOnlinePlayers()) {
                     getMessage().send(players, "&6Server:&f " + announcement(args));
                 }
+                return true;
             }
         }
         if (sender instanceof ConsoleCommandSender) {
@@ -34,9 +35,10 @@ public class AnnouncementCommand implements CommandExecutor, TabCompleter {
                 for (Player players : getServer().getOnlinePlayers()) {
                     getMessage().send(players, "&6Server:&f " + announcement(args));
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     private String announcement(String[] args) {
         StringBuilder stringBuilder = new StringBuilder();

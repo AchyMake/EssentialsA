@@ -17,11 +17,14 @@ import java.util.List;
 
 public class SetWorthCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Economy getEconomy() {
-        return plugin.getEconomy();
+    private Database getDatabase() {
+        return plugin.getDatabase();
     }
     private Worth getWorth() {
         return plugin.getWorth();
+    }
+    private Economy getEconomy() {
+        return plugin.getEconomy();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -46,9 +49,10 @@ public class SetWorthCommand implements CommandExecutor, TabCompleter {
                         getMessage().send(player, material + "&6 is now worthless");
                     }
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

@@ -46,6 +46,7 @@ public class EcoCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                     }
+                    return true;
                 }
             }
             if (args.length == 3) {
@@ -58,8 +59,8 @@ public class EcoCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                     }
-                }
-                if (args[0].equalsIgnoreCase("remove")) {
+                    return true;
+                } else if (args[0].equalsIgnoreCase("remove")) {
                     if (getDatabase().exist(offlinePlayer)) {
                         if (getEconomy().has(offlinePlayer, value)) {
                             getEconomy().remove(offlinePlayer, value);
@@ -70,14 +71,15 @@ public class EcoCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                     }
-                }
-                if (args[0].equalsIgnoreCase("set")) {
+                    return true;
+                } else if (args[0].equalsIgnoreCase("set")) {
                     if (getDatabase().exist(offlinePlayer)) {
                         getEconomy().set(offlinePlayer, value);
                         getMessage().send(player, "&6You set&a " + getEconomy().currency() + getEconomy().format(value) + "&6 to&f " + offlinePlayer.getName());
                     } else {
                         getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
                     }
+                    return true;
                 }
             }
         }
@@ -91,6 +93,7 @@ public class EcoCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                     }
+                    return true;
                 }
             }
             if (args.length == 3) {
@@ -103,26 +106,27 @@ public class EcoCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                     }
-                }
-                if (args[0].equalsIgnoreCase("remove")) {
+                    return true;
+                } else if (args[0].equalsIgnoreCase("remove")) {
                     if (getDatabase().exist(offlinePlayer)) {
                         getEconomy().remove(offlinePlayer, value);
                         getMessage().send(consoleCommandSender, "You removed " + getEconomy().currency() + getEconomy().format(value) + " from " + offlinePlayer.getName());
                     } else {
                         getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                     }
-                }
-                if (args[0].equalsIgnoreCase("set")) {
+                    return true;
+                } else if (args[0].equalsIgnoreCase("set")) {
                     if (getDatabase().exist(offlinePlayer)) {
                         getEconomy().set(offlinePlayer, value);
                         getMessage().send(consoleCommandSender, "You set " + getEconomy().currency() + getEconomy().format(value) + " to " + offlinePlayer.getName());
                     } else {
                         getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");
                     }
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

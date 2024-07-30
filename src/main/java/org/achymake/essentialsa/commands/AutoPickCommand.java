@@ -26,9 +26,10 @@ public class AutoPickCommand implements CommandExecutor, TabCompleter {
             if (args.length == 0) {
                 getDatabase().toggleAutoPick(player);
                 getMessage().send(player, "&6Auto pick is now&f " + getDatabase().isAutoPick(player));
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

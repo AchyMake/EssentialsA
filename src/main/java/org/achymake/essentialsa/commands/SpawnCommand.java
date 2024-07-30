@@ -40,13 +40,14 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                     } else {
                         getMessage().send(player, "Spawn&c does not exist");
                     }
+                    return true;
                 }
             }
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.spawn.other")) {
                     Player target = getServer().getPlayerExact(args[0]);
                     if (target != null) {
-                        if (getDatabase().isFrozen(target) || getDatabase().isJailed(target)) {
+                        if (getDatabase().isDisabled(target)) {
                             return false;
                         } else {
                             if (getSpawn().locationExist()) {
@@ -58,6 +59,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                             } else {
                                 getMessage().send(player, "Spawn&c does not exist");
                             }
+                            return true;
                         }
                     }
                 }
@@ -67,7 +69,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    if (getDatabase().isFrozen(target) || getDatabase().isJailed(target)) {
+                    if (getDatabase().isDisabled(target)) {
                         return false;
                     } else {
                         if (getSpawn().locationExist()) {
@@ -75,11 +77,12 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                         } else {
                             getMessage().send(consoleCommandSender, "Spawn&c does not exist");
                         }
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -87,7 +90,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.spawn.other")) {
-                    for (Player players : getServer().getOnlinePlayers()) {
+                    for (Player players : getDatabase().getOnlinePlayers()) {
                         if (!players.hasPermission("essentials.command.spawn.exempt")) {
                             commands.add(players.getName());
                         }

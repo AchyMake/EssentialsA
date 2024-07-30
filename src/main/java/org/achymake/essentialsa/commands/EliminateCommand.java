@@ -36,14 +36,15 @@ public class EliminateCommand implements CommandExecutor, TabCompleter {
                     getMessage().send(player, "&6You eliminated&f " + getEntities().getName(entity));
                     entity.remove();
                 }
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
-        if (sender instanceof Player player) {
+        if (sender instanceof Player) {
         }
         return commands;
     }
