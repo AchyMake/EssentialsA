@@ -42,6 +42,7 @@ public final class EssentialsA extends JavaPlugin {
     private static Kits kits;
     private static Levels levels;
     private static Message message;
+    private static Portals portals;
     private static Reward reward;
     private static Spawn spawn;
     private static Warps warps;
@@ -99,6 +100,7 @@ public final class EssentialsA extends JavaPlugin {
         jail = new Jail(this);
         kits = new Kits(this);
         levels = new Levels(this);
+        portals = new Portals(this);
         reward = new Reward(this);
         spawn = new Spawn(this);
         warps = new Warps(this);
@@ -283,6 +285,7 @@ public final class EssentialsA extends JavaPlugin {
         getJail().reload();
         getKits().reload();
         getLevels().reload();
+        getPortals().reload();
         getReward().reload();
         getSpawn().reload();
         getWarps().reload();
@@ -323,6 +326,9 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Reward getReward() {
         return reward;
+    }
+    public Portals getPortals() {
+        return portals;
     }
     public Message getMessage() {
         return message;

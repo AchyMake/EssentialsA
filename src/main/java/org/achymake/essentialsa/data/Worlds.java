@@ -33,6 +33,9 @@ public record Worlds(EssentialsA plugin) {
     public boolean worldExist(String worldName) {
         return getServer().getWorld(worldName) != null;
     }
+    public World getWorld(String world) {
+        return getServer().getWorld(world);
+    }
     public void setupWorlds() {
         getScheduler().runTaskLater(plugin, new Runnable() {
             @Override

@@ -86,7 +86,7 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                     return EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getString("name");
                 }
                 case "world_display_name" -> {
-                    return EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getString("display-name");
+                    return EssentialsA.getInstance().getWorlds().getDisplayName(player.getWorld());
                 }
                 case "world_pvp" -> {
                     return String.valueOf(EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getBoolean("pvp"));

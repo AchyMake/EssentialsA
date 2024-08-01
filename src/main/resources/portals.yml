@@ -1,0 +1,11 @@
+enable: false
+spawn:
+  NETHER_PORTAL:
+    warp: survival
+  END_PORTAL:
+    warp: end
+test:
+  NETHER_PORTAL:
+    warp: survival
+  END_PORTAL:
+    warp: end
