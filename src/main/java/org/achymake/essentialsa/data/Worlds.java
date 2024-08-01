@@ -37,59 +37,54 @@ public record Worlds(EssentialsA plugin) {
         return getServer().getWorld(world);
     }
     public void setupWorlds() {
+        createFiles();
         getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
                 File folder = new File(getDataFolder(), "worlds");
-                if (folder.exists()) {
-                    getMessage().sendLog(Level.INFO, "worlds folder detected");
-                    getMessage().sendLog(Level.INFO, "tempting to create worlds");
-                    if (folder.list().length > 0) {
-                        for (File files : folder.listFiles()) {
-                            String worldName = files.getName().replace(".yml", "");
-                            if (worldExist(worldName)) {
-                                getMessage().sendLog(Level.INFO, worldName + " already exist");
-                            } else {
-                                if (folderExist(worldName)) {
-                                    getMessage().sendLog(Level.INFO, "creating " + worldName);
-                                    FileConfiguration config = YamlConfiguration.loadConfiguration(files);
-                                    WorldCreator worldCreator = new WorldCreator(worldName);
-                                    worldCreator.environment(World.Environment.valueOf(config.getString("environment")));
-                                    worldCreator.seed(config.getLong("seed"));
-                                    worldCreator.createWorld();
-                                    getMessage().sendLog(Level.INFO, worldName + " has been created with " + config.getString("environment") + " environment");
-                                } else {
-                                    files.delete();
-                                    getMessage().sendLog(Level.WARNING, worldName + " does not exist " + files.getName() + " has been deleted");
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    getMessage().sendLog(Level.INFO, "worlds folder undetected");
-                    getMessage().sendLog(Level.INFO, "tempting to create files");
-                    folder.mkdirs();
-                    for (World world : getServer().getWorlds()) {
-                        File file = new File(getDataFolder(), "worlds/" + world.getName() + ".yml");
-                        if (!file.exists()) {
-                            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-                            config.addDefault("name", world.getName());
-                            config.addDefault("display-name", world.getName());
-                            config.addDefault("environment", world.getEnvironment().toString());
-                            config.addDefault("seed", world.getSeed());
-                            config.addDefault("pvp", true);
-                            config.options().copyDefaults(true);
-                            try {
-                                config.save(file);
-                                getMessage().sendLog(Level.INFO, "created " + world.getName() + ".yml");
-                            } catch (IOException e) {
-                                getMessage().sendLog(Level.WARNING, e.getMessage());
-                            }
+                getMessage().sendLog(Level.INFO, "worlds folder detected");
+                getMessage().sendLog(Level.INFO, "tempting to create worlds");
+                for (File files : folder.listFiles()) {
+                    String worldName = files.getName().replace(".yml", "");
+                    if (worldExist(worldName)) {
+                        getMessage().sendLog(Level.INFO, worldName + " already exist");
+                    } else {
+                        if (folderExist(worldName)) {
+                            getMessage().sendLog(Level.INFO, "creating " + worldName);
+                            FileConfiguration config = YamlConfiguration.loadConfiguration(files);
+                            WorldCreator worldCreator = new WorldCreator(worldName);
+                            worldCreator.environment(World.Environment.valueOf(config.getString("environment")));
+                            worldCreator.seed(config.getLong("seed"));
+                            worldCreator.createWorld();
+                            getMessage().sendLog(Level.INFO, worldName + " has been created with " + config.getString("environment") + " environment");
+                        } else {
+                            files.delete();
+                            getMessage().sendLog(Level.WARNING, worldName + " does not exist " + files.getName() + " has been deleted");
                         }
                     }
                 }
             }
         },40);
+    }
+    private void createFiles() {
+        for (World world : getServer().getWorlds()) {
+            File file = new File(getDataFolder(), "worlds/" + world.getName() + ".yml");
+            if (!file.exists()) {
+                FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+                config.addDefault("name", world.getName());
+                config.addDefault("display-name", world.getName());
+                config.addDefault("environment", world.getEnvironment().toString());
+                config.addDefault("seed", world.getSeed());
+                config.addDefault("pvp", true);
+                config.options().copyDefaults(true);
+                try {
+                    config.save(file);
+                    getMessage().sendLog(Level.INFO, "created " + world.getName() + ".yml");
+                } catch (IOException e) {
+                    getMessage().sendLog(Level.WARNING, e.getMessage());
+                }
+            }
+        }
     }
     public void create(String worldName, World.Environment environment) {
         WorldCreator worldCreator = new WorldCreator(worldName);
