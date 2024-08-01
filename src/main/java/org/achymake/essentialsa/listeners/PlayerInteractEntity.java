@@ -6,9 +6,11 @@ import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Entities;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
+import org.bukkit.EntityEffect;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -39,9 +41,15 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
             if (event.isCancelled()) {
                 if (getEntities().hasCommand(entity)) {
                     if (getEntities().isCommandPlayer(entity)) {
+                        Villager villager = (Villager) entity;
+                        villager.playEffect(EntityEffect.VILLAGER_HAPPY);
+                        villager.shakeHead();
                         player.getServer().dispatchCommand(player, getEntities().getCommand(entity));
                     }
                     if (getEntities().isCommandConsole(entity)) {
+                        Villager villager = (Villager) entity;
+                        villager.playEffect(EntityEffect.VILLAGER_HAPPY);
+                        villager.shakeHead();
                         player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getEntities().getCommand(entity).replaceAll("%player%", player.getName()));
                     }
                 }
