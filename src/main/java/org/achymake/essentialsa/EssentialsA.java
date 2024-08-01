@@ -144,6 +144,7 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("back").setExecutor(new BackCommand(this));
         getCommand("balance").setExecutor(new BalanceCommand(this));
         getCommand("ban").setExecutor(new BanCommand(this));
+        getCommand("chestshop").setExecutor(new ChestShopCommand(this));
         getCommand("color").setExecutor(new ColorCommand(this));
         getCommand("delhome").setExecutor(new DelHomeCommand(this));
         getCommand("delwarp").setExecutor(new DelWarpCommand(this));

@@ -69,6 +69,11 @@ commands:
     description: ban players
     permission: essentials.command.ban
     permission-message: You do not have the permission to execute the command
+  chestshop:
+    usage: /chestshop
+    description: chestshop editor
+    permission: essentials.command.chestshop
+    permission-message: You do not have the permission to execute the command
   color:
     usage: /color
     description: check minecraft colors
@@ -498,6 +503,9 @@ permissions:
     description: message
     default: op
   essentials.command.ban.exempt:
+    description: message
+    default: op
+  essentials.command.chestshop:
     description: message
     default: op
   essentials.command.color:

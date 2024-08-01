@@ -71,7 +71,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
                 if (sign.getBlockData() instanceof WallSign wallSign) {
                     if (wallSign.getFacing().equals(BlockFace.EAST)) {
                         if (sign.getLocation().add(-1,0,0).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player) {
+                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
                                 getChestShop().removeOwner(chest);
                                 chest.update();
                                 return false;
@@ -83,7 +83,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
                         }
                     } else if (wallSign.getFacing().equals(BlockFace.NORTH)) {
                         if (sign.getLocation().add(0,0,1).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player) {
+                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
                                 getChestShop().removeOwner(chest);
                                 chest.update();
                                 return false;
@@ -95,7 +95,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
                         }
                     } else if (wallSign.getFacing().equals(BlockFace.WEST)) {
                         if (sign.getLocation().add(1,0,0).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player) {
+                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
                                 getChestShop().removeOwner(chest);
                                 chest.update();
                                 return false;
@@ -107,7 +107,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
                         }
                     } else if (wallSign.getFacing().equals(BlockFace.SOUTH)) {
                         if (sign.getLocation().add(0,0,-1).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player) {
+                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
                                 getChestShop().removeOwner(chest);
                                 chest.update();
                                 return false;
@@ -129,11 +129,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
         } else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
             Chest chest = (Chest) block.getState();
             if (getChestShop().isShop(chest)) {
-                if (player != getChestShop().getOwner(chest)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return player != getChestShop().getOwner(chest) && !getChestShop().isChestShopEditor(player);
             } else {
                 return false;
             }
