@@ -26,14 +26,14 @@ public record Chairs(EssentialsA plugin) {
         return block.getWorld().getPersistentDataContainer();
     }
     public boolean hasChair(Player player) {
-        return getData(player).has(NamespacedKey.minecraft("chairs.chair"));
+        return getData(player).has(NamespacedKey.minecraft("essentials.chair"));
     }
     public void setChair(Player player, ArmorStand armorStand) {
-        getData(player).set(NamespacedKey.minecraft("chairs.chair"), PersistentDataType.STRING, armorStand.getUniqueId().toString());
+        getData(player).set(NamespacedKey.minecraft("essentials.chair"), PersistentDataType.STRING, armorStand.getUniqueId().toString());
     }
     public ArmorStand getChair(Player player) {
         if (hasChair(player)) {
-            return (ArmorStand) player.getServer().getEntity(UUID.fromString(getData(player).get(NamespacedKey.minecraft("chairs.chair"), PersistentDataType.STRING)));
+            return (ArmorStand) player.getServer().getEntity(UUID.fromString(getData(player).get(NamespacedKey.minecraft("essentials.chair"), PersistentDataType.STRING)));
         } else {
             return null;
         }
@@ -42,29 +42,29 @@ public record Chairs(EssentialsA plugin) {
         int x = block.getX();
         int y = block.getY();
         int z = block.getZ();
-        return getData(block).has(NamespacedKey.minecraft(x + "." + y + "." + z), PersistentDataType.BOOLEAN);
+        return getData(block).has(NamespacedKey.minecraft("essentials." + x + "." + y + "." + z), PersistentDataType.BOOLEAN);
     }
     public void setOccupied(Block block) {
         int x = block.getX();
         int y = block.getY();
         int z = block.getZ();
-        getData(block).set(NamespacedKey.minecraft(x + "." + y + "." + z), PersistentDataType.BOOLEAN, true);
+        getData(block).set(NamespacedKey.minecraft("essentials." + x + "." + y + "." + z), PersistentDataType.BOOLEAN, true);
     }
     public void removeOccupied(Block block) {
         int x = block.getX();
         int y = block.getY();
         int z = block.getZ();
-        getData(block).remove(NamespacedKey.minecraft(x + "." + y + "." + z));
+        getData(block).remove(NamespacedKey.minecraft("essentials." + x + "." + y + "." + z));
     }
     public void setLastLocation(Player player) {
-        getData(player).set(NamespacedKey.minecraft("chairs.x"), PersistentDataType.DOUBLE, player.getLocation().x());
-        getData(player).set(NamespacedKey.minecraft("chairs.y"), PersistentDataType.DOUBLE, player.getLocation().y());
-        getData(player).set(NamespacedKey.minecraft("chairs.z"), PersistentDataType.DOUBLE, player.getLocation().z());
+        getData(player).set(NamespacedKey.minecraft("essentials.last-location.x"), PersistentDataType.DOUBLE, player.getLocation().x());
+        getData(player).set(NamespacedKey.minecraft("essentials.last-location.y"), PersistentDataType.DOUBLE, player.getLocation().y());
+        getData(player).set(NamespacedKey.minecraft("essentials.last-location.z"), PersistentDataType.DOUBLE, player.getLocation().z());
     }
     public Location getLastLocation(Player player) {
-        double x = getData(player).get(NamespacedKey.minecraft("chairs.x"), PersistentDataType.DOUBLE);
-        double y = getData(player).get(NamespacedKey.minecraft("chairs.y"), PersistentDataType.DOUBLE);
-        double z = getData(player).get(NamespacedKey.minecraft("chairs.z"), PersistentDataType.DOUBLE);
+        double x = getData(player).get(NamespacedKey.minecraft("essentials.last-location.x"), PersistentDataType.DOUBLE);
+        double y = getData(player).get(NamespacedKey.minecraft("essentials.last-location.y"), PersistentDataType.DOUBLE);
+        double z = getData(player).get(NamespacedKey.minecraft("essentials.last-location.z"), PersistentDataType.DOUBLE);
         float yaw = player.getLocation().getYaw();
         float pitch = player.getLocation().getPitch();
         return new Location(player.getWorld(), x, y, z, yaw, pitch);
@@ -73,11 +73,11 @@ public record Chairs(EssentialsA plugin) {
         if (getChair(player) != null) {
             getChair(player).remove();
         }
-        getData(player).remove(NamespacedKey.minecraft("chairs.chair"));
+        getData(player).remove(NamespacedKey.minecraft("essentials.chair"));
         player.teleport(getLastLocation(player));
-        getData(player).remove(NamespacedKey.minecraft("chairs.x"));
-        getData(player).remove(NamespacedKey.minecraft("chairs.y"));
-        getData(player).remove(NamespacedKey.minecraft("chairs.z"));
+        getData(player).remove(NamespacedKey.minecraft("essentials.last-location.x"));
+        getData(player).remove(NamespacedKey.minecraft("essentials.last-location.y"));
+        getData(player).remove(NamespacedKey.minecraft("essentials.last-location.z"));
         removeOccupied(block);
     }
     public Stairs getStair(Block block) {
