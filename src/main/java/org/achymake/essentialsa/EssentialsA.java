@@ -257,6 +257,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new VillagerCareerChange(this), this);
         getManager().registerEvents(new VillagerReplenishTrade(this), this);
         getManager().registerEvents(new Votifier(this), this);
+        getManager().registerEvents(new WorldLoad(this), this);
     }
     public StateFlag getFlagHarvest() {
         return FLAG_HARVEST;

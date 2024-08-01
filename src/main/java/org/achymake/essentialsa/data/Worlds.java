@@ -92,41 +92,26 @@ public record Worlds(EssentialsA plugin) {
         },40);
     }
     public void create(String worldName, World.Environment environment) {
-        File file = new File(getDataFolder(), "worlds/" + worldName + ".yml");
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         WorldCreator worldCreator = new WorldCreator(worldName);
-        config.addDefault("name", worldName);
-        config.addDefault("display-name", worldName);
-        config.addDefault("environment", worldCreator.environment().toString());
-        config.addDefault("seed", worldCreator.seed());
-        config.addDefault("pvp", true);
-        config.options().copyDefaults(true);
-        try {
-            config.save(file);
-            worldCreator.environment(environment);
-            worldCreator.createWorld();
-            getMessage().sendLog(Level.INFO, "created " + worldName + ".yml");
-        } catch (IOException e) {
-            getMessage().sendLog(Level.WARNING, e.getMessage());
-        }
+        worldCreator.environment(environment);
+        worldCreator.createWorld();
     }
     public void create(String worldName, World.Environment environment, long seed) {
-        File file = new File(getDataFolder(), "worlds/" + worldName + ".yml");
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         WorldCreator worldCreator = new WorldCreator(worldName);
         worldCreator.seed(seed);
-        config.addDefault("name", worldName);
-        config.addDefault("display-name", worldName);
-        config.addDefault("environment", worldCreator.environment().toString());
-        config.addDefault("seed", seed);
-        config.addDefault("pvp", true);
-        config.options().copyDefaults(true);
+        worldCreator.environment(environment);
         worldCreator.createWorld();
+    }
+    public void createFile(World world) {
+        File file = getFile(world);
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        config.set("name", world.getName());
+        config.set("display-name", world.getName());
+        config.set("environment", world.getEnvironment().toString());
+        config.set("seed", world.getSeed());
+        config.set("pvp", true);
         try {
             config.save(file);
-            worldCreator.environment(environment);
-            worldCreator.createWorld();
-            getMessage().sendLog(Level.INFO, "created " + worldName + ".yml");
         } catch (IOException e) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
         }
