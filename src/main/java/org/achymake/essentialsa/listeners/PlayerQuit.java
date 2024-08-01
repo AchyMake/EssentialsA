@@ -45,8 +45,7 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         removeTPAonQuit(player);
         getDatabase().setLocation(player, "quit");
         if (getChairs().hasChair(player)) {
-            getChairs().removeOccupied(player.getLocation().add(0,1,0).getBlock());
-            getChairs().dismount(player);
+            getChairs().dismount(player, player.getLocation().add(0, 1, 1).getBlock());
         }
         if (getDatabase().isVanished(player)) {
             removeVanishTask(player);

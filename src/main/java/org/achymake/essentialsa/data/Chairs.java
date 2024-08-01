@@ -69,7 +69,7 @@ public record Chairs(EssentialsA plugin) {
         float pitch = player.getLocation().getPitch();
         return new Location(player.getWorld(), x, y, z, yaw, pitch);
     }
-    public void dismount(Player player) {
+    public void dismount(Player player, Block block) {
         if (getChair(player) != null) {
             getChair(player).remove();
         }
@@ -78,6 +78,7 @@ public record Chairs(EssentialsA plugin) {
         getData(player).remove(NamespacedKey.minecraft("chairs.x"));
         getData(player).remove(NamespacedKey.minecraft("chairs.y"));
         getData(player).remove(NamespacedKey.minecraft("chairs.z"));
+        removeOccupied(block);
     }
     public Stairs getStair(Block block) {
         return (Stairs) block.getBlockData();
