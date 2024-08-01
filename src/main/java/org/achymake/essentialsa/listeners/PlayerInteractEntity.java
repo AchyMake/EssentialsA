@@ -54,7 +54,7 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                     if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                     event.setCancelled(true);
                     if (event.isCancelled()) {
-                        getEntities().carry(player, entity);
+                        getEntities().carry(player, entity, true);
                     }
                 } else {
                     if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
@@ -81,7 +81,7 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                 if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                 event.setCancelled(true);
                 if (event.isCancelled()) {
-                    getEntities().carry(player, entity);
+                    getEntities().carry(player, entity, true);
                 }
             } else {
                 if (entity instanceof Player)return;

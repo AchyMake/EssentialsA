@@ -114,14 +114,17 @@ public record Entities(EssentialsA plugin) {
             return false;
         }
     }
-    public void carry(Player player, Entity entity) {
+    public void carry(Player player, Entity entity, boolean swingArm) {
+        if (player.getPassenger() != null)return;
         if (hasPassenger(entity)) {
-            if (player.getPassenger() != null)return;
-            addMount(player, getPassenger(entity));
-            player.swingMainHand();
-        } else {
-            if (player.getPassenger() != null)return;
-            addMount(player, entity);
+            entity.eject();
+        }
+        setScale(entity, 0.5);
+        getData(entity).set(NamespacedKey.minecraft("mount"), PersistentDataType.STRING, player.getUniqueId().toString());
+        getData(player).set(NamespacedKey.minecraft("passenger"), PersistentDataType.STRING, entity.getUniqueId().toString());
+        player.addPassenger(entity);
+        vanishEntity(player, entity, true);
+        if (swingArm) {
             player.swingMainHand();
         }
     }
@@ -137,13 +140,6 @@ public record Entities(EssentialsA plugin) {
             entity.addPassenger(player.getPassenger());
             player.swingMainHand();
         }
-    }
-    public void addMount(Player player, Entity entity) {
-        getData(entity).set(NamespacedKey.minecraft("mount"), PersistentDataType.STRING, player.getUniqueId().toString());
-        getData(player).set(NamespacedKey.minecraft("passenger"), PersistentDataType.STRING, entity.getUniqueId().toString());
-        player.addPassenger(entity);
-        setScale(entity, 0.5);
-        vanishEntity(player, entity, true);
     }
     public void removeMount(Player player, Entity entity) {
         vanishEntity(player, entity, false);
