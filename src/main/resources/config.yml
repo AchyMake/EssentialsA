@@ -126,6 +126,3 @@ store:
   -  "- https://store.your-server.org"
 teleport:
   delay: 3
-vote:
-  - "&6Vote:"
-  -  "- https://store.your-server.org/vote"

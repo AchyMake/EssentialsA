@@ -40,14 +40,12 @@ public record Message(EssentialsA plugin) {
     }
     public void sendStringList(Player player, List<String> strings) {
         for (String messages : strings) {
-            messages.replaceAll("%player%", player.getName());
-            send(player, messages);
+            send(player, messages.replaceAll("%player%", player.getName()));
         }
     }
     public void sendStringList(ConsoleCommandSender consoleCommandSender, List<String> strings) {
         for (String messages : strings) {
-            messages.replaceAll("%player%", consoleCommandSender.getName());
-            send(consoleCommandSender, messages);
+            send(consoleCommandSender, messages.replaceAll("%player%", consoleCommandSender.getName()));
         }
     }
     public String getStringBuilder(String[] args, int value) {
