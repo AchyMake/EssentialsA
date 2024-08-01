@@ -30,7 +30,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         Chunk chunk = entity.getChunk();
-        if (getChunkdata().isClaimed(chunk)) {
+        if (getEntities().isNPC(entity)) {
+            event.setCancelled(true);
+        } else if (getEntities().disableDamage(damager, entity)) {
+            if (damager instanceof Player)return;
+            event.setCancelled(true);
+        } else if (getChunkdata().isClaimed(chunk)) {
             if (entity.getType().equals(EntityType.PLAYER))return;
             if (getEntities().isHostile(entity))return;
             switch (damager) {

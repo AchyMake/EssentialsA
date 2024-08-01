@@ -32,20 +32,22 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
         Chunk chunk = entity.getChunk();
-        if (entity.isInvulnerable())return;
         if (isDisabled(player)) {
             event.setCancelled(true);
         } else if (getEntities().isNPC(entity)) {
             event.setCancelled(true);
-            if (getEntities().hasCommand(entity)) {
-                if (getEntities().isCommandPlayer(entity)) {
-                    player.getServer().dispatchCommand(player, getEntities().getCommand(entity));
-                }
-                if (getEntities().isCommandConsole(entity)) {
-                    player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getEntities().getCommand(entity).replaceAll("%player%", player.getName()));
+            if (event.isCancelled()) {
+                if (getEntities().hasCommand(entity)) {
+                    if (getEntities().isCommandPlayer(entity)) {
+                        player.getServer().dispatchCommand(player, getEntities().getCommand(entity));
+                    }
+                    if (getEntities().isCommandConsole(entity)) {
+                        player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getEntities().getCommand(entity).replaceAll("%player%", player.getName()));
+                    }
                 }
             }
         } else if (getChunkdata().isClaimed(chunk)) {
+            if (entity.isInvulnerable())return;
             if (entity instanceof Player)return;
             if (getChunkdata().hasAccess(player, chunk)) {
                 if (player.isSneaking()) {
@@ -75,6 +77,7 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                 getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
             }
         } else {
+            if (entity.isInvulnerable())return;
             if (player.isSneaking()) {
                 if (entity instanceof Player)return;
                 if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;

@@ -32,8 +32,8 @@ public class VillagerCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("remove")) {
-                    if (getEntities().hasSelected(player)) {
-                        Villager villager = getEntities().getSelected(player);
+                    Villager villager = getEntities().getSelected(player);
+                    if (villager != null) {
                         getMessage().send(player, "&6You removed&f " + villager.getName());
                         villager.remove();
                     } else {
@@ -44,8 +44,8 @@ public class VillagerCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("type")) {
-                    if (getEntities().hasSelected(player)) {
-                        Villager villager = getEntities().getSelected(player);
+                    Villager villager = getEntities().getSelected(player);
+                    if (villager != null) {
                         villager.setVillagerType(Villager.Type.valueOf(args[1]));
                         getMessage().send(player, "&6You set&f " + villager.getName() + "&6 type to&f " + villager.getVillagerType().name());
                     } else {
@@ -54,8 +54,8 @@ public class VillagerCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("silent")) {
-                    if (getEntities().hasSelected(player)) {
-                        Villager villager = getEntities().getSelected(player);
+                    Villager villager = getEntities().getSelected(player);
+                    if (villager != null) {
                         boolean value = Boolean.valueOf(args[1]);
                         if (value) {
                             villager.setSilent(true);
@@ -70,8 +70,8 @@ public class VillagerCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("profession")) {
-                    if (getEntities().hasSelected(player)) {
-                        Villager villager = getEntities().getSelected(player);
+                    Villager villager = getEntities().getSelected(player);
+                    if (villager != null) {
                         villager.setProfession(Villager.Profession.valueOf(args[1]));
                         getMessage().send(player, "&6You set&f "+ villager.getName() + "&6 profession to&f " + villager.getProfession().name());
                     } else {
@@ -80,9 +80,9 @@ public class VillagerCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("adult")) {
-                    if (getEntities().hasSelected(player)) {
-                        Villager villager = getEntities().getSelected(player);
-                        boolean value = Boolean.valueOf(args[1]);
+                    Villager villager = getEntities().getSelected(player);
+                    if (villager != null) {
+                        boolean value = Boolean.parseBoolean(args[1]);
                         if (value) {
                             villager.setAdult();
                             getMessage().send(player, "&6You set&f " + villager.getName() + "&6 to&f adult");
@@ -102,15 +102,11 @@ public class VillagerCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("rename")) {
-                    if (getEntities().hasSelected(player)) {
-                        Villager villager = getEntities().getSelected(player);
-                        StringBuilder name = new StringBuilder();
-                        for (int i = 2; i < args.length; i++) {
-                            name.append(args[i]);
-                            name.append(" ");
-                        }
-                        getMessage().send(player, "&6You renamed&f "+ villager.getName() + "&6 to&f " + getMessage().addColor(getMessage().getStringBuilder(args, 2)));
-                        villager.setCustomName(getMessage().addColor(getMessage().getStringBuilder(args, 2)));
+                    Villager villager = getEntities().getSelected(player);
+                    if (villager != null) {
+                        String rename = getMessage().addColor(getMessage().getStringBuilder(args, 1));
+                        getMessage().send(player, "&6You renamed&f "+ villager.getName() + "&6 to&f " + rename);
+                        villager.setCustomName(rename);
                     } else {
                         getMessage().send(player, "&cYou have to look at a villager");
                     }
@@ -119,11 +115,13 @@ public class VillagerCommand implements CommandExecutor, TabCompleter {
             }
             if (args.length >= 3) {
                 if (args[0].equalsIgnoreCase("command")) {
-                    if (getEntities().hasSelected(player)) {
-                        Villager villager = getEntities().getSelected(player);
-                        villager.getPersistentDataContainer().set(NamespacedKey.minecraft("command-type"), PersistentDataType.STRING, args[2]);
-                        villager.getPersistentDataContainer().set(NamespacedKey.minecraft("command"), PersistentDataType.STRING, getMessage().getStringBuilder(args, 3));
-                        getMessage().send(player, "&6You added&f " + command.toString().strip() + "&6 with&f "+ args[1] + "&6 command");
+                    Villager villager = getEntities().getSelected(player);
+                    if (villager != null) {
+                        String commandType = args[1];
+                        String commandString = getMessage().getStringBuilder(args, 2);
+                        getEntities().getData(villager).set(NamespacedKey.minecraft("command-type"), PersistentDataType.STRING, commandType);
+                        getEntities().getData(villager).set(NamespacedKey.minecraft("command"), PersistentDataType.STRING, commandString);
+                        getMessage().send(player, "&6You added&f " + commandString + "&6 with&f "+ commandType + "&6 command to&f " + villager.getName());
                     } else {
                         getMessage().send(player, "&cYou have to look at a villager");
                     }

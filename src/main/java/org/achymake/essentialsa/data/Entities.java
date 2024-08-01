@@ -82,7 +82,7 @@ public record Entities(EssentialsA plugin) {
     public boolean isEnableCarry(Entity entity) {
         return getConfig(entity).getBoolean("carry.enable");
     }
-    private PersistentDataContainer getData(Entity entity) {
+    public PersistentDataContainer getData(Entity entity) {
         return entity.getPersistentDataContainer();
     }
     public void vanishEntity(Player player, Entity entity, boolean value) {

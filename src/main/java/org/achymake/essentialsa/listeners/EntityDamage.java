@@ -20,7 +20,9 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
-        if (getEntities().hasMount(entity)) {
+        if (getEntities().isNPC(entity)) {
+            event.setCancelled(true);
+        } else if (getEntities().hasMount(entity)) {
             Player player = getEntities().getMount(entity);
             if (player == null)return;
             if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
