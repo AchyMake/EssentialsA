@@ -38,7 +38,7 @@ public class AnnouncementCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
         }
-        return false;
+        return true;
     }
     private String announcement(String[] args) {
         StringBuilder stringBuilder = new StringBuilder();

@@ -12,167 +12,157 @@ depend:
 author: AchyMake
 description: '${project.description}'
 commands:
-  chunk:
-    usage: /chunk
-    description: chunk command
-    permission: essentials.command.chunk
-    permission-message: You do not have the permission to execute the command
-  chunks:
-    usage: /chunks
-    description: chunks command
-    permission: essentials.command.chunks
-    permission-message: You do not have the permission to execute the command
-  villager:
-    usage: /villager
-    description: villager npc
-    permission: essentials.command.villager
-    permission-message: You do not have the permission to execute the command
-  world:
-    usage: /world
-    description: world command
-    permission: essentials.command.world
-    permission-message: You do not have the permission to execute the command
   announcement:
-    usage: /announcement message
+    usage: /help
     description: announce the server
     permission: essentials.command.announcement
     permission-message: You do not have the permission to execute the command
   anvil:
-    usage: /anvil
+    usage: /help
     description: opens anvil by command
     permission: essentials.command.anvil
     permission-message: You do not have the permission to execute the command
   autopick:
-    usage: /autopick
+    usage: /help
     description: opens anvil by command
     permission: essentials.command.autopick
     permission-message: You do not have the permission to execute the command
   baby:
-    usage: /baby
+    usage: /help
     description: toggle baby or adult
     permission: essentials.command.baby
     permission-message: You do not have the permission to execute the command
   back:
-    usage: /back
+    usage: /help
     description: teleport back to recent or death location
     permission: essentials.command.back
     permission-message: You do not have the permission to execute the command
   balance:
-    usage: /balance or /bal
+    usage: /help
     description: check user balance
     permission: essentials.command.balance
     permission-message: You do not have the permission to execute the command
     aliases:
       - bal
   ban:
-    usage: /ban target days reason
+    usage: /help
     description: ban players
     permission: essentials.command.ban
     permission-message: You do not have the permission to execute the command
   chestshop:
-    usage: /chestshop
+    usage: /help
     description: chestshop editor
     permission: essentials.command.chestshop
     permission-message: You do not have the permission to execute the command
+  chunk:
+    usage: /help
+    description: chunk command
+    permission: essentials.command.chunk
+    permission-message: You do not have the permission to execute the command
+  chunks:
+    usage: /help
+    description: chunks command
+    permission: essentials.command.chunks
+    permission-message: You do not have the permission to execute the command
   color:
-    usage: /color
+    usage: /help
     description: check minecraft colors
     permission: essentials.command.color
     permission-message: You do not have the permission to execute the command
   delhome:
-    usage: /delhome home
+    usage: /help
     description: delete home
     permission: essentials.command.delhome
     permission-message: You do not have the permission to execute the command
   delwarp:
-    usage: /delwarp warpName
+    usage: /help
     description: delete warp
     permission: essentials.command.delwarp
     permission-message: You do not have the permission to execute the command
   eco:
-    usage: /eco add player amount
+    usage: /help
     description: change economy of players
     permission: essentials.command.eco
     permission-message: You do not have the permission to execute the command
   eliminate:
-    usage: /eliminate
+    usage: /help
     description: eliminate target
     permission: essentials.command.eliminate
     permission-message: You do not have the permission to execute the command
   enchant:
-    usage: /enchant enchantment amount
+    usage: /help
     description: enchant held item
     permission: essentials.command.enchant
     permission-message: You do not have the permission to execute the command
   enderchest:
-    usage: /enderchest
+    usage: /help
     description: open enderchest by command
     permission: essentials.command.enderchest
     permission-message: You do not have the permission to execute the command
   essentials:
-    usage: /essentials
+    usage: /help
     description: main command
     permission: essentials.command.reload
     permission-message: You do not have the permission to execute the command
     aliases:
       - ess
   feed:
-    usage: /feed
+    usage: /help
     description: satisfy starvation by command
     permission: essentials.command.feed
     permission-message: You do not have the permission to execute the command
   fly:
-    usage: /fly
+    usage: /help
     description: fly around the world
     permission: essentials.command.fly
     permission-message: You do not have the permission to execute the command
   flyspeed:
-    usage: /flyspeed 0.1
+    usage: /help
     description: change fly speed
     permission: essentials.command.flyspeed
     permission-message: You do not have the permission to execute the command
   freeze:
-    usage: /freeze target
+    usage: /help
     description: freeze player
     permission: essentials.command.freeze
     permission-message: You do not have the permission to execute the command
   give:
-    usage: /give
+    usage: /help
     description: gives items
     permission: essentials.command.give
     permission-message: You do not have the permission to execute the command
   gamemode:
-    usage: /gamemode GameMode
+    usage: /help
     description: changes gamemode
     permission: essentials.command.gamemode
     permission-message: You do not have the permission to execute the command
   gma:
-    usage: /gma
+    usage: /help
     description: changes gamemode to adventure
     permission: essentials.command.gamemode.adventure
     permission-message: You do not have the permission to execute the command
   gmc:
-    usage: /gmc
+    usage: /help
     description: changes gamemode to creative
     permission: essentials.command.gamemode.creative
     permission-message: You do not have the permission to execute the command
   gms:
-    usage: /gms
+    usage: /help
     description: changes gamemode to survival
     permission: essentials.command.gamemode.survival
     permission-message: You do not have the permission to execute the command
   gmsp:
-    usage: /gmsp
+    usage: /help
     description: changes gamemode to spectator
     permission: essentials.command.gamemode.spectator
     permission-message: You do not have the permission to execute the command
   hat:
-    usage: /hat
+    usage: /help
     description: allows to wear held item as helmet
     permission: essentials.command.hat
     permission-message: You do not have the permission to execute the command
   heal:
-    usage: /heal
+    usage: /help
     description: satisfy health by command
     permission: essentials.command.heal
     permission-message: You do not have the permission to execute the command
@@ -184,267 +174,223 @@ commands:
     aliases:
       - ?
   home:
-    usage: /home
+    usage: /help
     description: teleports home
     permission: essentials.command.home
     permission-message: You do not have the permission to execute the command
   homes:
-    usage: /homes
+    usage: /help
     description: check homes
     permission: essentials.command.homes
     permission-message: You do not have the permission to execute the command
   information:
-    usage: /information target
+    usage: /help
     description: check player info
     permission: essentials.command.information
     permission-message: You do not have the permission to execute the command
   inventory:
-    usage: /inventory target
+    usage: /help
     description: check player inventory
     permission: essentials.command.inventory
     permission-message: You do not have the permission to execute the command
   jail:
-    usage: /jail
+    usage: /help
     description: toggle jail
     permission: essentials.command.jail
     permission-message: You do not have the permission to execute the command
   kit:
-    usage: /kit
+    usage: /help
     description: receive kit
     permission: essentials.command.kit
     permission-message: You do not have the permission to execute the command
   motd:
-    usage: /motd
+    usage: /help
     description: message of the days
     permission: essentials.command.motd
     permission-message: You do not have the permission to execute the command
   mute:
-    usage: /mute
+    usage: /help
     description: toggle mute
     permission: essentials.command.mute
     permission-message: You do not have the permission to execute the command
   nickname:
-    usage: /nickname
+    usage: /help
     description: changes nickname
     permission: essentials.command.nickname
     permission-message: You do not have the permission to execute the command
   pay:
-    usage: /pay
+    usage: /help
     description: pay players
     permission: essentials.command.pay
     permission-message: You do not have the permission to execute the command
   pvp:
-    usage: /pvp
+    usage: /help
     description: toggle pvp
     permission: essentials.command.pvp
     permission-message: You do not have the permission to execute the command
   repair:
-    usage: /repair
+    usage: /help
     description: repair held item
     permission: essentials.command.repair
     permission-message: You do not have the permission to execute the command
   respond:
-    usage: /r message
+    usage: /help
     description: responds to latest whisper
     permission: essentials.command.respond
     permission-message: You do not have the permission to execute the command
     aliases:
       - r
   rtp:
-    usage: /rtp
+    usage: /help
     description: teleport random location
     permission: essentials.command.rtp
     permission-message: You do not have the permission to execute the command
   rules:
-    usage: /rules
+    usage: /help
     description: check rules
     permission: essentials.command.rules
     permission-message: You do not have the permission to execute the command
   scale:
-    usage: /scale
+    usage: /help
     description: change scale
     permission: essentials.command.scale
     permission-message: You do not have the permission to execute the command
   sell:
-    usage: /sell
+    usage: /help
     description: sell items from worth
     permission: essentials.command.sell
     permission-message: You do not have the permission to execute the command
   sethome:
-    usage: /sethome homeName
+    usage: /help
     description: sets home
     permission: essentials.command.sethome
     permission-message: You do not have the permission to execute the command
   setjail:
-    usage: /setjail
+    usage: /help
     description: sets jail
     permission: essentials.command.setjail
     permission-message: You do not have the permission to execute the command
   setspawn:
-    usage: /setspawn
+    usage: /help
     description: sets spawn
     permission: essentials.command.setspawn
     permission-message: You do not have the permission to execute the command
   setwarp:
-    usage: /setwarp
+    usage: /help
     description: sets warp
     permission: essentials.command.setwarp
     permission-message: You do not have the permission to execute the command
   setworth:
-    usage: /setworth
+    usage: /help
     description: sets worth of an item
     permission: essentials.command.setworth
     permission-message: You do not have the permission to execute the command
   skull:
-    usage: /skull offlinePlayer
+    usage: /help
     description: spawns skulls
     permission: essentials.command.skull
     permission-message: You do not have the permission to execute the command
   spawn:
-    usage: /spawn
+    usage: /help
     description: teleport to spawn
     permission: essentials.command.spawn
     permission-message: You do not have the permission to execute the command
   spawner:
-    usage: /spawner
+    usage: /help
     description: message
     permission: essentials.command.spawner
     permission-message: You do not have the permission to execute the command
   store:
-    usage: /store
+    usage: /help
     description: sends store link
     permission: essentials.command.store
     permission-message: You do not have the permission to execute the command
   tpaccept:
-    usage: /tpaccept
+    usage: /help
     description: accepts tpa request
     permission: essentials.command.tpaccept
     permission-message: You do not have the permission to execute the command
   tpa:
-    usage: /tpa
+    usage: /help
     description: sends tpa request
     permission: essentials.command.tpa
     permission-message: You do not have the permission to execute the command
   tpahere:
-    usage: /tpahere
+    usage: /help
     description: sends tpahere request
     permission: essentials.command.tpahere
     permission-message: You do not have the permission to execute the command
   tpcancel:
-    usage: /tpcancel
+    usage: /help
     description: cancels tpa request
     permission: essentials.command.tpcancel
     permission-message: You do not have the permission to execute the command
   tp:
-    usage: /tp target
+    usage: /help
     description: teleport to player
     permission: essentials.command.tp
     permission-message: You do not have the permission to execute the command
   tpdeny:
-    usage: /tpdeny
+    usage: /help
     description: denies tpa request
     permission: essentials.command.tpdeny
     permission-message: You do not have the permission to execute the command
   tphere:
-    usage: /tphere
+    usage: /help
     description: teleports target to sender
     permission: essentials.command.tphere
     permission-message: You do not have the permission to execute the command
   unban:
-    usage: /unban target
+    usage: /help
     description: gets unbanned
     permission: essentials.command.unban
     permission-message: You do not have the permission to execute the command
   vanish:
-    usage: /vanish
+    usage: /help
     description: toggle vanish
     permission: essentials.command.vanish
     permission-message: You do not have the permission to execute the command
+  villager:
+    usage: /help
+    description: villager npc
+    permission: essentials.command.villager
+    permission-message: You do not have the permission to execute the command
   vote:
-    usage: /vote
+    usage: /help
     description: check voting website
     permission: essentials.command.vote
     permission-message: You do not have the permission to execute the command
   walkspeed:
-    usage: /walkspeed 0.2
+    usage: /help
     description: change walk speed
     permission: essentials.command.walkspeed
     permission-message: You do not have the permission to execute the command
   warp:
-    usage: /warp
+    usage: /help
     description: warps to warpName
     permission: essentials.command.warp
     permission-message: You do not have the permission to execute the command
   whisper:
-    usage: /whisper
+    usage: /help
     description: whispers
     permission: essentials.command.whisper
     permission-message: You do not have the permission to execute the command
   workbench:
-    usage: /workbench
+    usage: /help
     description: opens crafting table by command
     permission: essentials.command.workbench
     permission-message: You do not have the permission to execute the command
+  world:
+    usage: /help
+    description: world command
+    permission: essentials.command.world
+    permission-message: You do not have the permission to execute the command
   worth:
-    usage: /worth item
+    usage: /help
     description: check worth
     permission: essentials.command.worth
     permission-message: You do not have the permission to execute the command
 permissions:
-  essentials.command.chunk:
-    description: message
-    default: op
-  essentials.command.chunk.ban:
-    description: message
-    default: op
-  essentials.command.chunk.banned:
-    description: message
-    default: op
-  essentials.command.chunk.claim:
-    description: message
-    default: op
-  essentials.command.chunk.help:
-    description: message
-    default: op
-  essentials.command.chunk.members:
-    description: message
-    default: op
-  essentials.command.chunk.tnt:
-    description: message
-    default: op
-  essentials.command.chunk.unban:
-    description: message
-    default: op
-  essentials.command.chunk.view:
-    description: message
-    default: op
-  essentials.command.chunks:
-    description: message
-    default: op
-  essentials.command.chunks.edit:
-    description: message
-    default: op
-  essentials.command.chunks.effect:
-    description: message
-    default: op
-  essentials.command.chunks.help:
-    description: message
-    default: op
-  essentials.command.chunks.info:
-    description: message
-    default: op
-  essentials.command.chunks.setowner:
-    description: message
-    default: op
-  essentials.command.chunks.unclaim:
-    description: message
-    default: op
-  essentials.command.villager:
-    description: message
-    default: op
-  essentials.command.world:
-    description: message
-    default: op
   essentials.command.announcement:
     description: message
     default: op
@@ -506,6 +452,54 @@ permissions:
     description: message
     default: op
   essentials.command.chestshop:
+    description: message
+    default: op
+  essentials.command.chunk:
+    description: message
+    default: op
+  essentials.command.chunk.ban:
+    description: message
+    default: op
+  essentials.command.chunk.banned:
+    description: message
+    default: op
+  essentials.command.chunk.claim:
+    description: message
+    default: op
+  essentials.command.chunk.help:
+    description: message
+    default: op
+  essentials.command.chunk.members:
+    description: message
+    default: op
+  essentials.command.chunk.tnt:
+    description: message
+    default: op
+  essentials.command.chunk.unban:
+    description: message
+    default: op
+  essentials.command.chunk.view:
+    description: message
+    default: op
+  essentials.command.chunks:
+    description: message
+    default: op
+  essentials.command.chunks.edit:
+    description: message
+    default: op
+  essentials.command.chunks.effect:
+    description: message
+    default: op
+  essentials.command.chunks.help:
+    description: message
+    default: op
+  essentials.command.chunks.info:
+    description: message
+    default: op
+  essentials.command.chunks.setowner:
+    description: message
+    default: op
+  essentials.command.chunks.unclaim:
     description: message
     default: op
   essentials.command.color:
@@ -835,6 +829,9 @@ permissions:
   essentials.command.vanish.exempt:
     description: message
     default: op
+  essentials.command.villager:
+    description: message
+    default: op
   essentials.command.vote:
     description: message
     default: op
@@ -875,6 +872,9 @@ permissions:
     description: message
     default: op
   essentials.command.workbench.exempt:
+    description: message
+    default: op
+  essentials.command.world:
     description: message
     default: op
   essentials.command.worth:

@@ -66,13 +66,13 @@ public record Message(EssentialsA plugin) {
     public void sendMotd(ConsoleCommandSender consoleCommandSender, String motd) {
         send("message-of-the-day." + motd, consoleCommandSender);
     }
-    public StringBuilder getStringBuilder(String[] args) {
+    public String getStringBuilder(String[] args, int value) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 1; i < args.length; i++) {
+        for(int i = value; i < args.length; i++) {
             stringBuilder.append(args[i]);
             stringBuilder.append(" ");
         }
-        return stringBuilder;
+        return stringBuilder.toString().strip();
     }
     public void getUpdate(Player player) {
         getUpdateChecker().getUpdate(player);

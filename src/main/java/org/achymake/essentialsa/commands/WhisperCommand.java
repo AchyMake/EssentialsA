@@ -35,13 +35,12 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
             } else if (args.length > 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    String builder = getMessage().getStringBuilder(args).toString().strip();
-                    getMessage().send(player, "&7You > " + target.getName() + ": " + builder);
-                    getMessage().send(target, "&7" + player.getName() + " > You: " + builder);
+                    getMessage().send(player, "&7You > " + target.getName() + ": " + getMessage().getStringBuilder(args, 1));
+                    getMessage().send(target, "&7" + player.getName() + " > You: " + getMessage().getStringBuilder(args, 1));
                     getDatabase().setString(target, "last-whisper", target.getUniqueId().toString());
                     for (Player players : getServer().getOnlinePlayers()) {
                         if (players.hasPermission("essentials.notify.whispers")) {
-                            getMessage().send(players, "&7" + player.getName() + " > " + target.getName() + ": " + builder);
+                            getMessage().send(players, "&7" + player.getName() + " > " + target.getName() + ": " + getMessage().getStringBuilder(args, 1));
                         }
                     }
                     return true;

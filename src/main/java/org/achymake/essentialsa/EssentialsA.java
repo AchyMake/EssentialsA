@@ -8,10 +8,10 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import org.achymake.essentialsa.api.PlaceholderProvider;
 import org.achymake.essentialsa.api.VaultEcoProvider;
 import org.achymake.essentialsa.commands.*;
-import org.achymake.essentialsa.commands.chunk.ChunkCommand;
-import org.achymake.essentialsa.commands.chunks.ChunksCommand;
-import org.achymake.essentialsa.commands.villager.VillagerCommand;
-import org.achymake.essentialsa.commands.world.WorldCommand;
+import org.achymake.essentialsa.commands.ChunkCommand;
+import org.achymake.essentialsa.commands.ChunksCommand;
+import org.achymake.essentialsa.commands.VillagerCommand;
+import org.achymake.essentialsa.commands.WorldCommand;
 import org.achymake.essentialsa.data.*;
 import org.achymake.essentialsa.listeners.*;
 import org.achymake.essentialsa.net.UpdateChecker;
@@ -133,10 +133,6 @@ public final class EssentialsA extends JavaPlugin {
         getMessage().sendLog(Level.INFO, "Disabled " + getDescription().getName() + " " + getDescription().getVersion());
     }
     private void commands() {
-        getCommand("chunk").setExecutor(new ChunkCommand(this));
-        getCommand("chunks").setExecutor(new ChunksCommand(this));
-        getCommand("villager").setExecutor(new VillagerCommand(this));
-        getCommand("world").setExecutor(new WorldCommand(this));
         getCommand("announcement").setExecutor(new AnnouncementCommand(this));
         getCommand("anvil").setExecutor(new AnvilCommand(this));
         getCommand("autopick").setExecutor(new AutoPickCommand(this));
@@ -145,6 +141,8 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("balance").setExecutor(new BalanceCommand(this));
         getCommand("ban").setExecutor(new BanCommand(this));
         getCommand("chestshop").setExecutor(new ChestShopCommand(this));
+        getCommand("chunk").setExecutor(new ChunkCommand(this));
+        getCommand("chunks").setExecutor(new ChunksCommand(this));
         getCommand("color").setExecutor(new ColorCommand(this));
         getCommand("delhome").setExecutor(new DelHomeCommand(this));
         getCommand("delwarp").setExecutor(new DelWarpCommand(this));
@@ -201,11 +199,13 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("tphere").setExecutor(new TPHereCommand(this));
         getCommand("unban").setExecutor(new UnBanCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this));
+        getCommand("villager").setExecutor(new VillagerCommand(this));
         getCommand("vote").setExecutor(new VoteCommand(this));
         getCommand("walkspeed").setExecutor(new WalkSpeedCommand(this));
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("whisper").setExecutor(new WhisperCommand(this));
         getCommand("workbench").setExecutor(new WorkbenchCommand(this));
+        getCommand("world").setExecutor(new WorldCommand(this));
         getCommand("worth").setExecutor(new WorthCommand(this));
     }
     private void events() {
