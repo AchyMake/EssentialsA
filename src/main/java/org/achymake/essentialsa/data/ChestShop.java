@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public record ChestShop(EssentialsA plugin) {
@@ -21,11 +22,31 @@ public record ChestShop(EssentialsA plugin) {
     private Message getMessage() {
         return plugin.getMessage();
     }
+    private List<Player> getChestShopEditors() {
+        return plugin.getChestShopEditors();
+    }
     public PersistentDataContainer getData(Sign sign) {
         return sign.getPersistentDataContainer();
     }
     public PersistentDataContainer getData(Chest chest) {
         return chest.getPersistentDataContainer();
+    }
+    public boolean isChestShopEditor(Player player) {
+        return getChestShopEditors().contains(player);
+    }
+    public void toggleChestShopEditor(Player player) {
+        setChestShopEditor(player, !isChestShopEditor(player));
+    }
+    public void setChestShopEditor(Player player, boolean value) {
+        if (value) {
+            if (!getChestShopEditors().contains(player)) {
+                getChestShopEditors().add(player);
+            }
+        } else {
+            if (getChestShopEditors().contains(player)) {
+                getChestShopEditors().remove(player);
+            }
+        }
     }
     public void addOwner(OfflinePlayer offlinePlayer, Sign sign) {
         getData(sign).set(NamespacedKey.minecraft("owner"), PersistentDataType.STRING, offlinePlayer.getUniqueId().toString());

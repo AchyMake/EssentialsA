@@ -17,7 +17,7 @@ public record EntityDismount(EssentialsA plugin) implements Listener {
     public void onEntityDismount(EntityDismountEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (event.getDismounted() instanceof ArmorStand) {
-                getChairs().dismount(player, player.getLocation().add(0, 1, 0).getBlock());
+                getChairs().dismount(player);
             }
         }
     }

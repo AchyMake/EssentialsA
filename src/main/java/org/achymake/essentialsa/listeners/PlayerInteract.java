@@ -94,7 +94,9 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                 }
             } else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
                 Chest chest = (Chest) block.getState();
+                if (!getChestShop().isShop(chest))return;
                 if (player == getChestShop().getOwner(chest))return;
+                if (getChestShop().isChestShopEditor(player))return;
                 event.setCancelled(true);
             }
             if (event.getBlockFace().equals(BlockFace.UP)) {

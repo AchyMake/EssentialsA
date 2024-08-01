@@ -51,6 +51,7 @@ public final class EssentialsA extends JavaPlugin {
     private static UpdateChecker updateChecker;
     private final List<Player> vanished = new ArrayList<>();
     private final List<Player> chunkEditors = new ArrayList<>();
+    private final List<Player> chestShopEditors = new ArrayList<>();
     private final HashMap<String, Long> commandCooldown = new HashMap<>();
     private final HashMap<String, Long> kitCooldown = new HashMap<>();
     public static StateFlag FLAG_CHUNKS_CLAIM;
@@ -120,6 +121,9 @@ public final class EssentialsA extends JavaPlugin {
     public void onDisable() {
         if (!getVanished().isEmpty()) {
             getVanished().clear();
+        }
+        if (!getChestShopEditors().isEmpty()) {
+            getChestShopEditors().clear();
         }
         if (!getChunkEditors().isEmpty()) {
             getChunkEditors().clear();
@@ -305,6 +309,9 @@ public final class EssentialsA extends JavaPlugin {
     }
     public List<Player> getChunkEditors() {
         return chunkEditors;
+    }
+    public List<Player> getChestShopEditors() {
+        return chestShopEditors;
     }
     public List<Player> getVanished() {
         return vanished;

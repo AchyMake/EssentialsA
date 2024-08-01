@@ -48,9 +48,6 @@ public record Database(EssentialsA plugin) {
     private BukkitScheduler getScheduler() {
         return plugin.getScheduler();
     }
-    public PersistentDataContainer getData(Player player) {
-        return player.getPersistentDataContainer();
-    }
     public File getFile(OfflinePlayer offlinePlayer) {
         return new File(getDataFolder(), "userdata/" + offlinePlayer.getUniqueId() + ".yml");
     }
@@ -172,16 +169,18 @@ public record Database(EssentialsA plugin) {
     public void removeTaskID(Player player, String task) {
         setString(player, "tasks." + task, null);
     }
-    public void teleport(Player player, String string, Location location) {
+    public void teleport(Player player, String name, Location location) {
         if (hasTaskID(player, "teleport")) {
             getMessage().sendActionBar(player, "&cYou cannot teleport twice you have to wait");
         } else {
-            location.getChunk().load();
+            if (!location.getChunk().isLoaded()) {
+                location.getChunk().load();
+            }
             getMessage().sendActionBar(player, "&6Teleporting in&f " + getConfig().getInt("teleport.delay") + "&6 seconds");
             int taskID = plugin.getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    getMessage().sendActionBar(player, "&6Teleporting to&f " + string);
+                    getMessage().sendActionBar(player, "&6Teleporting to&f " + name);
                     player.teleport(location);
                     setString(player, "tasks.teleport", null);
                 }
@@ -523,6 +522,9 @@ public record Database(EssentialsA plugin) {
             }
         }
         return onlinePlayers;
+    }
+    public PersistentDataContainer getData(Player player) {
+        return player.getPersistentDataContainer();
     }
     public void reload(OfflinePlayer[] offlinePlayers) {
         for (OfflinePlayer offlinePlayer : offlinePlayers) {

@@ -27,7 +27,7 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
             getEntities().removeMount(player, entity);
         } else if (entity instanceof Player player) {
             if (!getChairs().hasChair(player))return;
-            getChairs().dismount(player, player.getLocation().add(0, 1, 0).getBlock());
+            getChairs().dismount(player);
         }
     }
 }
