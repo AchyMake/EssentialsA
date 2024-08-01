@@ -37,10 +37,10 @@ public record Worlds(EssentialsA plugin) {
         return getServer().getWorld(world);
     }
     public void setupWorlds() {
-        createFiles();
         getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
+                createFiles();
                 File folder = new File(getDataFolder(), "worlds");
                 getMessage().sendLog(Level.INFO, "worlds folder detected");
                 getMessage().sendLog(Level.INFO, "tempting to create worlds");
@@ -69,7 +69,9 @@ public record Worlds(EssentialsA plugin) {
     private void createFiles() {
         for (World world : getServer().getWorlds()) {
             File file = new File(getDataFolder(), "worlds/" + world.getName() + ".yml");
-            if (!file.exists()) {
+            if (file.exists()) {
+                getMessage().sendLog(Level.INFO, world.getName() + " already exist");
+            } else {
                 FileConfiguration config = YamlConfiguration.loadConfiguration(file);
                 config.addDefault("name", world.getName());
                 config.addDefault("display-name", world.getName());

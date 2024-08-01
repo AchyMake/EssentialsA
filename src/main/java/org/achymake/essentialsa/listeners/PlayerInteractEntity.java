@@ -32,6 +32,7 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
         Chunk chunk = entity.getChunk();
+        if (entity.isInvulnerable())return;
         if (isDisabled(player)) {
             event.setCancelled(true);
         } else if (getEntities().isNPC(entity)) {
@@ -45,20 +46,27 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                 }
             }
         } else if (getChunkdata().isClaimed(chunk)) {
-            if (getEntities().isHostile(entity))return;
-            if (entity.isInvulnerable())return;
+            if (entity instanceof Player)return;
             if (getChunkdata().hasAccess(player, chunk)) {
-                if (!player.isSneaking())return;
-                if (player.getPassenger() != null)return;
-                if (entity.getPassenger() != null)return;
-                if (getEntities().isNPC(entity))return;
-                if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
-                if (!getEntities().isEnableCarry(entity))return;
-                if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
-                event.setCancelled(true);
-                getEntities().addMount(player, entity);
-                player.swingMainHand();
+                if (player.isSneaking()) {
+                    if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
+                    if (!getEntities().isEnableCarry(entity))return;
+                    if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
+                    event.setCancelled(true);
+                    if (event.isCancelled()) {
+                        getEntities().carry(player, entity);
+                    }
+                } else {
+                    if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
+                    if (!getEntities().isEnableCarry(entity))return;
+                    if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
+                    event.setCancelled(true);
+                    if (event.isCancelled()) {
+                        getEntities().stack(player, entity);
+                    }
+                }
             } else {
+                if (getEntities().isHostile(entity))return;
                 if (entity.getType().equals(EntityType.PLAYER))return;
                 if (entity.getType().equals(EntityType.MINECART))return;
                 if (entity.getType().equals(EntityType.BOAT))return;
@@ -66,16 +74,25 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                 getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
             }
         } else {
-            if (!player.isSneaking())return;
-            if (player.getPassenger() != null)return;
-            if (entity.getPassenger() != null)return;
-            if (getEntities().isNPC(entity))return;
-            if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
-            if (!getEntities().isEnableCarry(entity))return;
-            if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
-            event.setCancelled(true);
-            getEntities().addMount(player, entity);
-            player.swingMainHand();
+            if (player.isSneaking()) {
+                if (entity instanceof Player)return;
+                if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
+                if (!getEntities().isEnableCarry(entity))return;
+                if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
+                event.setCancelled(true);
+                if (event.isCancelled()) {
+                    getEntities().carry(player, entity);
+                }
+            } else {
+                if (entity instanceof Player)return;
+                if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
+                if (!getEntities().isEnableCarry(entity))return;
+                if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
+                event.setCancelled(true);
+                if (event.isCancelled()) {
+                    getEntities().stack(player, entity);
+                }
+            }
         }
     }
     private boolean isDisabled(Player player) {

@@ -1079,6 +1079,9 @@ permissions:
   essentials.carry.wolf:
     description: message
     default: op
+  essentials.carry.stack:
+    description: message
+    default: op
   essentials.harvester:
     description: message
     default: op
