@@ -32,11 +32,11 @@ public class MOTDCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                getMessage().sendMotd(player, "welcome");
+                getMessage().sendStringList(player, getConfig().getStringList("message-of-the-day.welcome"));
                 return true;
             }
             if (args.length == 1) {
-                getMessage().sendMotd(player, args[0]);
+                getMessage().sendStringList(player, getConfig().getStringList("message-of-the-day." + args[0]));
                 return true;
             }
             if (args.length == 2) {
@@ -46,7 +46,7 @@ public class MOTDCommand implements CommandExecutor, TabCompleter {
                         if (target.hasPermission("essentials.command.motd.exempt")) {
                             getMessage().send(player, "You are not allowed to send motd to " + target.getName());
                         } else {
-                            getMessage().sendMotd(target, args[0]);
+                            getMessage().sendStringList(target, getConfig().getStringList("message-of-the-day." + args[0]));
                         }
                         return true;
                     }
@@ -55,17 +55,17 @@ public class MOTDCommand implements CommandExecutor, TabCompleter {
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
             if (args.length == 0) {
-                getMessage().sendMotd(consoleCommandSender, "welcome");
+                getMessage().sendStringList(consoleCommandSender, plugin.getConfig().getStringList("message-of-the-day.welcome"));
                 return true;
             }
             if (args.length == 1) {
-                getMessage().sendMotd(consoleCommandSender, args[0]);
+                getMessage().sendStringList(consoleCommandSender, plugin.getConfig().getStringList("message-of-the-day." + args[0]));
                 return true;
             }
             if (args.length == 2) {
                 Player target = getServer().getPlayerExact(args[1]);
                 if (target != null) {
-                    getMessage().sendMotd(target, args[0]);
+                    getMessage().sendStringList(target, plugin.getConfig().getStringList("message-of-the-day." + args[0]));
                     return true;
                 }
             }

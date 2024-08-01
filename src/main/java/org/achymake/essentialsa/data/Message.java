@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.List;
 import java.util.logging.Level;
 
 public record Message(EssentialsA plugin) {
@@ -37,34 +38,17 @@ public record Message(EssentialsA plugin) {
     public String addColor(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
-    public void send(String path, Player player) {
-        if (getConfig().isList(path)) {
-            for (String messages : getConfig().getStringList(path)) {
-                send(player, messages.replaceAll("%player%", player.getName()));
-            }
-        } else if (getConfig().isString(path)) {
-            send(player, getConfig().getString(path).replaceAll("%player%", player.getName()));
+    public void sendStringList(Player player, List<String> strings) {
+        for (String messages : strings) {
+            messages.replaceAll("%player%", player.getName());
+            send(player, messages);
         }
     }
-    public void send(String path, ConsoleCommandSender consoleCommandSender) {
-        if (getConfig().isList(path)) {
-            for (String messages : getConfig().getStringList(path)) {
-                send(consoleCommandSender, messages.replaceAll("%player%", consoleCommandSender.getName()));
-            }
-        } else if (getConfig().isString(path)) {
-            send(consoleCommandSender, getConfig().getString(path).replaceAll("%player%", consoleCommandSender.getName()));
+    public void sendStringList(ConsoleCommandSender consoleCommandSender, List<String> strings) {
+        for (String messages : strings) {
+            messages.replaceAll("%player%", consoleCommandSender.getName());
+            send(consoleCommandSender, messages);
         }
-    }
-    public void sendMotd(Player player, String motd) {
-        getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-                send("message-of-the-day." + motd, player);
-            }
-        }, 3);
-    }
-    public void sendMotd(ConsoleCommandSender consoleCommandSender, String motd) {
-        send("message-of-the-day." + motd, consoleCommandSender);
     }
     public String getStringBuilder(String[] args, int value) {
         StringBuilder stringBuilder = new StringBuilder();

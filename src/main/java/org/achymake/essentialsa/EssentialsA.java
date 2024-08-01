@@ -43,7 +43,6 @@ public final class EssentialsA extends JavaPlugin {
     private static Levels levels;
     private static Message message;
     private static Portals portals;
-    private static Reward reward;
     private static Spawn spawn;
     private static Warps warps;
     private static Worlds worlds;
@@ -102,7 +101,6 @@ public final class EssentialsA extends JavaPlugin {
         kits = new Kits(this);
         levels = new Levels(this);
         portals = new Portals(this);
-        reward = new Reward(this);
         spawn = new Spawn(this);
         warps = new Warps(this);
         worlds = new Worlds(this);
@@ -200,7 +198,6 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("unban").setExecutor(new UnBanCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this));
         getCommand("villager").setExecutor(new VillagerCommand(this));
-        getCommand("vote").setExecutor(new VoteCommand(this));
         getCommand("walkspeed").setExecutor(new WalkSpeedCommand(this));
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("whisper").setExecutor(new WhisperCommand(this));
@@ -256,7 +253,6 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new VillagerAcquireTrade(this), this);
         getManager().registerEvents(new VillagerCareerChange(this), this);
         getManager().registerEvents(new VillagerReplenishTrade(this), this);
-        getManager().registerEvents(new Votifier(this), this);
         getManager().registerEvents(new WorldLoad(this), this);
     }
     public StateFlag getFlagHarvest() {
@@ -292,7 +288,6 @@ public final class EssentialsA extends JavaPlugin {
         getKits().reload();
         getLevels().reload();
         getPortals().reload();
-        getReward().reload();
         getSpawn().reload();
         getWarps().reload();
         getWorth().reload();
@@ -332,9 +327,6 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Spawn getSpawn() {
         return spawn;
-    }
-    public Reward getReward() {
-        return reward;
     }
     public Portals getPortals() {
         return portals;

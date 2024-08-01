@@ -32,7 +32,7 @@ public class HelpCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                getMessage().send("help", player);
+                getMessage().sendStringList(player, plugin.getConfig().getStringList("help"));
                 return true;
             }
             if (args.length == 1) {
@@ -42,7 +42,7 @@ public class HelpCommand implements CommandExecutor, TabCompleter {
                         if (target.hasPermission("essentials.command.help.exempt")) {
                             getMessage().send(player, "&cYou are not allowed to send help to&f " + target.getName());
                         } else {
-                            getMessage().send("help", target);
+                            getMessage().sendStringList(target, plugin.getConfig().getStringList("help"));
                         }
                         return true;
                     }
@@ -51,13 +51,13 @@ public class HelpCommand implements CommandExecutor, TabCompleter {
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
             if (args.length == 0) {
-                getMessage().send("help", consoleCommandSender);
+                getMessage().sendStringList(consoleCommandSender, plugin.getConfig().getStringList("help"));
                 return true;
             }
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    getMessage().send("help", target);
+                    getMessage().sendStringList(target, plugin.getConfig().getStringList("help"));
                     return true;
                 }
             }

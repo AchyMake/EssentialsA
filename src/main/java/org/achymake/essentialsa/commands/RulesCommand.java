@@ -28,7 +28,7 @@ public class RulesCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                getMessage().send("rules", player);
+                getMessage().sendStringList(player, plugin.getConfig().getStringList("rules"));
                 return true;
             }
             if (args.length == 1) {
@@ -36,12 +36,12 @@ public class RulesCommand implements CommandExecutor, TabCompleter {
                     Player target = getServer().getPlayerExact(args[0]);
                     if (target != null) {
                         if (target == player) {
-                            getMessage().send("rules", target);
+                            getMessage().sendStringList(target, plugin.getConfig().getStringList("rules"));
                         } else {
                             if (target.hasPermission("essentials.command.rules.exempt")) {
                                 getMessage().send(player, "&cYou are not allowed to send rules to&f " + target.getName());
                             } else {
-                                getMessage().send("rules", target);
+                                getMessage().sendStringList(target, plugin.getConfig().getStringList("rules"));
                             }
                         }
                         return true;
@@ -51,13 +51,13 @@ public class RulesCommand implements CommandExecutor, TabCompleter {
         }
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
             if (args.length == 0) {
-                getMessage().send("rules", consoleCommandSender);
+                getMessage().sendStringList(consoleCommandSender, plugin.getConfig().getStringList("rules"));
                 return true;
             }
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    getMessage().send("rules", target);
+                    getMessage().sendStringList(target, plugin.getConfig().getStringList("rules"));
                     return true;
                 }
             }

@@ -28,7 +28,7 @@ public class StoreCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                getMessage().send("store", player);
+                getMessage().sendStringList(player, plugin.getConfig().getStringList("store"));
                 return true;
             }
             if (args.length == 1) {
@@ -36,12 +36,12 @@ public class StoreCommand implements CommandExecutor, TabCompleter {
                     Player target = getServer().getPlayerExact(args[0]);
                     if (target != null) {
                         if (target == player) {
-                            getMessage().send("store", target);
+                            getMessage().sendStringList(target, plugin.getConfig().getStringList("store"));
                         } else if (target.hasPermission("essentials.command.store.exempt")) {
                             getMessage().send(player, "&cYou are not allowed to send store message to&f " + target.getName());
                             return true;
                         } else {
-                            getMessage().send("store", target);
+                            getMessage().sendStringList(target, plugin.getConfig().getStringList("store"));
                             return true;
                         }
                     }

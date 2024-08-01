@@ -34,9 +34,9 @@ public record PlayerJoin(EssentialsA plugin) implements Listener {
         } else {
             getDatabase().hideVanished(player);
             if (getDatabase().hasJoined(player)) {
-                getMessage().sendMotd(player, "welcome-back");
+                getMessage().sendStringList(player, getConfig().getStringList("message-of-the-day.welcome-back"));
             } else {
-                getMessage().sendMotd(player, "welcome");
+                getMessage().sendStringList(player, getConfig().getStringList("message-of-the-day.welcome"));
             }
             if (getConfig().getBoolean("connection.join.enable")) {
                 getMessage().sendJoinSound();

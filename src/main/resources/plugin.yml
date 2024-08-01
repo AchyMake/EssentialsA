@@ -355,11 +355,6 @@ commands:
     description: villager npc
     permission: essentials.command.villager
     permission-message: You do not have the permission to execute the command
-  vote:
-    usage: /help
-    description: check voting website
-    permission: essentials.command.vote
-    permission-message: You do not have the permission to execute the command
   walkspeed:
     usage: /help
     description: change walk speed
@@ -830,15 +825,6 @@ permissions:
     description: message
     default: op
   essentials.command.villager:
-    description: message
-    default: op
-  essentials.command.vote:
-    description: message
-    default: op
-  essentials.command.vote.other:
-    description: message
-    default: op
-  essentials.command.vote.exempt:
     description: message
     default: op
   essentials.command.walkspeed:

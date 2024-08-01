@@ -79,7 +79,7 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         }
     }
     private String quitMessage(Player player) {
-        return getMessage().addColor(MessageFormat.format(getConfig().getString("connection.quit.message"), player.getName()));
+        return getMessage().addColor(getConfig().getString("connection.quit.message").replaceAll("%player%", player.getName()));
     }
     private void removeTeleportTask(Player player) {
         if (getDatabase().hasTaskID(player, "teleport")) {
