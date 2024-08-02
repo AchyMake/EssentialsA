@@ -6,8 +6,10 @@ import org.achymake.essentialsa.data.Chunkdata;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +17,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public record PlayerMove(EssentialsA plugin) implements Listener {
     private Database getDatabase() {
@@ -29,25 +32,33 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
     private Message getMessage() {
         return plugin.getMessage();
     }
+    private FileConfiguration getConfig() {
+        return plugin.getConfig();
+    }
+    private BukkitScheduler getScheduler() {
+        return plugin.getScheduler();
+    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+        Location from = event.getFrom();
+        Location to = event.getTo();
         if (getDatabase().isFrozen(player)) {
-            if (getDatabase().hasMoved(event.getFrom(), event.getTo())) {
+            if (getDatabase().hasMoved(from, to)) {
                 event.setCancelled(true);
             }
         }
-        if (plugin.getConfig().getBoolean("teleport.cancel-on-move")) {
+        if (getConfig().getBoolean("teleport.cancel-on-move")) {
             if (getDatabase().hasTaskID(player, "teleport")) {
-                if (getDatabase().hasMoved(event.getFrom(), event.getTo())) {
+                if (getDatabase().hasMoved(from, to)) {
                     getMessage().sendActionBar(player, "&cYou moved before teleporting!");
-                    plugin.getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
+                    getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
                     getDatabase().removeTaskID(player, "teleport");
                 }
             }
         }
-        if (event.getTo().getChunk() != event.getFrom().getChunk()) {
-            Chunk chunk = event.getTo().getChunk();
+        if (to.getChunk() != from.getChunk()) {
+            Chunk chunk = to.getChunk();
             if (getChunkdata().isClaimed(chunk)) {
                 if (getChunkdata().isBanned(chunk, player)) {
                     if (plugin.getChunkEditors().contains(player)) {
@@ -66,7 +77,7 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
         if (player.getPassenger() != null) {
             Entity passenger = player.getPassenger();
             if (getCarry().isEnable(passenger)) {
-                if (getDatabase().hasMoved(event.getFrom(), event.getTo())) {
+                if (getDatabase().hasMoved(from, to)) {
                     getCarry().addEffects(player);
                 }
             }

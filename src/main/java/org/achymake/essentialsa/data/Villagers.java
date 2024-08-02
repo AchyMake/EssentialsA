@@ -155,22 +155,24 @@ public record Villagers(EssentialsA plugin) {
         String command = getConfig(file).getString("command");
         boolean silent = getConfig(file).getBoolean("silent");
         boolean adult = getConfig(file).getBoolean("adult");
-        Villager villager = (Villager) world.spawnEntity(new Location(world, x, y, z, yaw, pitch), EntityType.VILLAGER);
-        villager.setCustomName(villagerName);
-        villager.setVillagerType(Villager.Type.valueOf(type));
-        villager.setProfession(Villager.Profession.valueOf(profession));
-        villager.setSilent(silent);
-        if (adult) {
-            villager.setAdult();
-        } else {
-            villager.setBaby();
+        if (getWorlds().worldExist(worldName)) {
+            Villager villager = (Villager) world.spawnEntity(new Location(world, x, y, z, yaw, pitch), EntityType.VILLAGER);
+            villager.setCustomName(villagerName);
+            villager.setVillagerType(Villager.Type.valueOf(type));
+            villager.setProfession(Villager.Profession.valueOf(profession));
+            villager.setSilent(silent);
+            if (adult) {
+                villager.setAdult();
+            } else {
+                villager.setBaby();
+            }
+            villager.setCustomNameVisible(true);
+            villager.setInvulnerable(true);
+            villager.setAI(false);
+            createVillagerFile(villager);
+            setString(villager, "command-type", commandType);
+            setString(villager, "command", command);
         }
-        villager.setCustomNameVisible(true);
-        villager.setInvulnerable(true);
-        villager.setAI(false);
-        createVillagerFile(villager);
-        setString(villager, "command-type", commandType);
-        setString(villager, "command", command);
         file.delete();
 
     }
