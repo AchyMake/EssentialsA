@@ -76,6 +76,7 @@ public record Userdata(EssentialsA plugin) {
             config.set("settings.jailed", false);
             config.set("settings.muted", false);
             config.set("settings.pvp", true);
+            config.set("settings.scale", 1.0);
             config.set("settings.vanished", false);
             config.createSection("homes");
             config.createSection("locations");
@@ -413,6 +414,7 @@ public record Userdata(EssentialsA plugin) {
         return player.getAttribute(Attribute.GENERIC_SCALE).getBaseValue();
     }
     public void setScale(Player player, double value) {
+        setDouble(player, "settings.scale", value);
         player.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(value);
     }
     public void resetScale(Player player) {

@@ -26,7 +26,8 @@ public record PlayerJoin(EssentialsA plugin) implements Listener {
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getPlayer();;
+        getUserdata().setScale(player, getUserdata().getConfig(player).getDouble("settings.scale"));
         if (getUserdata().isVanished(player)) {
             getUserdata().setVanish(player, true);
             getMessage().send(player, "&6You joined back vanished");
