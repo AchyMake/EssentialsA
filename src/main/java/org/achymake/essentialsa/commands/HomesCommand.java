@@ -128,8 +128,8 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
             if (args.length == 3) {
                 if (player.hasPermission("essentials.command.homes.teleport")) {
                     OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(args[1]);
-                    if (getDatabase().exist(offlinePlayer)) {
-                        commands.addAll(getDatabase().getHomes(offlinePlayer));
+                    if (getUserdata().exist(offlinePlayer)) {
+                        commands.addAll(getUserdata().getHomes(offlinePlayer));
                     }
                 }
             }
