@@ -41,7 +41,7 @@ public record Worlds(EssentialsA plugin) {
         return getServer().getWorld(world);
     }
     public File getFile(String worldName) {
-        return new File("worlds/" + worldName + ".yml");
+        return new File(getDataFolder(), "worlds/" + worldName + ".yml");
     }
     public File getFile(World world) {
         return getFile(world.getName());
@@ -59,7 +59,8 @@ public record Worlds(EssentialsA plugin) {
                 createFiles();
                 getMessage().sendLog(Level.INFO, "worlds folder detected");
                 getMessage().sendLog(Level.INFO, "tempting to create worlds");
-                for (File files : new File(getDataFolder(), "worlds").listFiles()) {
+                File folder = new File(getDataFolder(), "worlds");
+                for (File files : folder.listFiles()) {
                     String worldName = files.getName().replace(".yml", "");
                     if (worldExist(worldName)) {
                         getMessage().sendLog(Level.INFO, worldName + " already exist");
@@ -84,7 +85,7 @@ public record Worlds(EssentialsA plugin) {
     }
     private void createFiles() {
         for (World world : getServer().getWorlds()) {
-            File file = new File(getDataFolder(), "worlds/" + world.getName() + ".yml");
+            File file = getFile(world);
             if (file.exists())return;
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);
             config.set("name", world.getName());
