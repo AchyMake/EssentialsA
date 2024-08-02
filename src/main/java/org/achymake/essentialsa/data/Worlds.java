@@ -85,21 +85,18 @@ public record Worlds(EssentialsA plugin) {
     private void createFiles() {
         for (World world : getServer().getWorlds()) {
             File file = new File(getDataFolder(), "worlds/" + world.getName() + ".yml");
-            if (file.exists()) {
-                getMessage().sendLog(Level.INFO, world.getName() + " already exist");
-            } else {
-                FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-                config.set("name", world.getName());
-                config.set("display-name", world.getName());
-                config.set("environment", world.getEnvironment().toString());
-                config.set("seed", world.getSeed());
-                config.set("pvp", true);
-                try {
-                    config.save(file);
-                    getMessage().sendLog(Level.INFO, "created " + world.getName() + ".yml");
-                } catch (IOException e) {
-                    getMessage().sendLog(Level.WARNING, e.getMessage());
-                }
+            if (file.exists())return;
+            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+            config.set("name", world.getName());
+            config.set("display-name", world.getName());
+            config.set("environment", world.getEnvironment().toString());
+            config.set("seed", world.getSeed());
+            config.set("pvp", true);
+            try {
+                config.save(file);
+                getMessage().sendLog(Level.INFO, "created " + world.getName() + ".yml");
+            } catch (IOException e) {
+                getMessage().sendLog(Level.WARNING, e.getMessage());
             }
         }
     }

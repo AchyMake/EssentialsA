@@ -399,13 +399,15 @@ public record Userdata(EssentialsA plugin) {
     public void toggleBaby(Player player) {
         setBaby(player, !isBaby(player));
     }
-    public void setBaby(Player player, boolean value) {
-        if (value) {
+    public void setBaby(Player player, boolean baby) {
+        if (baby) {
             if (!isBaby(player)) {
+                setDouble(player, "settings.scale", 0.5);
                 setScale(player, 0.5);
             }
         } else {
             if (isBaby(player)) {
+                setDouble(player, "settings.scale", 1.0);
                 setScale(player, 1.0);
             }
         }
@@ -413,11 +415,10 @@ public record Userdata(EssentialsA plugin) {
     public double getScale(Player player) {
         return player.getAttribute(Attribute.GENERIC_SCALE).getBaseValue();
     }
-    public void setScale(Player player, double value) {
-        setDouble(player, "settings.scale", value);
-        player.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(value);
+    public void setScale(Player player, double scale) {
+        player.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(scale);
     }
-    public void resetScale(Player player) {
+    public void resetScale(Player player, boolean isCommand) {
         if (getScale(player) != 1) {
             setScale(player, 1);
         }

@@ -121,6 +121,10 @@ public class WorldCommand implements CommandExecutor, TabCompleter {
                     if (getWorlds().folderExist(worldName)) {
                         if (getWorlds().worldExist(worldName)) {
                             getMessage().send(player, worldName + "&c already exist");
+                            if (!getWorlds().getFile(worldName).exists()) {
+                                getWorlds().createFile(getWorlds().getWorld(worldName));
+                                getMessage().send(player, "&cFile was missing and is created");
+                            }
                         } else {
                             getMessage().send(player, worldName + "&6 is about to be added");
                             getWorlds().create(worldName, environment);
