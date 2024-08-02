@@ -1,7 +1,6 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
@@ -20,9 +19,6 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
     private Userdata getUserdata() {
         return plugin.getUserdata();
-    }
-    private Database getDatabase() {
-        return plugin.getDatabase();
     }
     private Message getMessage() {
         return plugin.getMessage();
