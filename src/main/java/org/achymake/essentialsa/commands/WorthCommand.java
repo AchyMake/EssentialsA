@@ -36,7 +36,7 @@ public class WorthCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 if (getWorth().isSellable(getDatabase().getMaterial(args[0]))) {
-                    getMessage().send(player, getDatabase().getMaterial(args[0]) + "&6 is worth:&a " + getEconomy().currency() + getEconomy().format(getWorth().getWorth(getDatabase().getMaterial(args[0]))));
+                    getMessage().send(player, getDatabase().getMaterial(args[0]) + "&6 is worth:&a " + getEconomy().currencyNamePlural() + getEconomy().format(getWorth().getWorth(getDatabase().getMaterial(args[0]))));
                 } else {
                     getMessage().send(player, getDatabase().getMaterial(args[0]).toString() + "&c is not sellable");
                 }

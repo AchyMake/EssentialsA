@@ -2,7 +2,6 @@ package org.achymake.essentialsa.data;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.net.UpdateChecker;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -16,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,12 +39,6 @@ public record Database(EssentialsA plugin) {
     }
     private HashMap<String, Long> getCommandCooldown() {
         return plugin.getCommandCooldown();
-    }
-    private UpdateChecker getUpdateChecker() {
-        return plugin.getUpdateChecker();
-    }
-    private BukkitScheduler getScheduler() {
-        return plugin.getScheduler();
     }
     public File getFile(OfflinePlayer offlinePlayer) {
         return new File(getDataFolder(), "userdata/" + offlinePlayer.getUniqueId() + ".yml");

@@ -26,7 +26,7 @@ public record BlockFertilize(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Chunk chunk = event.getBlock().getChunk();
         if (player == null)return;
-        if (isDisabled(player)) {
+        if (getDatabase().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getChunkdata().isClaimed(chunk)) {
             if (!getChunkdata().isClaimed(chunk))return;
@@ -34,8 +34,5 @@ public record BlockFertilize(EssentialsA plugin) implements Listener {
             event.setCancelled(true);
             getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
         }
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player);
     }
 }

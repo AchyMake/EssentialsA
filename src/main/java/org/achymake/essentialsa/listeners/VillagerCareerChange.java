@@ -1,7 +1,6 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Entities;
 import org.achymake.essentialsa.data.Villagers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

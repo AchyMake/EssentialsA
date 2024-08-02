@@ -37,34 +37,35 @@ public class PlaceholderProvider extends PlaceholderExpansion {
         if (player == null) {
             return "";
         } else {
+            EssentialsA ess = EssentialsA.getInstance();
             switch (params) {
                 case "name" -> {
-                    return EssentialsA.getInstance().getDatabase().getConfig(player).getString("name");
+                    return ess.getDatabase().getConfig(player).getString("name");
                 }
                 case "display_name" -> {
-                    return EssentialsA.getInstance().getDatabase().getConfig(player).getString("display-name");
+                    return ess.getDatabase().getConfig(player).getString("display-name");
                 }
                 case "vanished" -> {
-                    return String.valueOf(EssentialsA.getInstance().getVanished().contains(player));
+                    return String.valueOf(ess.getVanished().contains(player));
                 }
                 case "online_players" -> {
-                    return String.valueOf(EssentialsA.getInstance().getDatabase().getOnlinePlayers().size());
+                    return String.valueOf(ess.getDatabase().getOnlinePlayers().size());
                 }
                 case "account" -> {
-                    return EssentialsA.getInstance().getEconomy().currency() + EssentialsA.getInstance().getEconomy().format(EssentialsA.getInstance().getEconomy().get(player));
+                    return ess.getEconomy().currencyNamePlural() + ess.getEconomy().format(ess.getEconomy().getBalance(player));
                 }
                 case "pvp" -> {
-                    return String.valueOf(EssentialsA.getInstance().getDatabase().isPVP(player));
+                    return String.valueOf(ess.getDatabase().isPVP(player));
                 }
                 case "chunk_owner" -> {
-                    if (EssentialsA.getInstance().getChunkdata().isClaimed(player.getChunk())) {
-                        return EssentialsA.getInstance().getChunkdata().getOwner(player.getChunk()).getName();
+                    if (ess.getChunkdata().isClaimed(player.getChunk())) {
+                        return ess.getChunkdata().getOwner(player.getChunk()).getName();
                     }
                     return "None";
                 }
                 case "chunk_access" -> {
-                    if (EssentialsA.getInstance().getChunkdata().isClaimed(player.getChunk())) {
-                        if (EssentialsA.getInstance().getChunkdata().hasAccess(player, player.getChunk())) {
+                    if (ess.getChunkdata().isClaimed(player.getChunk())) {
+                        if (ess.getChunkdata().hasAccess(player, player.getChunk())) {
                             return "True";
                         } else {
                             return "False";
@@ -74,22 +75,22 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                     }
                 }
                 case "chunk_claimed" -> {
-                    return String.valueOf(EssentialsA.getInstance().getChunkdata().getClaimCount(player));
+                    return String.valueOf(ess.getChunkdata().getClaimCount(player));
                 }
                 case "chunk_max_claims" -> {
-                    return String.valueOf(EssentialsA.getInstance().getConfig().getInt("chunks.claim.max-claims"));
+                    return String.valueOf(ess.getConfig().getInt("chunks.claim.max-claims"));
                 }
                 case "chunk_claims_left" -> {
-                    return String.valueOf(EssentialsA.getInstance().getConfig().getInt("chunks.claim.max-claims") - EssentialsA.getInstance().getChunkdata().getClaimCount(player));
+                    return String.valueOf(ess.getConfig().getInt("chunks.claim.max-claims") - ess.getChunkdata().getClaimCount(player));
                 }
                 case "world_name" -> {
-                    return EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getString("name");
+                    return ess.getWorlds().getConfig(player.getWorld()).getString("name");
                 }
                 case "world_display_name" -> {
-                    return EssentialsA.getInstance().getWorlds().getDisplayName(player.getWorld());
+                    return ess.getWorlds().getDisplayName(player.getWorld());
                 }
                 case "world_pvp" -> {
-                    return String.valueOf(EssentialsA.getInstance().getWorlds().getConfig(player.getWorld()).getBoolean("pvp"));
+                    return String.valueOf(ess.getWorlds().getConfig(player.getWorld()).getBoolean("pvp"));
                 }
             }
         }

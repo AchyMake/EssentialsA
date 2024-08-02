@@ -15,10 +15,7 @@ public record BlockReceiveGame(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockReceiveGame(BlockReceiveGameEvent event) {
         if (!(event.getEntity() instanceof Player player))return;
-        if (!isDisabled(player))return;
+        if (!getDatabase().isDisabled(player))return;
         event.setCancelled(true);
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player) || getDatabase().isVanished(player);
     }
 }

@@ -6,7 +6,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import org.achymake.essentialsa.api.PlaceholderProvider;
-import org.achymake.essentialsa.api.VaultEcoProvider;
+import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.commands.*;
 import org.achymake.essentialsa.commands.ChunkCommand;
 import org.achymake.essentialsa.commands.ChunksCommand;
@@ -108,7 +108,7 @@ public final class EssentialsA extends JavaPlugin {
         worlds = new Worlds(this);
         worth = new Worth(this);
         updateChecker = new UpdateChecker(this);
-        getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, new VaultEcoProvider(this), this, ServicePriority.Normal);
+        getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, getEconomy(), this, ServicePriority.Normal);
         new PlaceholderProvider().register();
         commands();
         events();

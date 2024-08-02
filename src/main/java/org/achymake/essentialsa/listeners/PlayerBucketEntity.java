@@ -25,15 +25,12 @@ public record PlayerBucketEntity(EssentialsA plugin) implements Listener {
     public void onPlayerBucketEntity(PlayerBucketEntityEvent event) {
         Player player = event.getPlayer();
         Chunk chunk = event.getEntity().getChunk();
-        if (isDisabled(player)) {
+        if (getDatabase().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getChunkdata().isClaimed(chunk)) {
             if (getChunkdata().hasAccess(player, chunk))return;
             event.setCancelled(true);
             getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
         }
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player);
     }
 }

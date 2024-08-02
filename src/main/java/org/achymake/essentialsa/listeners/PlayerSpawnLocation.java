@@ -17,7 +17,7 @@ public record PlayerSpawnLocation(EssentialsA plugin) implements Listener {
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerSpawnLocation(PlayerSpawnLocationEvent event) {
-        if (getDatabase().exist(event.getPlayer()))return;
+        if (getDatabase().locationExist(event.getPlayer(), "quit"))return;
         if (!getSpawn().locationExist())return;
         event.setSpawnLocation(getSpawn().getLocation());
     }

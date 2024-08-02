@@ -53,11 +53,11 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                         if (getKits().hasPrice(kitName)) {
                             if (getEconomy().has(player, getKits().cost(kitName))) {
                                 getKits().giveKit(player, kitName);
-                                getEconomy().remove(player, getKits().cost(kitName));
+                                getEconomy().withdrawPlayer(player, getKits().cost(kitName));
                                 getKits().addCooldown(player, kitName);
                                 getMessage().send(player, "&6You received&f " + kitName);
                             } else {
-                                getMessage().send(player, "&cYou do not have&a " + getEconomy().currency() + getEconomy().format(getKits().cost(kitName)) + "&c for&f " + kitName + "&c kit");
+                                getMessage().send(player, "&cYou do not have&a " + getEconomy().currencyNamePlural() + getEconomy().format(getKits().cost(kitName)) + "&c for&f " + kitName + "&c kit");
                             }
                         } else {
                             getKits().giveKit(player, kitName);

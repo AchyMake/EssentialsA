@@ -33,70 +33,10 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         Chunk chunk = entity.getChunk();
-        if (getVillagers().isNPC(entity)) {
-            event.setCancelled(true);
-        } else if (getEntities().disableDamage(damager, entity)) {
-            if (damager instanceof Player)return;
-            event.setCancelled(true);
-        } else if (getChunkdata().isClaimed(chunk)) {
-            if (entity.getType().equals(EntityType.PLAYER))return;
-            if (getEntities().isHostile(entity))return;
-            switch (damager) {
-                case Arrow arrow -> {
-                    if (arrow.getShooter() instanceof Player player) {
-                        if (getChunkdata().hasAccess(player, chunk))return;
-                        event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-                    }
-                }
-                case Player player -> {
-                    if (getChunkdata().hasAccess(player, chunk))return;
-                    event.setCancelled(true);
-                    getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-                }
-                case Snowball snowball -> {
-                    if (snowball.getShooter() instanceof Player player) {
-                        if (getChunkdata().hasAccess(player, chunk))return;
-                        event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-                    }
-                }
-                case SpectralArrow spectralArrow -> {
-                    if (spectralArrow.getShooter() instanceof Player player) {
-                        if (getChunkdata().hasAccess(player, chunk))return;
-                        event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-                    }
-                }
-                case ThrownPotion thrownPotion -> {
-                    if (thrownPotion.getShooter() instanceof Player player) {
-                        if (getChunkdata().hasAccess(player, chunk))return;
-                        event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-                    }
-                }
-                case Trident trident -> {
-                    if (trident.getShooter() instanceof Player player) {
-                        if (getChunkdata().hasAccess(player, chunk))return;
-                        event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-                    }
-                }
-                default -> {
-                    if (getVillagers().isNPC(entity)) {
-                        event.setCancelled(true);
-                    } else {
-                        if (event.getDamager() instanceof Player)return;
-                        if (!getEntities().disableDamage(event.getDamager(), event.getEntity()))return;
-                        event.setCancelled(true);
-                    }
-                }
-            }
-        }
         switch (damager) {
             case Arrow arrow -> {
                 if (arrow.getShooter() instanceof Player player) {
-                    if (isDisabled(player)) {
+                    if (getDatabase().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
@@ -113,12 +53,17 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
+                        } else if (getChunkdata().isClaimed(chunk)) {
+                            if (getChunkdata().hasAccess(player, chunk))return;
+                            if (getEntities().isHostile(entity))return;
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                         }
                     }
                 }
             }
             case Player player -> {
-                if (isDisabled(player)) {
+                if (getDatabase().isDisabled(player)) {
                     event.setCancelled(true);
                 } else {
                     if (entity instanceof Player target) {
@@ -135,12 +80,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                             event.setCancelled(true);
                         }
+                    } else if (getChunkdata().isClaimed(chunk)) {
+                        if (getChunkdata().hasAccess(player, chunk))return;
+                        event.setCancelled(true);
+                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                     }
                 }
             }
             case Snowball snowball -> {
                 if (snowball.getShooter() instanceof Player player) {
-                    if (isDisabled(player)) {
+                    if (getDatabase().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
@@ -157,13 +106,17 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
+                        } else if (getChunkdata().isClaimed(chunk)) {
+                            if (getChunkdata().hasAccess(player, chunk))return;
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                         }
                     }
                 }
             }
             case SpectralArrow spectralArrow -> {
                 if (spectralArrow.getShooter() instanceof Player player) {
-                    if (isDisabled(player)) {
+                    if (getDatabase().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
@@ -180,13 +133,17 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
+                        } else if (getChunkdata().isClaimed(chunk)) {
+                            if (getChunkdata().hasAccess(player, chunk))return;
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                         }
                     }
                 }
             }
             case ThrownPotion thrownPotion -> {
                 if (thrownPotion.getShooter() instanceof Player player) {
-                    if (isDisabled(player)) {
+                    if (getDatabase().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
@@ -203,13 +160,17 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
+                        } else if (getChunkdata().isClaimed(chunk)) {
+                            if (getChunkdata().hasAccess(player, chunk))return;
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                         }
                     }
                 }
             }
             case Trident trident -> {
                 if (trident.getShooter() instanceof Player player) {
-                    if (isDisabled(player)) {
+                    if (getDatabase().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
@@ -226,13 +187,17 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
+                        } else if (getChunkdata().isClaimed(chunk)) {
+                            if (getChunkdata().hasAccess(player, chunk))return;
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                         }
                     }
                 }
             }
             case WindCharge windCharge -> {
                 if (windCharge.getShooter() instanceof Player player) {
-                    if (isDisabled(player)) {
+                    if (getDatabase().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
@@ -249,6 +214,10 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
+                        } else if (getChunkdata().isClaimed(chunk)) {
+                            if (getChunkdata().hasAccess(player, chunk))return;
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
                         }
                     }
                 }
@@ -258,13 +227,10 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     event.setCancelled(true);
                 } else {
                     if (event.getDamager() instanceof Player)return;
-                    if (!getEntities().disableDamage(event.getDamager(), event.getEntity()))return;
+                    if (!getEntities().disableDamage(damager, entity))return;
                     event.setCancelled(true);
                 }
             }
         }
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player);
     }
 }

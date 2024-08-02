@@ -47,38 +47,39 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
             if (getDatabase().hasMoved(from, to)) {
                 event.setCancelled(true);
             }
-        }
-        if (getConfig().getBoolean("teleport.cancel-on-move")) {
+        } else {
             if (getDatabase().hasTaskID(player, "teleport")) {
-                if (getDatabase().hasMoved(from, to)) {
-                    getMessage().sendActionBar(player, "&cYou moved before teleporting!");
-                    getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
-                    getDatabase().removeTaskID(player, "teleport");
+                if (getConfig().getBoolean("teleport.cancel-on-move")) {
+                    if (getDatabase().hasMoved(from, to)) {
+                        getMessage().sendActionBar(player, "&cYou moved before teleporting!");
+                        getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
+                        getDatabase().removeTaskID(player, "teleport");
+                    }
                 }
             }
-        }
-        if (to.getChunk() != from.getChunk()) {
-            Chunk chunk = to.getChunk();
-            if (getChunkdata().isClaimed(chunk)) {
-                if (getChunkdata().isBanned(chunk, player)) {
-                    if (plugin.getChunkEditors().contains(player)) {
-                        visit(player, getChunkdata().getOwner(chunk));
+            if (player.getPassenger() != null) {
+                Entity passenger = player.getPassenger();
+                if (getCarry().isEnable(passenger)) {
+                    if (getDatabase().hasMoved(from, to)) {
+                        getCarry().addEffects(player);
+                    }
+                }
+            }
+            if (to.getChunk() != from.getChunk()) {
+                Chunk chunk = to.getChunk();
+                if (getChunkdata().isClaimed(chunk)) {
+                    if (getChunkdata().isBanned(chunk, player)) {
+                        if (plugin.getChunkEditors().contains(player)) {
+                            visit(player, getChunkdata().getOwner(chunk));
+                        } else {
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&cYou are banned from&f " + getChunkdata().getOwner(chunk).getName() + "&c's chunk");
+                        }
                     } else {
-                        event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cYou are banned from&f " + getChunkdata().getOwner(chunk).getName() + "&c's chunk");
+                        visit(player, getChunkdata().getOwner(chunk));
                     }
                 } else {
-                    visit(player, getChunkdata().getOwner(chunk));
-                }
-            } else {
-                exit(player);
-            }
-        }
-        if (player.getPassenger() != null) {
-            Entity passenger = player.getPassenger();
-            if (getCarry().isEnable(passenger)) {
-                if (getDatabase().hasMoved(from, to)) {
-                    getCarry().addEffects(player);
+                    exit(player);
                 }
             }
         }

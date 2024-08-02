@@ -17,11 +17,8 @@ public record PlayerMount(EssentialsA plugin) implements Listener {
     public void onPlayerMount(EntityMountEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (event.getMount() instanceof ArmorStand)return;
-            if (!isDisabled(player))return;
+            if (!getDatabase().isDisabled(player))return;
             event.setCancelled(true);
         }
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player);
     }
 }

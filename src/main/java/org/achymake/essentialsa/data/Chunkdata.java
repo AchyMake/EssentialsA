@@ -231,7 +231,7 @@ public record Chunkdata(EssentialsA plugin) {
         getDatabase().setStringList(offlinePlayer, "chunks.worlds." + worldName, longList);
     }
     public void removeClaim(OfflinePlayer offlinePlayer, Chunk chunk) {
-        getEconomy().add(offlinePlayer, getConfig().getDouble("chunks.economy.refund"));
+        getEconomy().depositPlayer(offlinePlayer, getConfig().getDouble("chunks.economy.refund"));
         String worldName = chunk.getWorld().getName();
         List<String> longList = getDatabase().getConfig(offlinePlayer).getStringList("chunks.worlds." + worldName);
         longList.remove(String.valueOf(chunk.getChunkKey()));

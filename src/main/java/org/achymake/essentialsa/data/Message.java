@@ -8,7 +8,6 @@ import org.bukkit.Sound;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -19,9 +18,6 @@ public record Message(EssentialsA plugin) {
     }
     private Server getServer() {
         return plugin.getServer();
-    }
-    private BukkitScheduler getScheduler() {
-        return plugin().getScheduler();
     }
     private UpdateChecker getUpdateChecker() {
         return plugin.getUpdateChecker();

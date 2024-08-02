@@ -82,7 +82,7 @@ public record ChestShop(EssentialsA plugin) {
                     sign.setLine(0, getMessage().addColor("&6" + player.getName()));
                     sign.setLine(1, getMessage().addColor("&f" + getAmount(sign)));
                     sign.setLine(2, getMessage().addColor("&f" + getMaterial(sign).name()));
-                    sign.setLine(3, getMessage().addColor("&a" + getEconomy().currency() + getEconomy().format(getValue(sign))));
+                    sign.setLine(3, getMessage().addColor("&a" + getEconomy().currencyNamePlural() + getEconomy().format(getValue(sign))));
                     sign.setWaxed(true);
                     addOwner(player, sign);
                     sign.update();
@@ -104,16 +104,16 @@ public record ChestShop(EssentialsA plugin) {
                 ItemStack items = chest.getInventory().getItem(first);
                 if (items.getAmount() >= getAmount(sign)) {
                     if (getEconomy().has(player, getValue(sign))) {
-                        getEconomy().remove(player, getValue(sign));
-                        getEconomy().add(getOwner(sign), getValue(sign));
+                        getEconomy().withdrawPlayer(player, getValue(sign));
+                        getEconomy().depositPlayer(getOwner(sign), getValue(sign));
                         ItemStack bought = new ItemStack(items.getType());
                         bought.setItemMeta(items.getItemMeta());
                         bought.setAmount(getAmount(sign));
                         giveItems(player, bought);
                         items.setAmount(items.getAmount() - getAmount(sign));
-                        getMessage().send(player, "&6You bought &f" + getAmount(sign) + " " + getMaterial(sign).name() + "&6 for &a" + getEconomy().currency() + getEconomy().format(getValue(sign)));
+                        getMessage().send(player, "&6You bought &f" + getAmount(sign) + " " + getMaterial(sign).name() + "&6 for &a" + getEconomy().currencyNamePlural() + getEconomy().format(getValue(sign)));
                     } else {
-                        getMessage().send(player, "&cYou do not have&a " + getEconomy().currency() + getEconomy().format(getValue(sign)));
+                        getMessage().send(player, "&cYou do not have&a " + getEconomy().currencyNamePlural() + getEconomy().format(getValue(sign)));
                     }
                 } else {
                     getMessage().send(player, "&cChest is currently out of stuck");

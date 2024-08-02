@@ -6,7 +6,6 @@ import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,9 +30,6 @@ public class PayCommand implements CommandExecutor, TabCompleter {
     private Message getMessage() {
         return plugin.getMessage();
     }
-    private Server getServer() {
-        return plugin.getServer();
-    }
     public PayCommand(EssentialsA plugin) {
         this.plugin = plugin;
     }
@@ -46,14 +42,14 @@ public class PayCommand implements CommandExecutor, TabCompleter {
                     double amount = Double.parseDouble(args[1]);
                     if (amount >= getConfig().getDouble("economy.minimum-payment")) {
                         if (getEconomy().has(player, amount)) {
-                            getEconomy().remove(player, amount);
-                            getEconomy().add(offlinePlayer, amount);
-                            getMessage().send(player, "&6You paid&f " + offlinePlayer.getName() + "&a " + getEconomy().currency() + getEconomy().format(amount));
+                            getEconomy().withdrawPlayer(player, amount);
+                            getEconomy().depositPlayer(offlinePlayer, amount);
+                            getMessage().send(player, "&6You paid&f " + offlinePlayer.getName() + "&a " + getEconomy().currencyNamePlural() + getEconomy().format(amount));
                         } else {
-                            getMessage().send(player, "&cYou don't have&a " + getEconomy().currency() + getEconomy().format(amount) + "&c to pay&f " + offlinePlayer.getName());
+                            getMessage().send(player, "&cYou don't have&a " + getEconomy().currencyNamePlural() + getEconomy().format(amount) + "&c to pay&f " + offlinePlayer.getName());
                         }
                     } else {
-                        getMessage().send(player, "&cYou have to pay at least&a " + getEconomy().currency() + getEconomy().format(getConfig().getDouble("economy.minimum-payment")));
+                        getMessage().send(player, "&cYou have to pay at least&a " + getEconomy().currencyNamePlural() + getEconomy().format(getConfig().getDouble("economy.minimum-payment")));
                     }
                 } else {
                     getMessage().send(player, offlinePlayer.getName() + "&c has never joined");

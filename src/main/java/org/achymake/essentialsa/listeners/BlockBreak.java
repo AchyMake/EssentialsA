@@ -45,7 +45,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        if (isDisabled(player)) {
+        if (getDatabase().isDisabled(player)) {
             event.setCancelled(true);
         } else if (cancel(player, block)) {
             event.setCancelled(true);
@@ -176,8 +176,5 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
         } else {
             getServer().getWorld(player.getWorld().getName()).dropItem(block.getLocation().add(0.5,0.5,0.5), getDatabase().getSpawner(spawner.getSpawnedType().toString(), 1));
         }
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player);
     }
 }

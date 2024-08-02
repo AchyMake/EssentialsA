@@ -44,7 +44,7 @@ public record BlockPlace(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlockPlaced();
         Chunk chunk = block.getChunk();
-        if (isDisabled(player)) {
+        if (getDatabase().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getChunkdata().isClaimed(chunk)) {
             if (getChunkdata().hasAccess(player, chunk))return;
@@ -74,8 +74,5 @@ public record BlockPlace(EssentialsA plugin) implements Listener {
                 }
             }
         }
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player);
     }
 }

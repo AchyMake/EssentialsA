@@ -1,7 +1,6 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Worth;
@@ -17,9 +16,6 @@ import java.util.List;
 
 public class SetWorthCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
-    }
     private Worth getWorth() {
         return plugin.getWorth();
     }
@@ -43,7 +39,7 @@ public class SetWorthCommand implements CommandExecutor, TabCompleter {
                     Material material = player.getInventory().getItemInMainHand().getType();
                     if (value > 0) {
                         getWorth().setWorth(material, value);
-                        getMessage().send(player, material + "&6 is now worth&a " + getEconomy().currency() + getEconomy().format(value));
+                        getMessage().send(player, material + "&6 is now worth&a " + getEconomy().currencyNamePlural() + getEconomy().format(value));
                     } else {
                         getWorth().setWorth(material, value);
                         getMessage().send(player, material + "&6 is now worthless");

@@ -71,20 +71,20 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                                             getChunkdata().setup(player, chunk);
                                             getChunkdata().claimEffect(player, chunk);
                                             getChunkdata().claimSound(player);
-                                            getEconomy().remove(player, result);
-                                            getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currency() + getEconomy().format(result));
+                                            getEconomy().withdrawPlayer(player, result);
+                                            getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currencyNamePlural() + getEconomy().format(result));
                                         } else {
-                                            getMessage().send(player, "&cYou do not have&a " +  getEconomy().currency() + result + "&c to claim it");
+                                            getMessage().send(player, "&cYou do not have&a " +  getEconomy().currencyNamePlural() + result + "&c to claim it");
                                         }
                                     } else {
                                         if (getEconomy().has(player, cost)) {
                                             getChunkdata().setup(player, chunk);
                                             getChunkdata().claimEffect(player, chunk);
                                             getChunkdata().claimSound(player);
-                                            getEconomy().remove(player, cost);
-                                            getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currency() + getEconomy().format(cost));
+                                            getEconomy().withdrawPlayer(player, cost);
+                                            getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currencyNamePlural() + getEconomy().format(cost));
                                         } else {
-                                            getMessage().send(player, "&cYou do not have&a " +  getEconomy().currency() + getEconomy().format(cost) + "&c to claim it");
+                                            getMessage().send(player, "&cYou do not have&a " +  getEconomy().currencyNamePlural() + getEconomy().format(cost) + "&c to claim it");
                                         }
                                     }
                                 }
@@ -114,7 +114,7 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                         Chunk chunk = player.getLocation().getChunk();
                         if (getChunkdata().isClaimed(chunk)) {
                             if (getChunkdata().isOwner(player, chunk)) {
-                                getMessage().send(player, "&6You unclaimed current chunk and got refunded&a " + getEconomy().currency() + getEconomy().format(getConfig().getDouble("chunks.economy.refund")));
+                                getMessage().send(player, "&6You unclaimed current chunk and got refunded&a " + getEconomy().currencyNamePlural() + getEconomy().format(getConfig().getDouble("chunks.economy.refund")));
                                 getChunkdata().remove(player, chunk);
                                 getChunkdata().unclaimEffect(player, chunk);
                                 getChunkdata().unclaimSound(player);
@@ -243,7 +243,7 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                     if (player.hasPermission("essentials.command.chunk.unclaim")) {
                         if (args[1].equalsIgnoreCase("all")) {
                             getChunkdata().removeAll(player);
-                            getMessage().send(player, "&6You unclaimed all chunks and got refunded each for&a " + getEconomy().currency() + getEconomy().format(getConfig().getDouble("chunks.economy.refund")));
+                            getMessage().send(player, "&6You unclaimed all chunks and got refunded each for&a " + getEconomy().currencyNamePlural() + getEconomy().format(getConfig().getDouble("chunks.economy.refund")));
                             return true;
                         }
                     }

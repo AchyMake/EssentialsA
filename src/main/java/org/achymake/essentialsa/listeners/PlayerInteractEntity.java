@@ -37,47 +37,39 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
         Chunk chunk = entity.getChunk();
-        if (isDisabled(player)) {
+        if (getDatabase().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);
-            if (event.isCancelled()) {
-                if (getVillagers().hasCommand(entity)) {
-                    if (getVillagers().isCommandPlayer(entity)) {
-                        Villager villager = (Villager) entity;
-                        villager.playEffect(EntityEffect.VILLAGER_HAPPY);
-                        villager.shakeHead();
-                        player.getServer().dispatchCommand(player, getVillagers().getCommand(entity));
-                    }
-                    if (getVillagers().isCommandConsole(entity)) {
-                        Villager villager = (Villager) entity;
-                        villager.playEffect(EntityEffect.VILLAGER_HAPPY);
-                        villager.shakeHead();
-                        player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getVillagers().getCommand(entity).replaceAll("%player%", player.getName()));
-                    }
+            if (getVillagers().hasCommand(entity)) {
+                if (getVillagers().isCommandPlayer(entity)) {
+                    Villager villager = (Villager) entity;
+                    villager.playEffect(EntityEffect.VILLAGER_HAPPY);
+                    villager.shakeHead();
+                    player.getServer().dispatchCommand(player, getVillagers().getCommand(entity));
+                }
+                if (getVillagers().isCommandConsole(entity)) {
+                    Villager villager = (Villager) entity;
+                    villager.playEffect(EntityEffect.VILLAGER_HAPPY);
+                    villager.shakeHead();
+                    player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getVillagers().getCommand(entity).replaceAll("%player%", player.getName()));
                 }
             }
         } else if (getChunkdata().isClaimed(chunk)) {
             if (entity.isInvulnerable())return;
             if (entity instanceof Player)return;
             if (getChunkdata().hasAccess(player, chunk)) {
+                if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
+                if (!getCarry().isEnable(entity))return;
+                if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
+                if (!player.getInventory().getItemInMainHand().isEmpty())return;
+                if (!player.getInventory().getItemInOffHand().isEmpty())return;
                 if (player.isSneaking()) {
-                    if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
-                    if (!getCarry().isEnable(entity))return;
-                    if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                     event.setCancelled(true);
-                    if (event.isCancelled()) {
-                        getCarry().carry(player, entity, true);
-                    }
+                    getCarry().carry(player, entity, true);
                 } else {
-                    if (!getCarry().hasPassenger(player))return;
-                    if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
-                    if (!getCarry().isEnable(entity))return;
-                    if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                     event.setCancelled(true);
-                    if (event.isCancelled()) {
-                        getCarry().stack(player, entity);
-                    }
+                    getCarry().stack(player, entity);
                 }
             } else {
                 if (getEntities().isHostile(entity))return;
@@ -89,29 +81,19 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
             }
         } else {
             if (entity.isInvulnerable())return;
+            if (entity instanceof Player)return;
+            if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
+            if (!getCarry().isEnable(entity))return;
+            if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
+            if (!player.getInventory().getItemInMainHand().isEmpty())return;
+            if (!player.getInventory().getItemInOffHand().isEmpty())return;
             if (player.isSneaking()) {
-                if (entity instanceof Player)return;
-                if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
-                if (!getCarry().isEnable(entity))return;
-                if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                 event.setCancelled(true);
-                if (event.isCancelled()) {
-                    getCarry().carry(player, entity, true);
-                }
+                getCarry().carry(player, entity, true);
             } else {
-                if (!getCarry().hasPassenger(player))return;
-                if (entity instanceof Player)return;
-                if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
-                if (!getCarry().isEnable(entity))return;
-                if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                 event.setCancelled(true);
-                if (event.isCancelled()) {
-                    getCarry().stack(player, entity);
-                }
+                getCarry().stack(player, entity);
             }
         }
-    }
-    private boolean isDisabled(Player player) {
-        return getDatabase().isFrozen(player) || getDatabase().isJailed(player);
     }
 }
