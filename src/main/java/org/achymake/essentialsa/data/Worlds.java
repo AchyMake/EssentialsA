@@ -63,6 +63,7 @@ public record Worlds(EssentialsA plugin) {
                         }
                     }
                 }
+                plugin.getVillagers().setup();
             }
         },40);
     }

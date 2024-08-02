@@ -110,11 +110,11 @@ public final class EssentialsA extends JavaPlugin {
         worlds = new Worlds(this);
         worth = new Worth(this);
         updateChecker = new UpdateChecker(this);
-        reload(false);
         getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, new VaultEcoProvider(this), this, ServicePriority.Normal);
         new PlaceholderProvider().register();
         commands();
         events();
+        reload();
         getWorlds().setupWorlds();
         getMessage().sendLog(Level.INFO, "Enabled " + getDescription().getName() + " " + getDescription().getVersion());
         getUpdateChecker().getUpdate();
@@ -269,7 +269,7 @@ public final class EssentialsA extends JavaPlugin {
     public StateFlag getFlagCarry() {
         return FLAG_CARRY;
     }
-    public void reload(boolean byCommand) {
+    public void reload() {
         File file = new File(getDataFolder(), "config.yml");
         if (file.exists()) {
             try {
@@ -296,11 +296,7 @@ public final class EssentialsA extends JavaPlugin {
         getSpawn().reload();
         getWarps().reload();
         getWorth().reload();
-        if (byCommand) {
-            getVillagers().reload();
-        } else {
-            getVillagers().setup();
-        }
+        getVillagers().reload();
     }
     private PluginManager getManager() {
         return getServer().getPluginManager();

@@ -118,12 +118,7 @@ public record Villagers(EssentialsA plugin) {
         for (File files : getFile("villager").listFiles()) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(files);
             try {
-                Entity entity = getServer().getEntity(UUID.fromString(files.getName().replace(".yml", "")));
-                if (entity != null) {
-                    entity.remove();
-                }
                 config.load(files);
-                createVillager(files);
             } catch (IOException | InvalidConfigurationException e) {
                 getMessage().sendLog(Level.WARNING, e.getMessage());
             }
