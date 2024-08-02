@@ -37,11 +37,13 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
                 event.setCancelled(true);
             }
         }
-        if (getDatabase().hasTaskID(player, "teleport")) {
-            if (getDatabase().hasMoved(event.getFrom(), event.getTo())) {
-                getMessage().sendActionBar(player, "&cYou moved before teleporting!");
-                plugin.getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
-                getDatabase().removeTaskID(player, "teleport");
+        if (plugin.getConfig().getBoolean("teleport.cancel-on-move")) {
+            if (getDatabase().hasTaskID(player, "teleport")) {
+                if (getDatabase().hasMoved(event.getFrom(), event.getTo())) {
+                    getMessage().sendActionBar(player, "&cYou moved before teleporting!");
+                    plugin.getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
+                    getDatabase().removeTaskID(player, "teleport");
+                }
             }
         }
         if (event.getTo().getChunk() != event.getFrom().getChunk()) {

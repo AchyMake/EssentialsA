@@ -1,9 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Carry;
-import org.achymake.essentialsa.data.Chairs;
-import org.achymake.essentialsa.data.Villagers;
+import org.achymake.essentialsa.data.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +19,12 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     private Chairs getChairs() {
         return plugin.getChairs();
     }
+    private Message getMessage() {
+        return plugin.getMessage();
+    }
+    private Database getDatabase() {
+        return plugin.getDatabase();
+    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
@@ -32,8 +36,17 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
             if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
             getCarry().removeMount(player, entity);
         } else if (entity instanceof Player player) {
-            if (!getChairs().hasChair(player))return;
-            getChairs().dismount(player);
+            if (getChairs().hasChair(player)) {
+                getChairs().dismount(player);
+            } else {
+                if (plugin.getConfig().getBoolean("teleport.cancel-on-damage")) {
+                    if (getDatabase().hasTaskID(player, "teleport")) {
+                        getMessage().sendActionBar(player, "&cYou moved before teleporting!");
+                        plugin.getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
+                        getDatabase().removeTaskID(player, "teleport");
+                    }
+                }
+            }
         }
     }
 }

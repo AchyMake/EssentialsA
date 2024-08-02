@@ -126,3 +126,5 @@ store:
   -  "- https://store.your-server.org"
 teleport:
   delay: 3
+  cancel-on-damage: true
+  cancel-on-move: true
