@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import java.util.List;
 
 public class FeedCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -28,12 +32,12 @@ public class FeedCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().hasCooldown(player, "feed")) {
-                    getMessage().sendActionBar(player, "&cYou have to wait&f " + getDatabase().getCooldown(player, "feed") + "&c seconds");
+                if (getUserdata().hasCooldown(player, "feed")) {
+                    getMessage().sendActionBar(player, "&cYou have to wait&f " + getUserdata().getCooldown(player, "feed") + "&c seconds");
                 } else {
                     player.setFoodLevel(20);
                     getMessage().sendActionBar(player, "&6Your starvation has been satisfied");
-                    getDatabase().addCooldown(player, "feed");
+                    getUserdata().addCooldown(player, "feed");
                     getMessage().send(player, "&6You satisfied&f " + player.getName() + "&6's starvation");
                 }
                 return true;

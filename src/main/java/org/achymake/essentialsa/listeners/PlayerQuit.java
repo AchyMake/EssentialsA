@@ -1,10 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Carry;
-import org.achymake.essentialsa.data.Chairs;
-import org.achymake.essentialsa.data.Database;
-import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.*;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.Sound;
@@ -23,8 +20,8 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Carry getCarry() {
         return plugin.getCarry();
@@ -32,25 +29,25 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     private Chairs getChairs() {
         return plugin.getChairs();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
+    private List<Player> getChunkEditors() {
+        return plugin.getChunkEditors();
     }
     private Server getServer() {
         return plugin.getServer();
     }
-    private List<Player> getChunkEditors() {
-        return plugin.getChunkEditors();
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         removeTeleportTask(player);
         removeTPAonQuit(player);
-        getDatabase().setLocation(player, "quit");
+        getUserdata().setLocation(player, "quit");
         if (getChairs().hasChair(player)) {
             getChairs().dismount(player);
         }
-        if (getDatabase().isVanished(player)) {
+        if (getUserdata().isVanished(player)) {
             removeVanishTask(player);
             plugin.getVanished().remove(player);
             event.setQuitMessage(null);
@@ -85,15 +82,15 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         return getMessage().addColor(getConfig().getString("connection.quit.message").replaceAll("%player%", player.getName()));
     }
     private void removeTeleportTask(Player player) {
-        if (getDatabase().hasTaskID(player, "teleport")) {
-            plugin.getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
-            getDatabase().removeTaskID(player, "teleport");
+        if (getUserdata().hasTaskID(player, "teleport")) {
+            plugin.getScheduler().cancelTask(getUserdata().getTaskID(player, "teleport"));
+            getUserdata().removeTaskID(player, "teleport");
         }
     }
     private void removeVanishTask(Player player) {
-        if (getDatabase().hasTaskID(player, "vanish")) {
-            plugin.getScheduler().cancelTask(getDatabase().getTaskID(player, "vanish"));
-            getDatabase().removeTaskID(player, "vanish");
+        if (getUserdata().hasTaskID(player, "vanish")) {
+            plugin.getScheduler().cancelTask(getUserdata().getTaskID(player, "vanish"));
+            getUserdata().removeTaskID(player, "vanish");
         }
     }
     private void playSound() {
@@ -107,50 +104,50 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         }
     }
     private void removeTPAonQuit(Player player) {
-        if (getDatabase().getConfig(player).isString("tpa.from")) {
-            String uuidString = getDatabase().getConfig(player).getString("tpa.from");
+        if (getUserdata().getConfig(player).isString("tpa.from")) {
+            String uuidString = getUserdata().getConfig(player).getString("tpa.from");
             UUID uuid = UUID.fromString(uuidString);
             OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getDatabase().setString(target, "tpa.sent", null);
-            int taskID = getDatabase().getConfig(target).getInt("task.tpa");
+            getUserdata().setString(target, "tpa.sent", null);
+            int taskID = getUserdata().getConfig(target).getInt("task.tpa");
             if (plugin.getScheduler().isQueued(taskID)) {
                 plugin.getScheduler().cancelTask(taskID);
-                getDatabase().setString(player, "tpa.from", null);
+                getUserdata().setString(player, "tpa.from", null);
             }
-            getDatabase().setString(target, "task.tpa", null);
-        } else if (getDatabase().getConfig(player).isString("tpahere.from")) {
-            String uuidString = getDatabase().getConfig(player).getString("tpahere.from");
+            getUserdata().setString(target, "task.tpa", null);
+        } else if (getUserdata().getConfig(player).isString("tpahere.from")) {
+            String uuidString = getUserdata().getConfig(player).getString("tpahere.from");
             UUID uuid = UUID.fromString(uuidString);
             OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getDatabase().setString(target, "tpahere.sent", null);
-            int taskID = getDatabase().getConfig(target).getInt("task.tpa");
+            getUserdata().setString(target, "tpahere.sent", null);
+            int taskID = getUserdata().getConfig(target).getInt("task.tpa");
             if (plugin.getScheduler().isQueued(taskID)) {
                 plugin.getScheduler().cancelTask(taskID);
-                getDatabase().setString(player, "tpahere.from", null);
+                getUserdata().setString(player, "tpahere.from", null);
             }
-            getDatabase().setString(target, "task.tpa", null);
-        } else if (getDatabase().getConfig(player).isString("tpa.sent")) {
-            String uuidString = getDatabase().getConfig(player).getString("tpa.sent");
+            getUserdata().setString(target, "task.tpa", null);
+        } else if (getUserdata().getConfig(player).isString("tpa.sent")) {
+            String uuidString = getUserdata().getConfig(player).getString("tpa.sent");
             UUID uuid = UUID.fromString(uuidString);
             OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getDatabase().setString(target, "tpa.from", null);
-            int taskID = getDatabase().getConfig(player).getInt("task.tpa");
+            getUserdata().setString(target, "tpa.from", null);
+            int taskID = getUserdata().getConfig(player).getInt("task.tpa");
             if (plugin.getScheduler().isQueued(taskID)) {
                 plugin.getScheduler().cancelTask(taskID);
-                getDatabase().setString(player, "task.tpa", null);
+                getUserdata().setString(player, "task.tpa", null);
             }
-            getDatabase().setString(player, "tpa.sent", null);
-        } else if (getDatabase().getConfig(player).isString("tpahere.sent")) {
-            String uuidString = getDatabase().getConfig(player).getString("tpahere.sent");
+            getUserdata().setString(player, "tpa.sent", null);
+        } else if (getUserdata().getConfig(player).isString("tpahere.sent")) {
+            String uuidString = getUserdata().getConfig(player).getString("tpahere.sent");
             UUID uuid = UUID.fromString(uuidString);
             OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getDatabase().setString(target, "tpahere.from", null);
-            int taskID = getDatabase().getConfig(player).getInt("task.tpa");
+            getUserdata().setString(target, "tpahere.from", null);
+            int taskID = getUserdata().getConfig(player).getInt("task.tpa");
             if (plugin.getScheduler().isQueued(taskID)) {
                 plugin.getScheduler().cancelTask(taskID);
-                getDatabase().setString(player, "task.tpa", null);
+                getUserdata().setString(player, "task.tpa", null);
             }
-            getDatabase().setString(player, "tpahere.sent", null);
+            getUserdata().setString(player, "tpahere.sent", null);
         }
     }
 }

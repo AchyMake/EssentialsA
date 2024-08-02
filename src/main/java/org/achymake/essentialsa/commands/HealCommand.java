@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import java.util.List;
 
 public class HealCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -28,13 +32,13 @@ public class HealCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().hasCooldown(player, "heal")) {
-                    getMessage().sendActionBar(player, "&cYou have to wait&f " + getDatabase().getCooldown(player, "heal") + "&c seconds");
+                if (getUserdata().hasCooldown(player, "heal")) {
+                    getMessage().sendActionBar(player, "&cYou have to wait&f " + getUserdata().getCooldown(player, "heal") + "&c seconds");
                 } else {
                     player.setFoodLevel(20);
                     player.setHealth(player.getMaxHealth());
                     getMessage().sendActionBar(player, "&6Your health has been satisfied");
-                    getDatabase().addCooldown(player, "heal");
+                    getUserdata().addCooldown(player, "heal");
                 }
                 return true;
             }

@@ -1,7 +1,6 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Warps;
 import org.achymake.essentialsa.data.Worlds;
 import org.bukkit.PortalType;
 import org.bukkit.World;
@@ -13,9 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 
 public record EntityPortalEnter(EssentialsA plugin) implements Listener {
-    private Warps getWarps() {
-        return plugin.getWarps();
-    }
     private Worlds getWorlds() {
         return plugin.getWorlds();
     }

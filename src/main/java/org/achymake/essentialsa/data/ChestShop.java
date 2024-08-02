@@ -19,11 +19,11 @@ public record ChestShop(EssentialsA plugin) {
     private Economy getEconomy() {
         return plugin.getEconomy();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private List<Player> getChestShopEditors() {
         return plugin.getChestShopEditors();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     public PersistentDataContainer getData(Sign sign) {
         return sign.getPersistentDataContainer();

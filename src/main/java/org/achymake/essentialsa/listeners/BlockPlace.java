@@ -2,8 +2,8 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,8 +27,8 @@ public record BlockPlace(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
         return plugin().getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
@@ -44,7 +44,7 @@ public record BlockPlace(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlockPlaced();
         Chunk chunk = block.getChunk();
-        if (getDatabase().isDisabled(player)) {
+        if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getChunkdata().isClaimed(chunk)) {
             if (getChunkdata().hasAccess(player, chunk))return;

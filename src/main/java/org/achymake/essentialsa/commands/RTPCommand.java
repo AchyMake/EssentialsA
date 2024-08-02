@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,6 +15,9 @@ import java.util.List;
 
 public class RTPCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -27,10 +31,10 @@ public class RTPCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().hasCooldown(player, "rtp")) {
-                    getMessage().sendActionBar(player, "&cYou have to wait&f " + getDatabase().getCooldown(player, "rtp") + "&c seconds");
+                if (getUserdata().hasCooldown(player, "rtp")) {
+                    getMessage().sendActionBar(player, "&cYou have to wait&f " + getUserdata().getCooldown(player, "rtp") + "&c seconds");
                 } else {
-                    getDatabase().addCooldown(player, "rtp");
+                    getUserdata().addCooldown(player, "rtp");
                     getMessage().sendActionBar(player, "&6Finding safe locations...");
                     getDatabase().randomTeleport(player);
                 }

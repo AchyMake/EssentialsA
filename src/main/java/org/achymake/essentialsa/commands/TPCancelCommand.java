@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -18,8 +18,8 @@ import java.util.UUID;
 
 public class TPCancelCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Server getServer() {
         return plugin.getServer();
@@ -37,19 +37,19 @@ public class TPCancelCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().getConfig(player).isString("tpa.sent")) {
-                    String uuidString = getDatabase().getConfig(player).getString("tpa.sent");
+                if (getUserdata().getConfig(player).isString("tpa.sent")) {
+                    String uuidString = getUserdata().getConfig(player).getString("tpa.sent");
                     UUID uuid = UUID.fromString(uuidString);
                     Player target = getServer().getPlayer(uuid);
                     if (target != null) {
-                        int taskID = getDatabase().getConfig(player).getInt("task.tpa");
+                        int taskID = getUserdata().getConfig(player).getInt("task.tpa");
                         if (getScheduler().isQueued(taskID)) {
                             getScheduler().cancelTask(taskID);
                             getMessage().send(target, player.getName() + "&6 cancelled tpa request");
                             getMessage().send(player, "&6You cancelled tpa request");
-                            getDatabase().setString(target, "tpa.from", null);
-                            getDatabase().setString(player, "task.tpa", null);
-                            getDatabase().setString(player, "tpa.sent", null);
+                            getUserdata().setString(target, "tpa.from", null);
+                            getUserdata().setString(player, "task.tpa", null);
+                            getUserdata().setString(player, "tpa.sent", null);
                             return true;
                         }
                     }

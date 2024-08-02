@@ -4,6 +4,7 @@ import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Spawn;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -13,6 +14,9 @@ import java.util.List;
 
 public class SpawnCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -32,7 +36,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().isFrozen(player) || getDatabase().isJailed(player)) {
+                if (getUserdata().isDisabled(player)) {
                     return false;
                 } else {
                     if (getSpawn().locationExist()) {
@@ -47,7 +51,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 if (player.hasPermission("essentials.command.spawn.other")) {
                     Player target = getServer().getPlayerExact(args[0]);
                     if (target != null) {
-                        if (getDatabase().isDisabled(target)) {
+                        if (getUserdata().isDisabled(target)) {
                             return false;
                         } else {
                             if (getSpawn().locationExist()) {
@@ -69,7 +73,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    if (getDatabase().isDisabled(target)) {
+                    if (getUserdata().isDisabled(target)) {
                         return false;
                     } else {
                         if (getSpawn().locationExist()) {

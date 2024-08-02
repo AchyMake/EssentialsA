@@ -1,9 +1,9 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Spawn;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -17,8 +17,8 @@ import java.util.List;
 
 public class SetSpawnCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Spawn getSpawn() {
         return plugin.getSpawn();
@@ -48,12 +48,12 @@ public class SetSpawnCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 if (player.hasPermission("essentials.command.setspawn.other")) {
                     OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(args[0]);
-                    if (getDatabase().exist(offlinePlayer)) {
-                        if (getDatabase().locationExist(offlinePlayer, "spawn")) {
-                            getDatabase().setLocation(offlinePlayer, "spawn", player.getLocation());
+                    if (getUserdata().exist(offlinePlayer)) {
+                        if (getUserdata().locationExist(offlinePlayer, "spawn")) {
+                            getUserdata().setLocation(offlinePlayer, "spawn", player.getLocation());
                             getMessage().send(player, offlinePlayer.getName() + "&6's spawn relocated");
                         } else {
-                            getDatabase().setLocation(offlinePlayer, "spawn", player.getLocation());
+                            getUserdata().setLocation(offlinePlayer, "spawn", player.getLocation());
                             getMessage().send(player, offlinePlayer.getName() + "&6's spawn set");
                         }
                     } else {

@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import java.util.List;
 
 public class BackCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -27,7 +31,7 @@ public class BackCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (getDatabase().isDisabled(player)) {
+            if (getUserdata().isDisabled(player)) {
                 return false;
             } else {
                 if (args.length == 0) {
@@ -57,7 +61,7 @@ public class BackCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof ConsoleCommandSender) {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
-                if (getDatabase().isDisabled(target)) {
+                if (getUserdata().isDisabled(target)) {
                     return false;
                 } else {
                     if (target != null) {
@@ -86,17 +90,17 @@ public class BackCommand implements CommandExecutor, TabCompleter {
         return commands;
     }
     private void teleportBack(Player player) {
-        if (getDatabase().locationExist(player, "death")) {
+        if (getUserdata().locationExist(player, "death")) {
             if (player.hasPermission("essentials.command.back.death")) {
-                getDatabase().teleport(player, "death", getDatabase().getLocation(player, "death"));
-                getDatabase().setString(player, "locations.death", null);
+                getDatabase().teleport(player, "death", getUserdata().getLocation(player, "death"));
+                getUserdata().setString(player, "locations.death", null);
             } else {
-                getDatabase().teleport(player, "recent", getDatabase().getLocation(player, "recent"));
+                getDatabase().teleport(player, "recent", getUserdata().getLocation(player, "recent"));
             }
         } else {
-            String worldName = getDatabase().getLocation(player, "recent").getWorld().getName();
+            String worldName = getUserdata().getLocation(player, "recent").getWorld().getName();
             if (player.hasPermission("essentials.command.back.world." + worldName)) {
-                getDatabase().teleport(player, "recent", getDatabase().getLocation(player, "recent"));
+                getDatabase().teleport(player, "recent", getUserdata().getLocation(player, "recent"));
             }
         }
     }

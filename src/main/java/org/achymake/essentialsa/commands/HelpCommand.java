@@ -5,7 +5,6 @@ import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Server;
 import org.bukkit.command.*;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,9 +12,6 @@ import java.util.List;
 
 public class HelpCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private FileConfiguration getConfig() {
-        return plugin.getConfig();
-    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }

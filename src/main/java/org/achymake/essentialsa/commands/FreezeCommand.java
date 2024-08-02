@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -14,6 +15,9 @@ import java.util.List;
 
 public class FreezeCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -32,8 +36,8 @@ public class FreezeCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target == player) {
-                    getDatabase().setBoolean(target, "settings.frozen", !getDatabase().isFrozen(target));
-                    if (getDatabase().isFrozen(target)) {
+                    getUserdata().setBoolean(target, "settings.frozen", !getUserdata().isFrozen(target));
+                    if (getUserdata().isFrozen(target)) {
                         getMessage().send(player, "&6You froze&f " + target.getName());
                     } else {
                         getMessage().send(player, "&6You unfroze&f " + target.getName());
@@ -43,8 +47,8 @@ public class FreezeCommand implements CommandExecutor, TabCompleter {
                         if (target.hasPermission("essentials.command.freeze.exempt")) {
                             getMessage().send(player, "&cYou are not allowed to freeze&f " + target.getName());
                         } else {
-                            getDatabase().setBoolean(target, "settings.frozen", !getDatabase().isFrozen(target));
-                            if (getDatabase().isFrozen(target)) {
+                            getUserdata().setBoolean(target, "settings.frozen", !getUserdata().isFrozen(target));
+                            if (getUserdata().isFrozen(target)) {
                                 getMessage().send(player, "&6You froze&f " + target.getName());
                             } else {
                                 getMessage().send(player, "&6You unfroze&f " + target.getName());
@@ -52,9 +56,9 @@ public class FreezeCommand implements CommandExecutor, TabCompleter {
                         }
                     } else {
                         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                        if (getDatabase().exist(offlinePlayer)) {
-                            getDatabase().setBoolean(offlinePlayer, "settings.frozen", !getDatabase().isFrozen(offlinePlayer));
-                            if (getDatabase().isFrozen(offlinePlayer)) {
+                        if (getUserdata().exist(offlinePlayer)) {
+                            getUserdata().setBoolean(offlinePlayer, "settings.frozen", !getUserdata().isFrozen(offlinePlayer));
+                            if (getUserdata().isFrozen(offlinePlayer)) {
                                 getMessage().send(player, "&6You froze&f " + offlinePlayer.getName());
                             } else {
                                 getMessage().send(player, "&6You unfroze&f " + offlinePlayer.getName());
@@ -71,17 +75,17 @@ public class FreezeCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    getDatabase().setBoolean(target, "settings.frozen", !getDatabase().isFrozen(target));
-                    if (getDatabase().isFrozen(target)) {
+                    getUserdata().setBoolean(target, "settings.frozen", !getUserdata().isFrozen(target));
+                    if (getUserdata().isFrozen(target)) {
                         getMessage().send(consoleCommandSender, "You froze " + target.getName());
                     } else {
                         getMessage().send(consoleCommandSender, "You unfroze " + target.getName());
                     }
                 } else {
                     OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                    if (getDatabase().exist(offlinePlayer)) {
-                        getDatabase().setBoolean(offlinePlayer, "settings.frozen", !getDatabase().isFrozen(offlinePlayer));
-                        if (getDatabase().isFrozen(offlinePlayer)) {
+                    if (getUserdata().exist(offlinePlayer)) {
+                        getUserdata().setBoolean(offlinePlayer, "settings.frozen", !getUserdata().isFrozen(offlinePlayer));
+                        if (getUserdata().isFrozen(offlinePlayer)) {
                             getMessage().send(consoleCommandSender, "You froze " + offlinePlayer.getName());
                         } else {
                             getMessage().send(consoleCommandSender, "You unfroze " + offlinePlayer.getName());

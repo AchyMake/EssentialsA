@@ -22,23 +22,23 @@ import java.util.*;
 import java.util.logging.Level;
 
 public record Chunkdata(EssentialsA plugin) {
-    private File getDataFolder() {
-        return plugin.getDataFolder();
-    }
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private File getDataFolder() {
+        return plugin.getDataFolder();
+    }
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Economy getEconomy() {
         return plugin.getEconomy();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private Server getServer() {
         return plugin.getServer();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     public File getFile(Chunk chunk) {
         return new File(getDataFolder(), "chunks/" + chunk.getWorld().getName() + "/" + chunk.getChunkKey() + ".yml");
@@ -91,8 +91,8 @@ public record Chunkdata(EssentialsA plugin) {
         getFile(chunk).delete();
     }
     public void removeAll(OfflinePlayer offlinePlayer) {
-        for (String worldName : getDatabase().getConfig(offlinePlayer).getConfigurationSection("chunks.worlds").getKeys(false)) {
-            for (String longString : getDatabase().getConfig(offlinePlayer).getStringList("chunks.worlds." + worldName)) {
+        for (String worldName : getUserdata().getConfig(offlinePlayer).getConfigurationSection("chunks.worlds").getKeys(false)) {
+            for (String longString : getUserdata().getConfig(offlinePlayer).getStringList("chunks.worlds." + worldName)) {
                 long chunks = Long.parseLong(longString);
                 Chunk chunk = getServer().getWorld(worldName).getChunkAt(chunks);
                 remove(offlinePlayer, chunk);
@@ -152,7 +152,7 @@ public record Chunkdata(EssentialsA plugin) {
     }
     public List<String> getBanned(Chunk chunk) {
         if (isClaimed(chunk)) {
-            return getDatabase().getConfig(getOwner(chunk)).getStringList("chunks.banned");
+            return getUserdata().getConfig(getOwner(chunk)).getStringList("chunks.banned");
         } else {
             return new ArrayList<>();
         }
@@ -226,25 +226,25 @@ public record Chunkdata(EssentialsA plugin) {
     }
     public void addClaim(OfflinePlayer offlinePlayer, Chunk chunk) {
         String worldName = chunk.getWorld().getName();
-        List<String> longList = getDatabase().getConfig(offlinePlayer).getStringList("chunks.worlds." + worldName);
+        List<String> longList = getUserdata().getConfig(offlinePlayer).getStringList("chunks.worlds." + worldName);
         longList.add(String.valueOf(chunk.getChunkKey()));
-        getDatabase().setStringList(offlinePlayer, "chunks.worlds." + worldName, longList);
+        getUserdata().setStringList(offlinePlayer, "chunks.worlds." + worldName, longList);
     }
     public void removeClaim(OfflinePlayer offlinePlayer, Chunk chunk) {
         getEconomy().depositPlayer(offlinePlayer, getConfig().getDouble("chunks.economy.refund"));
         String worldName = chunk.getWorld().getName();
-        List<String> longList = getDatabase().getConfig(offlinePlayer).getStringList("chunks.worlds." + worldName);
+        List<String> longList = getUserdata().getConfig(offlinePlayer).getStringList("chunks.worlds." + worldName);
         longList.remove(String.valueOf(chunk.getChunkKey()));
-        getDatabase().setStringList(offlinePlayer, "chunks.worlds." + worldName, longList);
+        getUserdata().setStringList(offlinePlayer, "chunks.worlds." + worldName, longList);
     }
     public int getClaimCount(OfflinePlayer offlinePlayer) {
-        Set<String> worlds = getDatabase().getConfig(offlinePlayer).getConfigurationSection("chunks.worlds").getKeys(false);
+        Set<String> worlds = getUserdata().getConfig(offlinePlayer).getConfigurationSection("chunks.worlds").getKeys(false);
         if (worlds.isEmpty()) {
             return 0;
         } else {
             List<Integer> test = new ArrayList<>();
             for (String world : worlds) {
-                int size = getDatabase().getConfig(offlinePlayer).getStringList("chunks.worlds." + world).size();
+                int size = getUserdata().getConfig(offlinePlayer).getStringList("chunks.worlds." + world).size();
                 if (test.isEmpty()) {
                     test.addFirst(size);
                 } else {
@@ -257,7 +257,7 @@ public record Chunkdata(EssentialsA plugin) {
     }
     public List<OfflinePlayer> getMembers(OfflinePlayer offlinePlayer) {
         List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
-        for (String uuidString : getDatabase().getConfig(offlinePlayer).getStringList("chunks.members")) {
+        for (String uuidString : getUserdata().getConfig(offlinePlayer).getStringList("chunks.members")) {
             UUID uuid = UUID.fromString(uuidString);
             OfflinePlayer member = getServer().getOfflinePlayer(uuid);
             offlinePlayerList.add(member);
@@ -266,12 +266,12 @@ public record Chunkdata(EssentialsA plugin) {
     }
     public List<String> getMembersUUIDString(OfflinePlayer offlinePlayer) {
         List<String> uuidStringList = new ArrayList<>();
-        uuidStringList.addAll(getDatabase().getConfig(offlinePlayer).getStringList("chunks.members"));
+        uuidStringList.addAll(getUserdata().getConfig(offlinePlayer).getStringList("chunks.members"));
         return uuidStringList;
     }
     public List<OfflinePlayer> getBanned(OfflinePlayer offlinePlayer) {
         List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
-        for (String uuidString : getDatabase().getConfig(offlinePlayer).getStringList("chunks.banned")) {
+        for (String uuidString : getUserdata().getConfig(offlinePlayer).getStringList("chunks.banned")) {
             UUID uuid = UUID.fromString(uuidString);
             OfflinePlayer member = getServer().getOfflinePlayer(uuid);
             offlinePlayerList.add(member);
@@ -279,7 +279,7 @@ public record Chunkdata(EssentialsA plugin) {
         return offlinePlayerList;
     }
     public List<String> getBannedUUIDString(OfflinePlayer offlinePlayer) {
-        return new ArrayList<>(getDatabase().getConfig(offlinePlayer).getStringList("chunks.banned"));
+        return new ArrayList<>(getUserdata().getConfig(offlinePlayer).getStringList("chunks.banned"));
     }
     public boolean isPhysical(Block block) {
         return block.getType().equals(Material.FARMLAND) || block.getType().equals(Material.TURTLE_EGG) || Tag.PRESSURE_PLATES.isTagged(block.getType()) || block.getType().equals(Material.SNIFFER_EGG);
@@ -360,8 +360,8 @@ public record Chunkdata(EssentialsA plugin) {
         } else return block.getType().equals(Material.BARREL);
     }
     public void chunkView(Player player, OfflinePlayer offlinePlayer) {
-        if (getDatabase().getConfig(offlinePlayer).isList("chunks." + player.getWorld().getName())) {
-            for (String longString : getDatabase().getConfig(offlinePlayer).getStringList("chunks.worlds." + player.getWorld().getName())) {
+        if (getUserdata().getConfig(offlinePlayer).isList("chunks." + player.getWorld().getName())) {
+            for (String longString : getUserdata().getConfig(offlinePlayer).getStringList("chunks.worlds." + player.getWorld().getName())) {
                 long chunks = Long.parseLong(longString);
                 Chunk chunk = player.getWorld().getChunkAt(chunks);
                 if (chunk.isLoaded()) {

@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -18,8 +18,8 @@ import java.util.UUID;
 
 public class TPAcceptCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Server getServer() {
         return plugin.getServer();
@@ -37,33 +37,33 @@ public class TPAcceptCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().getConfig(player).isString("tpa.from")) {
-                    Player target = getServer().getPlayer(UUID.fromString(getDatabase().getConfig(player).getString("tpa.from")));
+                if (getUserdata().getConfig(player).isString("tpa.from")) {
+                    Player target = getServer().getPlayer(UUID.fromString(getUserdata().getConfig(player).getString("tpa.from")));
                     if (target != null) {
-                        int taskID = getDatabase().getConfig(target).getInt("task.tpa");
+                        int taskID = getUserdata().getConfig(target).getInt("task.tpa");
                         if (getScheduler().isQueued(taskID)) {
                             getScheduler().cancelTask(taskID);
                             target.teleport(player);
                             getMessage().sendActionBar(target, "&6Teleporting to&f " + player.getName());
                             getMessage().send(player, "&6You accepted&f " + target.getName() + "&6 tpa request");
-                            getDatabase().setString(target, "tpa.sent", null);
-                            getDatabase().setString(target, "task.tpa", null);
-                            getDatabase().setString(player, "tpa.from", null);
+                            getUserdata().setString(target, "tpa.sent", null);
+                            getUserdata().setString(target, "task.tpa", null);
+                            getUserdata().setString(player, "tpa.from", null);
                             return true;
                         }
                     }
-                } else if (getDatabase().getConfig(player).isString("tpahere.from")) {
-                    Player target = getServer().getPlayer(UUID.fromString(getDatabase().getConfig(player).getString("tpahere.from")));
+                } else if (getUserdata().getConfig(player).isString("tpahere.from")) {
+                    Player target = getServer().getPlayer(UUID.fromString(getUserdata().getConfig(player).getString("tpahere.from")));
                     if (target != null) {
-                        int taskID = getDatabase().getConfig(target).getInt("task.tpa");
+                        int taskID = getUserdata().getConfig(target).getInt("task.tpa");
                         if (getScheduler().isQueued(taskID)) {
                             getScheduler().cancelTask(taskID);
                             player.teleport(target);
                             getMessage().sendActionBar(target, "&6Teleporting to&f " + player.getName());
                             getMessage().send(player, "&6You accepted&f " + target.getName() + "&6's tpahere request");
-                            getDatabase().setString(target, "tpahere.sent", null);
-                            getDatabase().setString(target, "task.tpa", null);
-                            getDatabase().setString(player, "tpahere.from", null);
+                            getUserdata().setString(target, "tpahere.sent", null);
+                            getUserdata().setString(target, "task.tpa", null);
+                            getUserdata().setString(player, "tpahere.from", null);
                             return true;
                         }
                     }

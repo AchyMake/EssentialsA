@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +16,9 @@ import java.util.List;
 
 public class WhisperCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -30,14 +34,14 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (getDatabase().isMuted(player) || getDatabase().isJailed(player)) {
+            if (getUserdata().isMuted(player) || getUserdata().isJailed(player)) {
                 return false;
             } else if (args.length > 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
                     getMessage().send(player, "&7You > " + target.getName() + ": " + getMessage().getStringBuilder(args, 1));
                     getMessage().send(target, "&7" + player.getName() + " > You: " + getMessage().getStringBuilder(args, 1));
-                    getDatabase().setString(target, "last-whisper", target.getUniqueId().toString());
+                    getUserdata().setString(target, "last-whisper", target.getUniqueId().toString());
                     for (Player players : getServer().getOnlinePlayers()) {
                         if (players.hasPermission("essentials.notify.whispers")) {
                             getMessage().send(players, "&7" + player.getName() + " > " + target.getName() + ": " + getMessage().getStringBuilder(args, 1));

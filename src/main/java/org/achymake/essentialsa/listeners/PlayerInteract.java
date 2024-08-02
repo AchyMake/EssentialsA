@@ -24,8 +24,8 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private ChestShop getChestShop() {
         return plugin.getChestShop();
@@ -52,7 +52,7 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
         Chunk chunk = block.getChunk();
         Player player = event.getPlayer();
         if (event.getAction().equals(Action.PHYSICAL)) {
-            if (getDatabase().isFrozen(player) || getDatabase().isJailed(player) || getDatabase().isVanished(player)) {
+            if (getUserdata().isFrozen(player) || getUserdata().isJailed(player) || getUserdata().isVanished(player)) {
                 event.setCancelled(true);
             } else if (getChunkdata().isClaimed(chunk)) {
                 if (!getChunkdata().isPhysical(block))return;

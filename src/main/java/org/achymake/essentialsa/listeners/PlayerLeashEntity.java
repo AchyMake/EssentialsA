@@ -11,8 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 
 public record PlayerLeashEntity(EssentialsA plugin) implements Listener {
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Villagers getVillagers() {
         return plugin.getVillagers();
@@ -29,12 +29,14 @@ public record PlayerLeashEntity(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerLeashEntity(PlayerLeashEntityEvent event) {
         Player player = event.getPlayer();
-        if (getDatabase().isDisabled(player)) {
+        if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
         } else {
             Entity entity = event.getEntity();
             Chunk chunk = entity.getChunk();
-            if (getCarry().hasMount(entity))return;
+            if (getCarry().hasMount(entity)) {
+                event.setCancelled(true);
+            }
             if (getVillagers().isNPC(entity)) {
                 event.setCancelled(true);
             } else if (getChunkdata().isClaimed(chunk)) {

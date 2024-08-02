@@ -15,11 +15,11 @@ public record Spawn(EssentialsA plugin) {
     private File getDataFolder() {
         return plugin.getDataFolder();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private Server getServer() {
         return plugin.getServer();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     public boolean exist() {
         return getFile().exists();

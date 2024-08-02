@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,8 +14,8 @@ import java.util.List;
 
 public class SetHomeCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -27,10 +27,10 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().setHome(player, "home")) {
+                if (getUserdata().setHome(player, "home")) {
                     getMessage().send(player, "home&6 has been set");
                 } else {
-                    getMessage().send(player, "&cYou have reach your limit of&f " + getDatabase().getHomes(player).size() + "&c homes");
+                    getMessage().send(player, "&cYou have reach your limit of&f " + getUserdata().getHomes(player).size() + "&c homes");
                 }
                 return true;
             }
@@ -39,10 +39,10 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
                 if (homeName.equalsIgnoreCase("bed")) {
                     getMessage().send(player, "&cYou can't set home for&f " + homeName);
                 } else {
-                    if (getDatabase().setHome(player, homeName)) {
+                    if (getUserdata().setHome(player, homeName)) {
                         getMessage().send(player, homeName + "&6 has been set");
                     } else {
-                        getMessage().send(player, "&cYou have reach your limit of&f " + getDatabase().getHomes(player).size() + "&c homes");
+                        getMessage().send(player, "&cYou have reach your limit of&f " + getUserdata().getHomes(player).size() + "&c homes");
                     }
                 }
                 return true;
@@ -55,7 +55,7 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player player) {
             if (args.length == 1) {
-                commands.addAll(getDatabase().getHomes(player));
+                commands.addAll(getUserdata().getHomes(player));
             }
         }
         return commands;

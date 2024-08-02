@@ -2,8 +2,8 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Chunk;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
@@ -20,24 +20,24 @@ public record PlayerBucketEmpty(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private Server getServer() {
         return plugin.getServer();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlockClicked();
         Chunk chunk = block.getChunk();
-        if (getDatabase().isDisabled(player)) {
+        if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getChunkdata().isClaimed(chunk)) {
             if (getChunkdata().hasAccess(player, chunk)) return;

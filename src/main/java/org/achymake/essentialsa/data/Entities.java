@@ -1,7 +1,6 @@
 package org.achymake.essentialsa.data;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;

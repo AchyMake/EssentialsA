@@ -14,6 +14,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Carry getCarry() {
         return plugin.getCarry();
     }
@@ -22,9 +25,6 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
     }
     private Entities getEntities() {
         return plugin.getEntities();
-    }
-    private Database getDatabase() {
-        return plugin.getDatabase();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
@@ -37,7 +37,7 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
         Chunk chunk = entity.getChunk();
-        if (getDatabase().isDisabled(player)) {
+        if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);

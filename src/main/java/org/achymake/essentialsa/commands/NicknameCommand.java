@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +16,9 @@ import java.util.List;
 
 public class NicknameCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -30,11 +34,11 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            String name = getDatabase().getConfig(player).getString("name");
-            String displayName = getDatabase().getDisplayName(player);
+            String name = getUserdata().getConfig(player).getString("name");
+            String displayName = getUserdata().getDisplayName(player);
             if (args.length == 0) {
                 if (!displayName.equals(name)) {
-                    getDatabase().setString(player, "display-name", name);
+                    getUserdata().setString(player, "display-name", name);
                     getMessage().send(player, "&6You reset your nickname");
                     return true;
                 }
@@ -44,7 +48,7 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
                 if (displayName.equals(rename)) {
                     getMessage().send(player, "&cYou already have&f " + rename + "&c as nickname");
                 } else {
-                    getDatabase().setString(player, "display-name", rename);
+                    getUserdata().setString(player, "display-name", rename);
                     getMessage().send(player, "&6You changed your nickname to&f " + rename);
                 }
                 return true;
@@ -57,8 +61,8 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
                         if (target.hasPermission("essentials.command.nickname.exempt")) {
                             getMessage().send(player, "&cYou are not allowed to change nickname for&f " + target.getName());
                         } else {
-                            if (!getDatabase().getConfig(target).getString("display-name").equals(rename)) {
-                                getDatabase().setString(target, "display-name", rename);
+                            if (!getUserdata().getConfig(target).getString("display-name").equals(rename)) {
+                                getUserdata().setString(target, "display-name", rename);
                                 getMessage().send(player, "&6You changed " + target.getName() + " nickname to&f " + args[0]);
                             } else {
                                 getMessage().send(player, target.getName() + "&c already have&f " + args[0] + "&c as nickname");

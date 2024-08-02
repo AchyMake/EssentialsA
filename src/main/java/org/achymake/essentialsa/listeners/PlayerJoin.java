@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -15,8 +15,8 @@ public record PlayerJoin(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -27,13 +27,13 @@ public record PlayerJoin(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (getDatabase().isVanished(player)) {
-            getDatabase().setVanish(player, true);
+        if (getUserdata().isVanished(player)) {
+            getUserdata().setVanish(player, true);
             getMessage().send(player, "&6You joined back vanished");
             event.setJoinMessage(null);
         } else {
-            getDatabase().hideVanished(player);
-            if (getDatabase().hasJoined(player)) {
+            getUserdata().hideVanished(player);
+            if (getUserdata().hasJoined(player)) {
                 getMessage().sendStringList(player, getConfig().getStringList("message-of-the-day.welcome-back"));
             } else {
                 getMessage().sendStringList(player, getConfig().getStringList("message-of-the-day.welcome"));

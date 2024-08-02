@@ -36,7 +36,7 @@ public record Carry(EssentialsA plugin) {
         return plugin.getMessage();
     }
     private Server getServer() {
-        return plugin().getServer();
+        return plugin.getServer();
     }
     public File getFile(String path) {
         return new File(getDataFolder(), path);

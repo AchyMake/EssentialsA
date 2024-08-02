@@ -10,6 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public record EntityDamage(EssentialsA plugin) implements Listener {
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Carry getCarry() {
         return plugin.getCarry();
     }
@@ -21,9 +24,6 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     }
     private Message getMessage() {
         return plugin.getMessage();
-    }
-    private Database getDatabase() {
-        return plugin.getDatabase();
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityDamage(EntityDamageEvent event) {
@@ -40,10 +40,10 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
                 getChairs().dismount(player);
             } else {
                 if (plugin.getConfig().getBoolean("teleport.cancel-on-damage")) {
-                    if (getDatabase().hasTaskID(player, "teleport")) {
+                    if (getUserdata().hasTaskID(player, "teleport")) {
                         getMessage().sendActionBar(player, "&cYou moved before teleporting!");
-                        plugin.getScheduler().cancelTask(getDatabase().getTaskID(player, "teleport"));
-                        getDatabase().removeTaskID(player, "teleport");
+                        plugin.getScheduler().cancelTask(getUserdata().getTaskID(player, "teleport"));
+                        getUserdata().removeTaskID(player, "teleport");
                     }
                 }
             }

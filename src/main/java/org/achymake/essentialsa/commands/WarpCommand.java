@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.achymake.essentialsa.data.Warps;
 import org.bukkit.Server;
 import org.bukkit.command.*;
@@ -13,6 +14,9 @@ import java.util.List;
 
 public class WarpCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -32,7 +36,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().isDisabled(player)) {
+                if (getUserdata().isDisabled(player)) {
                     return false;
                 } else {
                     if (getWarps().getWarps().isEmpty()) {
@@ -49,7 +53,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                 }
             }
             if (args.length == 1) {
-                if (getDatabase().isDisabled(player)) {
+                if (getUserdata().isDisabled(player)) {
                     return false;
                 } else {
                     if (player.hasPermission("essentials.command.warp." + args[0])) {
@@ -66,7 +70,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                 if (player.hasPermission("essentials.command.warp.other")) {
                     Player target = getServer().getPlayerExact(args[1]);
                     if (target != null) {
-                        if (getDatabase().isDisabled(target)) {
+                        if (getUserdata().isDisabled(target)) {
                             return false;
                         } else {
                             if (getWarps().locationExist(args[0])) {
@@ -88,7 +92,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
             if (args.length == 2) {
                 Player target = getServer().getPlayerExact(args[1]);
                 if (target != null) {
-                    if (getDatabase().isDisabled(target)) {
+                    if (getUserdata().isDisabled(target)) {
                         return false;
                     } else {
                         if (getWarps().locationExist(args[0])) {

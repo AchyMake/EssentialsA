@@ -13,26 +13,23 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 
 public record Worlds(EssentialsA plugin) {
+    private FileConfiguration getConfig() {
+        return plugin.getConfig();
+    }
     private File getDataFolder() {
         return plugin.getDataFolder();
-    }
-    private Server getServer() {
-        return plugin.getServer();
     }
     private BukkitScheduler getScheduler() {
         return plugin.getScheduler();
     }
+    private Server getServer() {
+        return plugin.getServer();
+    }
     private Message getMessage() {
         return plugin.getMessage();
-    }
-    private FileConfiguration getConfig() {
-        return plugin.getConfig();
     }
     public boolean folderExist(String worldName) {
         return new File(getServer().getWorldContainer(), worldName).exists();

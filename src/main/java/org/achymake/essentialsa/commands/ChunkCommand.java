@@ -1,10 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
-import org.achymake.essentialsa.data.Economy;
-import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
@@ -25,8 +22,8 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
@@ -97,11 +94,11 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                 }
                 if (args[0].equalsIgnoreCase("banned")) {
                     if (player.hasPermission("essentials.command.chunk.banned")) {
-                        if (getDatabase().getConfig(player).getStringList("chunks.banned").isEmpty()) {
+                        if (getUserdata().getConfig(player).getStringList("chunks.banned").isEmpty()) {
                             getMessage().send(player, "&cYou do not have any banned members");
                         } else {
                             getMessage().send(player, "&6Banned:");
-                            for (String uuidListed : getDatabase().getConfig(player).getStringList("chunks.banned")) {
+                            for (String uuidListed : getUserdata().getConfig(player).getStringList("chunks.banned")) {
                                 OfflinePlayer offlinePlayer = player.getServer().getOfflinePlayer(UUID.fromString(uuidListed));
                                 getMessage().send(player, "- " + offlinePlayer.getName());
                             }
@@ -167,7 +164,7 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                 }
                 if (args[0].equalsIgnoreCase("members")) {
                     if (player.hasPermission("essentials.command.chunk.members")) {
-                        if (getDatabase().getConfig(player).getStringList("chunks.members").isEmpty()) {
+                        if (getUserdata().getConfig(player).getStringList("chunks.members").isEmpty()) {
                             getMessage().send(player, "&cYou do not have any members");
                         } else {
                             getMessage().send(player, "&6Chunk Members:");
@@ -226,13 +223,13 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                                 List<String> banned = getChunkdata().getBannedUUIDString(player);
                                 members.remove(target.getUniqueId().toString());
                                 banned.add(target.getUniqueId().toString());
-                                getDatabase().setStringList(player, "chunks.members", members);
-                                getDatabase().setStringList(player, "chunks.banned", banned);
+                                getUserdata().setStringList(player, "chunks.members", members);
+                                getUserdata().setStringList(player, "chunks.banned", banned);
                                 getMessage().send(player, "&6You banned&f " + target.getName());
                             } else {
                                 List<String> banned = getChunkdata().getBannedUUIDString(player);
                                 banned.add(target.getUniqueId().toString());
-                                getDatabase().setStringList(player, "chunks.banned", banned);
+                                getUserdata().setStringList(player, "chunks.banned", banned);
                                 getMessage().send(player, "&6You banned&f " + target.getName());
                             }
                         }
@@ -252,7 +249,7 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                     if (player.hasPermission("essentials.command.chunk.view")) {
                         if (player.hasPermission("essentials.command.chunk.view.others")) {
                             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-                            if (getDatabase().exist(offlinePlayer)) {
+                            if (getUserdata().exist(offlinePlayer)) {
                                 getChunkdata().chunkView(player, offlinePlayer);
                                 getChunkdata().claimSound(player);
                                 return true;
@@ -266,7 +263,7 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                         if (getChunkdata().getBanned(player).contains(target.getUniqueId().toString())) {
                             List<String> banned = getChunkdata().getBannedUUIDString(player);
                             banned.remove(target.getUniqueId().toString());
-                            getDatabase().setStringList(player, "chunks.banned", banned);
+                            getUserdata().setStringList(player, "chunks.banned", banned);
                             getMessage().send(player, "&6You banned&f " + target.getName() + "&6 from you're chunks");
                         } else {
                             getMessage().send(player, target.getName() + "&c is already banned");
@@ -283,18 +280,18 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                             if (getChunkdata().getMembers(player).contains(target)) {
                                 getMessage().send(player, target.getName() + "&c is already a member");
                             } else {
-                                List<String> members = getDatabase().getConfig(player).getStringList("chunks.members");
+                                List<String> members = getUserdata().getConfig(player).getStringList("chunks.members");
                                 members.add(target.getUniqueId().toString());
-                                getDatabase().setStringList(player, "chunks.members", members);
+                                getUserdata().setStringList(player, "chunks.members", members);
                                 getMessage().send(player, target.getName() + "&6 is now a member");
                             }
                             return true;
                         }
                         if (args[1].equalsIgnoreCase("remove")) {
-                            if (getDatabase().getConfig(player).getStringList("chunks.members").contains(target.getUniqueId().toString())) {
-                                List<String> members = getDatabase().getConfig(player).getStringList("chunks.members");
+                            if (getUserdata().getConfig(player).getStringList("chunks.members").contains(target.getUniqueId().toString())) {
+                                List<String> members = getUserdata().getConfig(player).getStringList("chunks.members");
                                 members.remove(target.getUniqueId().toString());
-                                getDatabase().setStringList(player, "chunks.members", members);
+                                getUserdata().setStringList(player, "chunks.members", members);
                                 getMessage().send(player, target.getName() + "&6 is now removed from members");
                             } else {
                                 getMessage().send(player, target.getName() + "&c is not a member");
@@ -349,7 +346,7 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                 if (player.hasPermission("essentials.command.chunk.view.others")) {
                     if (args[0].equalsIgnoreCase("view")) {
                         for (OfflinePlayer offlinePlayer : player.getServer().getOfflinePlayers()) {
-                            if (getDatabase().exist(offlinePlayer)) {
+                            if (getUserdata().exist(offlinePlayer)) {
                                 commands.add(offlinePlayer.getName());
                             }
                         }

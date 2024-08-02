@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -14,6 +15,9 @@ import java.util.List;
 
 public class MuteCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -32,8 +36,8 @@ public class MuteCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target == player) {
-                    getDatabase().setBoolean(target, "settings.muted", !getDatabase().isMuted(target));
-                    if (getDatabase().isMuted(target)) {
+                    getUserdata().setBoolean(target, "settings.muted", !getUserdata().isMuted(target));
+                    if (getUserdata().isMuted(target)) {
                         getMessage().send(player, "&6You muted your self");
                     } else {
                         getMessage().send(player, "&6You unmuted your self");
@@ -43,8 +47,8 @@ public class MuteCommand implements CommandExecutor, TabCompleter {
                         if (target.hasPermission("essentials.command.mute.exempt")) {
                             getMessage().send(player, "&cYou are not allowed to mute&f " + target.getName());
                         } else {
-                            getDatabase().setBoolean(target, "settings.muted", !getDatabase().isMuted(target));
-                            if (getDatabase().isMuted(target)) {
+                            getUserdata().setBoolean(target, "settings.muted", !getUserdata().isMuted(target));
+                            if (getUserdata().isMuted(target)) {
                                 getMessage().send(player, "&6You muted&f " + target.getName());
                             } else {
                                 getMessage().send(player, "&6You unmuted&f " + target.getName());
@@ -52,9 +56,9 @@ public class MuteCommand implements CommandExecutor, TabCompleter {
                         }
                     } else {
                         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                        if (getDatabase().exist(offlinePlayer)) {
-                            getDatabase().setBoolean(offlinePlayer, "settings.muted", !getDatabase().isMuted(offlinePlayer));
-                            if (getDatabase().isMuted(offlinePlayer)) {
+                        if (getUserdata().exist(offlinePlayer)) {
+                            getUserdata().setBoolean(offlinePlayer, "settings.muted", !getUserdata().isMuted(offlinePlayer));
+                            if (getUserdata().isMuted(offlinePlayer)) {
                                 getMessage().send(player, "&6You muted&f " + offlinePlayer.getName());
                             } else {
                                 getMessage().send(player, "&6You unmuted&f " + offlinePlayer.getName());
@@ -71,17 +75,17 @@ public class MuteCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
-                    getDatabase().setBoolean(target, "settings.muted", !getDatabase().isMuted(target));
-                    if (getDatabase().isMuted(target)) {
+                    getUserdata().setBoolean(target, "settings.muted", !getUserdata().isMuted(target));
+                    if (getUserdata().isMuted(target)) {
                         getMessage().send(consoleCommandSender, "You muted " + target.getName());
                     } else {
                         getMessage().send(consoleCommandSender, "You unmuted " + target.getName());
                     }
                 } else {
                     OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                    if (getDatabase().exist(offlinePlayer)) {
-                        getDatabase().setBoolean(offlinePlayer, "settings.muted", !getDatabase().isMuted(offlinePlayer));
-                        if (getDatabase().isMuted(offlinePlayer)) {
+                    if (getUserdata().exist(offlinePlayer)) {
+                        getUserdata().setBoolean(offlinePlayer, "settings.muted", !getUserdata().isMuted(offlinePlayer));
+                        if (getUserdata().isMuted(offlinePlayer)) {
                             getMessage().send(consoleCommandSender, "You muted " + offlinePlayer.getName());
                         } else {
                             getMessage().send(consoleCommandSender, "You unmuted " + offlinePlayer.getName());

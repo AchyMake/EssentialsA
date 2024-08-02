@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -17,6 +18,9 @@ import java.util.List;
 
 public class HomesCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -33,11 +37,11 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                if (getDatabase().getHomes(player).isEmpty()) {
+                if (getUserdata().getHomes(player).isEmpty()) {
                     getMessage().send(player, "&cYou haven't set any homes yet");
                 } else {
                     getMessage().send(player, "&6Homes:");
-                    for (String listedHomes : getDatabase().getHomes(player)) {
+                    for (String listedHomes : getUserdata().getHomes(player)) {
                         getMessage().send(player, "- " + listedHomes);
                     }
                 }
@@ -50,9 +54,9 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
                 if (arg0.equalsIgnoreCase("delete")) {
                     if (player.hasPermission("essentials.command.homes.delete")) {
                         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(target);
-                        if (getDatabase().exist(offlinePlayer)) {
-                            if (getDatabase().getHomes(offlinePlayer).contains(targetHome)) {
-                                getDatabase().setString(offlinePlayer, "homes." + targetHome, null);
+                        if (getUserdata().exist(offlinePlayer)) {
+                            if (getUserdata().getHomes(offlinePlayer).contains(targetHome)) {
+                                getUserdata().setString(offlinePlayer, "homes." + targetHome, null);
                                 getMessage().send(player, "&6Deleted&f " + targetHome + "&6 of&f " + target);
                             } else {
                                 getMessage().send(player, target + "&c doesn't have&f " + targetHome);
@@ -66,7 +70,7 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
                 if (arg0.equalsIgnoreCase("teleport")) {
                     if (player.hasPermission("essentials.command.homes.teleport")) {
                         OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(target);
-                        if (getDatabase().exist(offlinePlayer)) {
+                        if (getUserdata().exist(offlinePlayer)) {
                             if (targetHome.equalsIgnoreCase("bed")) {
                                 if (offlinePlayer.getBedSpawnLocation() != null) {
                                     player.teleport(offlinePlayer.getBedSpawnLocation());
@@ -75,10 +79,10 @@ public class HomesCommand implements CommandExecutor, TabCompleter {
                                     getMessage().send(player, target + "&c do not have a bed");
                                 }
                             } else {
-                                if (getDatabase().getHomes(offlinePlayer).contains(targetHome)) {
-                                    getDatabase().getHome(offlinePlayer, targetHome).getChunk().load();
+                                if (getUserdata().getHomes(offlinePlayer).contains(targetHome)) {
+                                    getUserdata().getHome(offlinePlayer, targetHome).getChunk().load();
                                     getMessage().send(player, "&6Teleporting&f " + targetHome + "&6 of&f " + target);
-                                    player.teleport(getDatabase().getHome(offlinePlayer, targetHome));
+                                    player.teleport(getUserdata().getHome(offlinePlayer, targetHome));
                                 } else {
                                     getMessage().send(player, target + "&c doesn't have&f " + targetHome);
                                 }

@@ -10,14 +10,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Villagers getVillagers() {
         return plugin.getVillagers();
     }
     private Entities getEntities() {
         return plugin.getEntities();
-    }
-    private Database getDatabase() {
-        return plugin.getDatabase();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
@@ -36,16 +36,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
         switch (damager) {
             case Arrow arrow -> {
                 if (arrow.getShooter() instanceof Player player) {
-                    if (getDatabase().isDisabled(player)) {
+                    if (getUserdata().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
                             if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getDatabase().isPVP(player)) {
+                                if (!getUserdata().isPVP(player)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getDatabase().isPVP(target)) {
+                                } else if (!getUserdata().isPVP(target)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                                 }
@@ -63,16 +63,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                 }
             }
             case Player player -> {
-                if (getDatabase().isDisabled(player)) {
+                if (getUserdata().isDisabled(player)) {
                     event.setCancelled(true);
                 } else {
                     if (entity instanceof Player target) {
                         if (player == target)return;
                         if (getWorlds().isPVP(target.getWorld())) {
-                            if (!getDatabase().isPVP(player)) {
+                            if (!getUserdata().isPVP(player)) {
                                 event.setCancelled(true);
                                 getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                            } else if (!getDatabase().isPVP(target)) {
+                            } else if (!getUserdata().isPVP(target)) {
                                 event.setCancelled(true);
                                 getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                             }
@@ -89,16 +89,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
             }
             case Snowball snowball -> {
                 if (snowball.getShooter() instanceof Player player) {
-                    if (getDatabase().isDisabled(player)) {
+                    if (getUserdata().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
                             if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getDatabase().isPVP(player)) {
+                                if (!getUserdata().isPVP(player)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getDatabase().isPVP(target)) {
+                                } else if (!getUserdata().isPVP(target)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                                 }
@@ -116,16 +116,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
             }
             case SpectralArrow spectralArrow -> {
                 if (spectralArrow.getShooter() instanceof Player player) {
-                    if (getDatabase().isDisabled(player)) {
+                    if (getUserdata().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
                             if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getDatabase().isPVP(player)) {
+                                if (!getUserdata().isPVP(player)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getDatabase().isPVP(target)) {
+                                } else if (!getUserdata().isPVP(target)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                                 }
@@ -143,16 +143,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
             }
             case ThrownPotion thrownPotion -> {
                 if (thrownPotion.getShooter() instanceof Player player) {
-                    if (getDatabase().isDisabled(player)) {
+                    if (getUserdata().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
                             if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getDatabase().isPVP(player)) {
+                                if (!getUserdata().isPVP(player)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getDatabase().isPVP(target)) {
+                                } else if (!getUserdata().isPVP(target)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                                 }
@@ -170,16 +170,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
             }
             case Trident trident -> {
                 if (trident.getShooter() instanceof Player player) {
-                    if (getDatabase().isDisabled(player)) {
+                    if (getUserdata().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
                             if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getDatabase().isPVP(player)) {
+                                if (!getUserdata().isPVP(player)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getDatabase().isPVP(target)) {
+                                } else if (!getUserdata().isPVP(target)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                                 }
@@ -197,16 +197,16 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
             }
             case WindCharge windCharge -> {
                 if (windCharge.getShooter() instanceof Player player) {
-                    if (getDatabase().isDisabled(player)) {
+                    if (getUserdata().isDisabled(player)) {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
                             if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getDatabase().isPVP(player)) {
+                                if (!getUserdata().isPVP(player)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getDatabase().isPVP(target)) {
+                                } else if (!getUserdata().isPVP(target)) {
                                     event.setCancelled(true);
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                                 }

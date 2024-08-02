@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,8 +14,8 @@ import java.util.List;
 
 public class DelHomeCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -27,8 +27,8 @@ public class DelHomeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 1) {
-                if (getDatabase().homeExist(player, args[0])) {
-                    getDatabase().setString(player, "homes." + args[0], null);
+                if (getUserdata().homeExist(player, args[0])) {
+                    getUserdata().setString(player, "homes." + args[0], null);
                     getMessage().send(player, args[0] + "&6 has been deleted");
                 } else {
                     getMessage().send(player, args[0] + "&c does not exist");
@@ -43,7 +43,7 @@ public class DelHomeCommand implements CommandExecutor, TabCompleter {
         List<String> commands = new ArrayList<>();
         if (sender instanceof Player player) {
             if (args.length == 1) {
-                commands.addAll(getDatabase().getHomes(player));
+                commands.addAll(getUserdata().getHomes(player));
             }
         }
         return commands;

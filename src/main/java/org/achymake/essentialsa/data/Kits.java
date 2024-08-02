@@ -23,11 +23,11 @@ public record Kits(EssentialsA plugin) {
     private Database getDatabase() {
         return plugin.getDatabase();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private HashMap<String, Long> getKitCooldown() {
         return plugin.getKitCooldown();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     public boolean exist() {
         return getFile().exists();

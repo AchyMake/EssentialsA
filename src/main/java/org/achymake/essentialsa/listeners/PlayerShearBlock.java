@@ -3,8 +3,8 @@ package org.achymake.essentialsa.listeners;
 import io.papermc.paper.event.block.PlayerShearBlockEvent;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,8 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public record PlayerShearBlock(EssentialsA plugin) implements Listener {
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
@@ -25,7 +25,7 @@ public record PlayerShearBlock(EssentialsA plugin) implements Listener {
     public void onPlayerShearEntity(PlayerShearBlockEvent event) {
         Player player = event.getPlayer();
         Chunk chunk = event.getBlock().getChunk();
-        if (getDatabase().isDisabled(player)) {
+        if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
         } else if (getChunkdata().isClaimed(chunk)) {
             if (getChunkdata().hasAccess(player, chunk))return;

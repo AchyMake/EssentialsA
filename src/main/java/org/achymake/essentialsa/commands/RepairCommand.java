@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,8 +15,8 @@ import java.util.List;
 
 public class RepairCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -31,15 +31,15 @@ public class RepairCommand implements CommandExecutor, TabCompleter {
                 if (player.getInventory().getItemInMainHand().getType().isAir()) {
                     getMessage().send(player,"&cYou have to hold an item");
                 } else {
-                    if (getDatabase().hasCooldown(player, "repair")) {
-                        getMessage().sendActionBar(player, "&cYou have to wait&f " + getDatabase().getCooldown(player, "repair") + "&c seconds");
+                    if (getUserdata().hasCooldown(player, "repair")) {
+                        getMessage().sendActionBar(player, "&cYou have to wait&f " + getUserdata().getCooldown(player, "repair") + "&c seconds");
                     } else {
                         Damageable damageable = (Damageable) player.getInventory().getItemInMainHand().getItemMeta();
                         if (damageable.hasDamage()) {
                             damageable.setDamage(0);
                             player.getInventory().getItemInMainHand().setItemMeta(damageable);
                             getMessage().send(player, "&6You repaired&f " + player.getInventory().getItemInMainHand().getType());
-                            getDatabase().addCooldown(player, "repair");
+                            getUserdata().addCooldown(player, "repair");
                         } else {
                             getMessage().send(player, "&cThe item is fully repaired");
                         }

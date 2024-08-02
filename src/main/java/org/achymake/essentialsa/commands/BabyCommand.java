@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +16,9 @@ import java.util.List;
 
 public class BabyCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -31,8 +35,8 @@ public class BabyCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                getDatabase().toggleBaby(player);
-                if (getDatabase().isBaby(player)) {
+                getUserdata().toggleBaby(player);
+                if (getUserdata().isBaby(player)) {
                     getMessage().send(player, "&6You changed to a baby");
                 } else {
                     getMessage().send(player, "&6You changed to an adult");
@@ -46,8 +50,8 @@ public class BabyCommand implements CommandExecutor, TabCompleter {
                         if (target.hasPermission("essentials.command.baby.exempt")) {
                             getMessage().send(player, "&cYou are not allowed to change scale for&f " + target.getName());
                         } else {
-                            getDatabase().toggleBaby(target);
-                            if (getDatabase().isBaby(target)) {
+                            getUserdata().toggleBaby(target);
+                            if (getUserdata().isBaby(target)) {
                                 getMessage().send(player, "&6You changed&f " + target.getName() + "&6 to a baby");
                             } else {
                                 getMessage().send(player, "&6You changed&f " + target.getName() + "&6 to an adult");

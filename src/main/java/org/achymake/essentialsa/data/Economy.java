@@ -14,14 +14,11 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Server getServer() {
         return plugin.getServer();
-    }
-    public Economy(EssentialsA plugin) {
-        this.plugin = plugin;
     }
     public boolean isEnabled() {
         return plugin.isEnabled();
@@ -45,10 +42,10 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
         return getConfig().getString("economy.currency");
     }
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
-        return getDatabase().exist(offlinePlayer);
+        return getUserdata().exist(offlinePlayer);
     }
     public boolean hasAccount(String playerName) {
-        return getDatabase().exist(getServer().getOfflinePlayer(playerName));
+        return getUserdata().exist(getServer().getOfflinePlayer(playerName));
     }
     public boolean hasAccount(String playerName, String worldName) {
         return hasAccount(playerName);
@@ -57,10 +54,10 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
         return hasAccount(player);
     }
     public double getBalance(OfflinePlayer offlinePlayer) {
-        return getDatabase().getConfig(offlinePlayer).getDouble("account");
+        return getUserdata().getConfig(offlinePlayer).getDouble("account");
     }
     public double getBalance(String playerName) {
-        return getDatabase().getConfig(getServer().getOfflinePlayer(playerName)).getDouble("account");
+        return getUserdata().getConfig(getServer().getOfflinePlayer(playerName)).getDouble("account");
     }
     public double getBalance(String playerName, String world) {
         return getBalance(playerName);
@@ -86,7 +83,7 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds!");
         } else {
-            getDatabase().setDouble(offlinePlayer, "account", getBalance(offlinePlayer) - amount);
+            getUserdata().setDouble(offlinePlayer, "account", getBalance(offlinePlayer) - amount);
             return new EconomyResponse(amount, getBalance(offlinePlayer), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -96,7 +93,7 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds!");
         } else {
-            getDatabase().setDouble(getServer().getOfflinePlayer(playerName), "account", getBalance(getServer().getOfflinePlayer(playerName)) - amount);
+            getUserdata().setDouble(getServer().getOfflinePlayer(playerName), "account", getBalance(getServer().getOfflinePlayer(playerName)) - amount);
             return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -112,7 +109,7 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot deposit negative funds");
         } else {
-            getDatabase().setDouble(offlinePlayer, "account", amount + getBalance(offlinePlayer));
+            getUserdata().setDouble(offlinePlayer, "account", amount + getBalance(offlinePlayer));
             return new EconomyResponse(amount, getBalance(offlinePlayer), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -122,7 +119,7 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
         } else if (amount < 0.0) {
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Cannot deposit negative funds");
         } else {
-            getDatabase().setDouble(getServer().getOfflinePlayer(playerName), "account", amount + getBalance(getServer().getOfflinePlayer(playerName)));
+            getUserdata().setDouble(getServer().getOfflinePlayer(playerName), "account", amount + getBalance(getServer().getOfflinePlayer(playerName)));
             return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
         }
     }
@@ -133,11 +130,11 @@ public record Economy(EssentialsA plugin) implements net.milkbowl.vault.economy.
         return depositPlayer(player, amount);
     }
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
-        getDatabase().setup(offlinePlayer);
+        getUserdata().setup(offlinePlayer);
         return true;
     }
     public boolean createPlayerAccount(String playerName) {
-        getDatabase().setup(getServer().getOfflinePlayer(playerName));
+        getUserdata().setup(getServer().getOfflinePlayer(playerName));
         return true;
     }
     public boolean createPlayerAccount(String playerName, String worldName) {

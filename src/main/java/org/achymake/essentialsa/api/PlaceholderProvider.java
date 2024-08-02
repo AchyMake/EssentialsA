@@ -40,10 +40,10 @@ public class PlaceholderProvider extends PlaceholderExpansion {
             EssentialsA ess = EssentialsA.getInstance();
             switch (params) {
                 case "name" -> {
-                    return ess.getDatabase().getConfig(player).getString("name");
+                    return ess.getUserdata().getConfig(player).getString("name");
                 }
                 case "display_name" -> {
-                    return ess.getDatabase().getConfig(player).getString("display-name");
+                    return ess.getUserdata().getConfig(player).getString("display-name");
                 }
                 case "vanished" -> {
                     return String.valueOf(ess.getVanished().contains(player));
@@ -55,7 +55,7 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                     return ess.getEconomy().currencyNamePlural() + ess.getEconomy().format(ess.getEconomy().getBalance(player));
                 }
                 case "pvp" -> {
-                    return String.valueOf(ess.getDatabase().isPVP(player));
+                    return String.valueOf(ess.getUserdata().isPVP(player));
                 }
                 case "chunk_owner" -> {
                     if (ess.getChunkdata().isClaimed(player.getChunk())) {

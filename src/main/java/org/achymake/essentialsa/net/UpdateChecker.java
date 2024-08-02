@@ -14,20 +14,14 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 
 public record UpdateChecker(EssentialsA plugin) {
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private String getPluginName() {
-        return plugin.getDescription().getName();
-    }
-    private String getPluginVersion() {
-        return plugin.getDescription().getVersion();
-    }
     private BukkitScheduler getScheduler() {
         return plugin.getScheduler();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     public void getUpdate(Player player) {
         if (notifyUpdate()) {
@@ -35,8 +29,8 @@ public record UpdateChecker(EssentialsA plugin) {
                 @Override
                 public void run() {
                     getLatest((latest) -> {
-                        if (!getPluginVersion().equals(latest)) {
-                            getMessage().send(player, getPluginName() + "&6 has new update:");
+                        if (!plugin.version().equals(latest)) {
+                            getMessage().send(player, plugin.name() + "&6 has new update:");
                             getMessage().send(player, "-&a https://www.spigotmc.org/resources/118371/");
                         }
                     });
@@ -50,10 +44,10 @@ public record UpdateChecker(EssentialsA plugin) {
                 @Override
                 public void run() {
                     getLatest((latest) -> {
-                        if (getPluginVersion().equals(latest)) {
+                        if (plugin.version().equals(latest)) {
                             getMessage().sendLog(Level.INFO, "You are using the latest version");
                         } else {
-                            getMessage().sendLog(Level.INFO, getPluginName() + " has new update:");
+                            getMessage().sendLog(Level.INFO, plugin.name() + " has new update:");
                             getMessage().sendLog(Level.INFO, "- https://www.spigotmc.org/resources/118371/");
                         }
                     });

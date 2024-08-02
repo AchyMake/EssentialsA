@@ -24,11 +24,11 @@ public record Villagers(EssentialsA plugin) {
     private Worlds getWorlds() {
         return plugin.getWorlds();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private Server getServer() {
         return plugin.getServer();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     public File getFile(String path) {
         return new File(getDataFolder(), path);

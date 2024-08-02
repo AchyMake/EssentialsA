@@ -1,10 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.ChestShop;
-import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
-import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.*;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -26,6 +23,9 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -35,17 +35,17 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     private Server getServer() {
         return plugin.getServer();
+    }
+    private Message getMessage() {
+        return plugin.getMessage();
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        if (getDatabase().isDisabled(player)) {
+        if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
         } else if (cancel(player, block)) {
             event.setCancelled(true);
@@ -158,7 +158,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
         if (!Tag.ITEMS_PICKAXES.isTagged(itemInMainHand.getType()))return;
         if (!itemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH))return;
-        if (getDatabase().isAutoPick(player)) {
+        if (getUserdata().isAutoPick(player)) {
             getDatabase().giveItem(player, getDatabase().getItem(block.getType().toString(), 1));
         } else {
             getServer().getWorld(player.getWorld().getName()).dropItem(block.getLocation().add(0.5,0.5,0.5), getDatabase().getItem(block.getType().toString(), 1));
@@ -171,7 +171,7 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
         if (!Tag.ITEMS_PICKAXES.isTagged(itemInMainHand.getType()))return;
         if (!itemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH))return;
         CreatureSpawner spawner = (CreatureSpawner) block.getState();
-        if (getDatabase().isAutoPick(player)) {
+        if (getUserdata().isAutoPick(player)) {
             getDatabase().giveItem(player, getDatabase().getSpawner(spawner.getSpawnedType().toString(), 1));
         } else {
             getServer().getWorld(player.getWorld().getName()).dropItem(block.getLocation().add(0.5,0.5,0.5), getDatabase().getSpawner(spawner.getSpawnedType().toString(), 1));

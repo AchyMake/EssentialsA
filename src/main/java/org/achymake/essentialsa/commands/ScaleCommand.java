@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,6 +19,9 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
     private FileConfiguration getConfig() {
         return plugin.getConfig();
+    }
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Database getDatabase() {
         return plugin.getDatabase();
@@ -35,7 +39,7 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                getDatabase().setScale(player, 1.0);
+                getUserdata().setScale(player, 1.0);
                 getMessage().send(player, "&6You changed you're scale to&f 1.0");
                 return true;
             }
@@ -48,7 +52,7 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
                 } else if (minimumValue > value) {
                     getMessage().send(player, "&cThe minimum value is&f " + minimumValue);
                 } else {
-                    getDatabase().setScale(player, value);
+                    getUserdata().setScale(player, value);
                     getMessage().send(player, "&6You changed you're scale to&f " + args[0]);
                 }
                 return true;
@@ -68,7 +72,7 @@ public class ScaleCommand implements CommandExecutor, TabCompleter {
                             } else if (minimumValue > value) {
                                 getMessage().send(player, "&cThe minimum value is&f " + minimumValue);
                             } else {
-                                getDatabase().setScale(target, value);
+                                getUserdata().setScale(target, value);
                                 getMessage().send(player, "&6You changed &f" + target.getName() + "&6's scale to&f " + args[0]);
                             }
                         }

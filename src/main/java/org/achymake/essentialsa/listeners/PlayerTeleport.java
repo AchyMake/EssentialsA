@@ -9,8 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 public record PlayerTeleport(EssentialsA plugin) implements Listener {
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Chairs getChairs() {
         return plugin.getChairs();
@@ -37,7 +37,7 @@ public record PlayerTeleport(EssentialsA plugin) implements Listener {
                 event.setCancelled(true);
                 getMessage().send(player, "&cYou can't teleport while using a chair");
             } else if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
-                getDatabase().setLocation(player, "recent");
+                getUserdata().setLocation(player, "recent");
             }
         }
     }

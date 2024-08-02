@@ -44,6 +44,7 @@ public final class EssentialsA extends JavaPlugin {
     private static Levels levels;
     private static Message message;
     private static Spawn spawn;
+    private static Userdata userdata;
     private static Villagers villagers;
     private static Warps warps;
     private static Worlds worlds;
@@ -103,6 +104,7 @@ public final class EssentialsA extends JavaPlugin {
         kits = new Kits(this);
         levels = new Levels(this);
         spawn = new Spawn(this);
+        userdata = new Userdata(this);
         villagers = new Villagers(this);
         warps = new Warps(this);
         worlds = new Worlds(this);
@@ -286,7 +288,6 @@ public final class EssentialsA extends JavaPlugin {
             }
         }
         getChunkdata().reload();
-        getDatabase().reload();
         getEntities().reload();
         getHarvester().reload();
         getJail().reload();
@@ -334,6 +335,9 @@ public final class EssentialsA extends JavaPlugin {
     public Villagers getVillagers() {
         return villagers;
     }
+    public Userdata getUserdata() {
+        return userdata;
+    }
     public Spawn getSpawn() {
         return spawn;
     }
@@ -372,6 +376,12 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Carry getCarry() {
         return carry;
+    }
+    public String name() {
+        return getDescription().getName();
+    }
+    public String version() {
+        return getDescription().getVersion();
     }
     public static EssentialsA getInstance() {
         return instance;

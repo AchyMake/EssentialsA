@@ -4,6 +4,7 @@ import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Jail;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -13,6 +14,9 @@ import java.util.List;
 
 public class JailCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -36,34 +40,34 @@ public class JailCommand implements CommandExecutor, TabCompleter {
                 if (target != null) {
                     if (getJail().locationExist()) {
                         if (target == player) {
-                            if (getDatabase().isJailed(target)) {
-                                getDatabase().getLocation(target, "jail").getChunk().load();
-                                target.teleport(getDatabase().getLocation(target, "jail"));
-                                getDatabase().setBoolean(target, "jailed", false);
+                            if (getUserdata().isJailed(target)) {
+                                getUserdata().getLocation(target, "jail").getChunk().load();
+                                target.teleport(getUserdata().getLocation(target, "jail"));
+                                getUserdata().setBoolean(target, "jailed", false);
                                 getMessage().send(target, "&cYou got free by&f " + player.getName());
                                 getMessage().send(player, "&6You freed&f " + target.getName());
-                                getDatabase().setString(target, "locations.jail", null);
+                                getUserdata().setString(target, "locations.jail", null);
                             } else {
                                 getJail().getLocation().getChunk().load();
-                                getDatabase().setLocation(target, "jail");
+                                getUserdata().setLocation(target, "jail");
                                 target.teleport(getJail().getLocation());
-                                getDatabase().setBoolean(target, "jailed", true);
+                                getUserdata().setBoolean(target, "jailed", true);
                                 getMessage().send(target, "&cYou got jailed by&f " + player.getName());
                                 getMessage().send(player, "&6You jailed&f " + target.getName());
                             }
                         } else if (!target.hasPermission("essentials.command.jail.exempt")) {
-                            if (getDatabase().isJailed(target)) {
-                                getDatabase().getLocation(target, "jail").getChunk().load();
-                                target.teleport(getDatabase().getLocation(target, "jail"));
-                                getDatabase().setBoolean(target, "jailed", false);
+                            if (getUserdata().isJailed(target)) {
+                                getUserdata().getLocation(target, "jail").getChunk().load();
+                                target.teleport(getUserdata().getLocation(target, "jail"));
+                                getUserdata().setBoolean(target, "jailed", false);
                                 getMessage().send(target, "&cYou got free by&f " + player.getName());
                                 getMessage().send(player, "&6You freed&f " + target.getName());
-                                getDatabase().setString(target, "locations.jail", null);
+                                getUserdata().setString(target, "locations.jail", null);
                             } else {
                                 getJail().getLocation().getChunk().load();
-                                getDatabase().setLocation(target, "jail");
+                                getUserdata().setLocation(target, "jail");
                                 target.teleport(getJail().getLocation());
-                                getDatabase().setBoolean(target, "jailed", true);
+                                getUserdata().setBoolean(target, "jailed", true);
                                 getMessage().send(target, "&cYou got jailed by&f " + player.getName());
                                 getMessage().send(player, "&6You jailed&f " + target.getName());
                             }
@@ -80,18 +84,18 @@ public class JailCommand implements CommandExecutor, TabCompleter {
                 Player target = getServer().getPlayerExact(args[0]);
                 if (target != null) {
                     if (getJail().locationExist()) {
-                        if (getDatabase().isJailed(target)) {
-                            getDatabase().getLocation(target, "jail").getChunk().load();
-                            target.teleport(getDatabase().getLocation(target, "jail"));
-                            getDatabase().setBoolean(target, "jailed", false);
+                        if (getUserdata().isJailed(target)) {
+                            getUserdata().getLocation(target, "jail").getChunk().load();
+                            target.teleport(getUserdata().getLocation(target, "jail"));
+                            getUserdata().setBoolean(target, "jailed", false);
                             getMessage().send(target, "&cYou got free by&f " + consoleCommandSender.getName());
                             getMessage().send(consoleCommandSender, "&6You freed&f " + target.getName());
-                            getDatabase().setString(target, "locations.jail", null);
+                            getUserdata().setString(target, "locations.jail", null);
                         } else {
                             getJail().getLocation().getChunk().load();
-                            getDatabase().setLocation(target, "jail");
+                            getUserdata().setLocation(target, "jail");
                             target.teleport(getJail().getLocation());
-                            getDatabase().setBoolean(target, "jailed", true);
+                            getUserdata().setBoolean(target, "jailed", true);
                             getMessage().send(target, "&cYou got jailed by&f " + consoleCommandSender.getName());
                             getMessage().send(consoleCommandSender, "&6You jailed&f " + target.getName());
                         }

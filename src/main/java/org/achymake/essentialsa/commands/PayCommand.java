@@ -4,6 +4,7 @@ import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -20,6 +21,9 @@ public class PayCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
     private FileConfiguration getConfig() {
         return plugin.getConfig();
+    }
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Database getDatabase() {
         return plugin.getDatabase();
@@ -38,7 +42,7 @@ public class PayCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 2) {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                if (getDatabase().exist(offlinePlayer)) {
+                if (getUserdata().exist(offlinePlayer)) {
                     double amount = Double.parseDouble(args[1]);
                     if (amount >= getConfig().getDouble("economy.minimum-payment")) {
                         if (getEconomy().has(player, amount)) {

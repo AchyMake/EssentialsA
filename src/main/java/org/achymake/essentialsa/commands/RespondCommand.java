@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,8 +16,8 @@ import java.util.UUID;
 
 public class RespondCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -31,16 +31,16 @@ public class RespondCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (!getDatabase().isMuted(player)) {
+            if (!getUserdata().isMuted(player)) {
                 if (args.length > 0) {
-                    if (getDatabase().getConfig(player).isString("last-whisper")) {
-                        String uuidString = getDatabase().getConfig(player).getString("last-whisper");
+                    if (getUserdata().getConfig(player).isString("last-whisper")) {
+                        String uuidString = getUserdata().getConfig(player).getString("last-whisper");
                         UUID uuid = UUID.fromString(uuidString);
                         Player target = player.getServer().getPlayer(uuid);
                         if (target != null) {
                             getMessage().send(player, "&7You > " + target.getName() + ": " + getMessage().getStringBuilder(args, 1));
                             getMessage().send(target, "&7" + player.getName() + " > You: " + getMessage().getStringBuilder(args, 1));
-                            getDatabase().setString(target, "last-whisper", player.getUniqueId().toString());
+                            getUserdata().setString(target, "last-whisper", player.getUniqueId().toString());
                             for (Player players : getServer().getOnlinePlayers()) {
                                 if (players.hasPermission("essentials.notify.whispers")) {
                                     getMessage().send(players, "&7" + player.getName() + " > " + target.getName() + ": " + getMessage().getStringBuilder(args, 1));

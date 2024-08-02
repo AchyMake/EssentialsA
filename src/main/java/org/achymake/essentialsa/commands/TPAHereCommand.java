@@ -3,6 +3,7 @@ package org.achymake.essentialsa.commands;
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -17,6 +18,9 @@ import java.util.List;
 
 public class TPAHereCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -36,7 +40,7 @@ public class TPAHereCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 1) {
-                if (getDatabase().isFrozen(player) || getDatabase().isJailed(player)) {
+                if (getUserdata().isDisabled(player)) {
                     return false;
                 } else {
                     Player target = getServer().getPlayerExact(args[0]);
@@ -46,7 +50,7 @@ public class TPAHereCommand implements CommandExecutor, TabCompleter {
                     } else if (target == player) {
                         getMessage().send(player, "&cYou can't send request to your self");
                         return true;
-                    } else if (getDatabase().getConfig(player).isString("tpa.sent")) {
+                    } else if (getUserdata().getConfig(player).isString("tpa.sent")) {
                         getMessage().send(player, "&cYou already sent tp request");
                         getMessage().send(player, "&cYou can type&f /tpcancel");
                         return true;
@@ -54,16 +58,16 @@ public class TPAHereCommand implements CommandExecutor, TabCompleter {
                         int taskID = getScheduler().runTaskLater(plugin, new Runnable() {
                             @Override
                             public void run() {
-                                getDatabase().setString(target, "tpahere.from", null);
-                                getDatabase().setString(player, "tpahere.sent", null);
-                                getDatabase().setString(player, "task.tpa", null);
+                                getUserdata().setString(target, "tpahere.from", null);
+                                getUserdata().setString(player, "tpahere.sent", null);
+                                getUserdata().setString(player, "task.tpa", null);
                                 getMessage().send(player, "&cTeleport request has expired");
                                 getMessage().send(target, "&cTeleport request has expired");
                             }
                         }, 300).getTaskId();
-                        getDatabase().setString(target, "tpahere.from", player.getUniqueId().toString());
-                        getDatabase().setString(player, "tpahere.sent", target.getUniqueId().toString());
-                        getDatabase().setInt(player, "task.tpa", taskID);
+                        getUserdata().setString(target, "tpahere.from", player.getUniqueId().toString());
+                        getUserdata().setString(player, "tpahere.sent", target.getUniqueId().toString());
+                        getUserdata().setInt(player, "task.tpa", taskID);
                         getMessage().send(target, player.getName() + "&6 has sent you a tpahere request");
                         getMessage().send(target, "&6You can type&a /tpaccept&6 or&c /tpdeny");
                         getMessage().send(player, "&6You have sent a tpahere request to&f " + target.getName());

@@ -1,8 +1,8 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -16,8 +16,8 @@ import java.util.List;
 
 public class UnBanCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Server getServer() {
         return plugin.getServer();
@@ -33,9 +33,9 @@ public class UnBanCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(args[0]);
-                if (getDatabase().isBanned(offlinePlayer)) {
-                    getDatabase().setBoolean(offlinePlayer, "settings.banned", false);
-                    getDatabase().setString(offlinePlayer, "settings.ban-reason", null);
+                if (getUserdata().isBanned(offlinePlayer)) {
+                    getUserdata().setBoolean(offlinePlayer, "settings.banned", false);
+                    getUserdata().setString(offlinePlayer, "settings.ban-reason", null);
                     getMessage().send(player, offlinePlayer.getName() + "&6 is no longer banned");
                 } else {
                     getMessage().send(player, offlinePlayer.getName() + "&c is not banned");
@@ -51,7 +51,7 @@ public class UnBanCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             if (args.length == 1) {
                 for (OfflinePlayer offlinePlayer : getServer().getOfflinePlayers()) {
-                    if (getDatabase().isBanned(offlinePlayer)) {
+                    if (getUserdata().isBanned(offlinePlayer)) {
                         commands.add(offlinePlayer.getName());
                     }
                 }

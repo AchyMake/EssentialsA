@@ -4,6 +4,7 @@ import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -15,6 +16,9 @@ import java.util.List;
 
 public class BalanceCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
+    }
     private Database getDatabase() {
         return plugin.getDatabase();
     }
@@ -48,7 +52,7 @@ public class BalanceCommand implements CommandExecutor, TabCompleter {
                         }
                     } else {
                         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                        if (getDatabase().exist(offlinePlayer)) {
+                        if (getUserdata().exist(offlinePlayer)) {
                             getMessage().send(player, offlinePlayer.getName() + "&6's balance:&a " + getEconomy().currencyNamePlural() + getEconomy().format(getEconomy().getBalance(offlinePlayer)));
                         } else {
                             getMessage().send(player, offlinePlayer.getName() + "&c has never joined");
@@ -61,7 +65,7 @@ public class BalanceCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
             if (args.length == 1) {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                if (getDatabase().exist(offlinePlayer)) {
+                if (getUserdata().exist(offlinePlayer)) {
                     getMessage().send(consoleCommandSender, offlinePlayer.getName() + "'s " + getEconomy().currencyNamePlural() + getEconomy().format(getEconomy().getBalance(offlinePlayer)));
                 } else {
                     getMessage().send(consoleCommandSender, offlinePlayer.getName() + " has never joined");

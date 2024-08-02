@@ -2,8 +2,8 @@ package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
@@ -18,8 +18,8 @@ import java.util.List;
 
 public class ChunksCommand implements CommandExecutor, TabCompleter {
     private final EssentialsA plugin;
-    private Database getDatabase() {
-        return plugin.getDatabase();
+    private Userdata getUserdata() {
+        return plugin.getUserdata();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
@@ -128,7 +128,7 @@ public class ChunksCommand implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("info")) {
                     if (player.hasPermission("essentials.command.chunks.info")) {
                         OfflinePlayer target = player.getServer().getOfflinePlayer(args[1]);
-                        if (getDatabase().exist(target)) {
+                        if (getUserdata().exist(target)) {
                             getMessage().send(player, "&6Chunks Info:&f "+target.getName());
                             getMessage().send(player, "&6Chunks claimed:&f " + getChunkdata().getClaimCount(target));
                             if (getChunkdata().getMembers(target).isEmpty()) {
@@ -148,7 +148,7 @@ public class ChunksCommand implements CommandExecutor, TabCompleter {
                         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
                         Chunk chunk = player.getLocation().getChunk();
                         if (getChunkdata().isAllowedClaim(chunk)) {
-                            if (getDatabase().exist(target)) {
+                            if (getUserdata().exist(target)) {
                                 getChunkdata().setOwner(player, target, chunk);
                                 getChunkdata().claimEffect(player, chunk);
                                 getChunkdata().claimSound(player);

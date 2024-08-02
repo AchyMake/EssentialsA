@@ -17,14 +17,14 @@ public record Message(EssentialsA plugin) {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Server getServer() {
-        return plugin.getServer();
-    }
     private BukkitScheduler getScheduler() {
         return plugin().getScheduler();
     }
     private UpdateChecker getUpdateChecker() {
         return plugin.getUpdateChecker();
+    }
+    private Server getServer() {
+        return plugin.getServer();
     }
     public void send(ConsoleCommandSender sender, String message) {
         sender.sendMessage(message);
