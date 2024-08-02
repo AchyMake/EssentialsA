@@ -1,10 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Database;
-import org.achymake.essentialsa.data.Entities;
-import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.*;
 import org.bukkit.Chunk;
 import org.bukkit.EntityEffect;
 import org.bukkit.entity.Entity;
@@ -17,6 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
+    private Carry getCarry() {
+        return plugin.getCarry();
+    }
+    private Villagers getVillagers() {
+        return plugin.getVillagers();
+    }
     private Entities getEntities() {
         return plugin.getEntities();
     }
@@ -36,21 +39,21 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
         Chunk chunk = entity.getChunk();
         if (isDisabled(player)) {
             event.setCancelled(true);
-        } else if (getEntities().isNPC(entity)) {
+        } else if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);
             if (event.isCancelled()) {
-                if (getEntities().hasCommand(entity)) {
-                    if (getEntities().isCommandPlayer(entity)) {
+                if (getVillagers().hasCommand(entity)) {
+                    if (getVillagers().isCommandPlayer(entity)) {
                         Villager villager = (Villager) entity;
                         villager.playEffect(EntityEffect.VILLAGER_HAPPY);
                         villager.shakeHead();
-                        player.getServer().dispatchCommand(player, getEntities().getCommand(entity));
+                        player.getServer().dispatchCommand(player, getVillagers().getCommand(entity));
                     }
-                    if (getEntities().isCommandConsole(entity)) {
+                    if (getVillagers().isCommandConsole(entity)) {
                         Villager villager = (Villager) entity;
                         villager.playEffect(EntityEffect.VILLAGER_HAPPY);
                         villager.shakeHead();
-                        player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getEntities().getCommand(entity).replaceAll("%player%", player.getName()));
+                        player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getVillagers().getCommand(entity).replaceAll("%player%", player.getName()));
                     }
                 }
             }
@@ -59,21 +62,21 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
             if (entity instanceof Player)return;
             if (getChunkdata().hasAccess(player, chunk)) {
                 if (player.isSneaking()) {
-                    if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
-                    if (!getEntities().isEnableCarry(entity))return;
+                    if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
+                    if (!getCarry().isEnable(entity))return;
                     if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                     event.setCancelled(true);
                     if (event.isCancelled()) {
-                        getEntities().carry(player, entity, true);
+                        getCarry().carry(player, entity, true);
                     }
                 } else {
-                    if (!getEntities().hasPassenger(player))return;
-                    if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
-                    if (!getEntities().isEnableCarry(entity))return;
+                    if (!getCarry().hasPassenger(player))return;
+                    if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
+                    if (!getCarry().isEnable(entity))return;
                     if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                     event.setCancelled(true);
                     if (event.isCancelled()) {
-                        getEntities().stack(player, entity);
+                        getCarry().stack(player, entity);
                     }
                 }
             } else {
@@ -88,22 +91,22 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
             if (entity.isInvulnerable())return;
             if (player.isSneaking()) {
                 if (entity instanceof Player)return;
-                if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
-                if (!getEntities().isEnableCarry(entity))return;
+                if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
+                if (!getCarry().isEnable(entity))return;
                 if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                 event.setCancelled(true);
                 if (event.isCancelled()) {
-                    getEntities().carry(player, entity, true);
+                    getCarry().carry(player, entity, true);
                 }
             } else {
-                if (!getEntities().hasPassenger(player))return;
+                if (!getCarry().hasPassenger(player))return;
                 if (entity instanceof Player)return;
-                if (!getEntities().isAllowCarry(entity.getLocation().getBlock()))return;
-                if (!getEntities().isEnableCarry(entity))return;
+                if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
+                if (!getCarry().isEnable(entity))return;
                 if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                 event.setCancelled(true);
                 if (event.isCancelled()) {
-                    getEntities().stack(player, entity);
+                    getCarry().stack(player, entity);
                 }
             }
         }

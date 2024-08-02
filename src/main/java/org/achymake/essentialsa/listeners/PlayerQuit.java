@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Carry;
 import org.achymake.essentialsa.data.Chairs;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
@@ -15,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +25,9 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     }
     private Database getDatabase() {
         return plugin.getDatabase();
+    }
+    private Carry getCarry() {
+        return plugin.getCarry();
     }
     private Chairs getChairs() {
         return plugin.getChairs();
@@ -74,8 +77,8 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         }
         if (player.getPassenger() != null) {
             Entity passenger = player.getPassenger();
-            if (!plugin.getEntities().isEnableCarry(passenger))return;
-            plugin.getEntities().removeMount(player, passenger);
+            if (!getCarry().isEnable(passenger))return;
+            getCarry().removeMount(player, passenger);
         }
     }
     private String quitMessage(Player player) {

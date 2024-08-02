@@ -2,23 +2,22 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Chunkdata;
-import org.achymake.essentialsa.data.Entities;
 import org.achymake.essentialsa.data.Message;
+import org.achymake.essentialsa.data.Villagers;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityEnterLoveModeEvent;
 
 public record EntityEnterLoveMode(EssentialsA plugin) implements Listener {
+    private Villagers getVillagers() {
+        return plugin.getVillagers();
+    }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
-    }
-    private Entities getEntities() {
-        return plugin.getEntities();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -26,7 +25,7 @@ public record EntityEnterLoveMode(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityEnterLoveMode(EntityEnterLoveModeEvent event) {
         Entity entity = event.getEntity();
-        if (getEntities().isNPC(entity)) {
+        if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);
         } else {
             if (!(event.getHumanEntity() instanceof Player player))return;

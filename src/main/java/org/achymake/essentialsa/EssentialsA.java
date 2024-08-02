@@ -31,6 +31,7 @@ import java.util.logging.Level;
 
 public final class EssentialsA extends JavaPlugin {
     private static EssentialsA instance;
+    private static Carry carry;
     private static Chairs chairs;
     private static ChestShop chestShop;
     private static Chunkdata chunkdata;
@@ -44,6 +45,7 @@ public final class EssentialsA extends JavaPlugin {
     private static Message message;
     private static Portals portals;
     private static Spawn spawn;
+    private static Villagers villagers;
     private static Warps warps;
     private static Worlds worlds;
     private static Worth worth;
@@ -90,6 +92,7 @@ public final class EssentialsA extends JavaPlugin {
     public void onEnable() {
         instance = this;
         message = new Message(this);
+        carry = new Carry(this);
         chairs = new Chairs(this);
         chestShop = new ChestShop(this);
         chunkdata = new Chunkdata(this);
@@ -102,11 +105,12 @@ public final class EssentialsA extends JavaPlugin {
         levels = new Levels(this);
         portals = new Portals(this);
         spawn = new Spawn(this);
+        villagers = new Villagers(this);
         warps = new Warps(this);
         worlds = new Worlds(this);
         worth = new Worth(this);
         updateChecker = new UpdateChecker(this);
-        reload();
+        reload(false);
         getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, new VaultEcoProvider(this), this, ServicePriority.Normal);
         new PlaceholderProvider().register();
         commands();
@@ -128,6 +132,7 @@ public final class EssentialsA extends JavaPlugin {
         }
         new PlaceholderProvider().unregister();
         getServer().getScheduler().cancelTasks(this);
+        getVillagers().disable();
         getMessage().sendLog(Level.INFO, "Disabled " + getDescription().getName() + " " + getDescription().getVersion());
     }
     private void commands() {
@@ -264,7 +269,7 @@ public final class EssentialsA extends JavaPlugin {
     public StateFlag getFlagCarry() {
         return FLAG_CARRY;
     }
-    public void reload() {
+    public void reload(boolean byCommand) {
         File file = new File(getDataFolder(), "config.yml");
         if (file.exists()) {
             try {
@@ -291,6 +296,11 @@ public final class EssentialsA extends JavaPlugin {
         getSpawn().reload();
         getWarps().reload();
         getWorth().reload();
+        if (byCommand) {
+            getVillagers().reload();
+        } else {
+            getVillagers().setup();
+        }
     }
     private PluginManager getManager() {
         return getServer().getPluginManager();
@@ -324,6 +334,9 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Warps getWarps() {
         return warps;
+    }
+    public Villagers getVillagers() {
+        return villagers;
     }
     public Spawn getSpawn() {
         return spawn;
@@ -363,6 +376,9 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Chairs getChairs() {
         return chairs;
+    }
+    public Carry getCarry() {
+        return carry;
     }
     public static EssentialsA getInstance() {
         return instance;

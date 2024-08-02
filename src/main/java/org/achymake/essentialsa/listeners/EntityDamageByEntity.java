@@ -10,6 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
+    private Villagers getVillagers() {
+        return plugin.getVillagers();
+    }
     private Entities getEntities() {
         return plugin.getEntities();
     }
@@ -30,7 +33,7 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         Chunk chunk = entity.getChunk();
-        if (getEntities().isNPC(entity)) {
+        if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);
         } else if (getEntities().disableDamage(damager, entity)) {
             if (damager instanceof Player)return;
@@ -80,7 +83,7 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     }
                 }
                 default -> {
-                    if (getEntities().isNPC(entity)) {
+                    if (getVillagers().isNPC(entity)) {
                         event.setCancelled(true);
                     } else {
                         if (event.getDamager() instanceof Player)return;
@@ -251,7 +254,7 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                 }
             }
             default -> {
-                if (getEntities().isNPC(entity)) {
+                if (getVillagers().isNPC(entity)) {
                     event.setCancelled(true);
                 } else {
                     if (event.getDamager() instanceof Player)return;

@@ -1,6 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.achymake.essentialsa.data.Carry;
 import org.achymake.essentialsa.data.Chunkdata;
 import org.achymake.essentialsa.data.Database;
 import org.achymake.essentialsa.data.Message;
@@ -18,6 +19,9 @@ import org.bukkit.persistence.PersistentDataType;
 public record PlayerMove(EssentialsA plugin) implements Listener {
     private Database getDatabase() {
         return plugin.getDatabase();
+    }
+    private Carry getCarry() {
+        return plugin.getCarry();
     }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
@@ -59,9 +63,9 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
         }
         if (player.getPassenger() != null) {
             Entity passenger = player.getPassenger();
-            if (plugin.getEntities().isEnableCarry(passenger)) {
+            if (getCarry().isEnable(passenger)) {
                 if (getDatabase().hasMoved(event.getFrom(), event.getTo())) {
-                    plugin.getEntities().addEffects(player);
+                    getCarry().addEffects(player);
                 }
             }
         }

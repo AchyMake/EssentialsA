@@ -36,6 +36,9 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
     private Entities getEntities() {
         return plugin.getEntities();
     }
+    private Carry getCarry() {
+        return plugin.getCarry();
+    }
     private Chunkdata getChunkdata() {
         return plugin.getChunkdata();
     }
@@ -115,15 +118,15 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                         if (!getHarvester().isAllowHarvest(block))return;
                         getHarvester().harvest(player, block);
                     }
-                    if (getEntities().hasPassenger(player)) {
+                    if (getCarry().hasPassenger(player)) {
                         if (!event.getBlockFace().equals(BlockFace.UP))return;
-                        if (!getEntities().isAllowCarry(block))return;
-                        Entity passenger = getEntities().getPassenger(player);
-                        if (!getEntities().isEnableCarry(passenger))return;
+                        if (!getCarry().isAllowCarry(block))return;
+                        Entity passenger = getCarry().getPassenger(player);
+                        if (!getCarry().isEnable(passenger))return;
                         if (!player.hasPermission("essentials.carry." + passenger.getType().toString().toLowerCase()))return;
                         event.setCancelled(true);
                         player.swingMainHand();
-                        getEntities().removeMount(player, passenger, block);
+                        getCarry().removeMount(player, passenger, block);
                     }
                 } else {
                     if (!getChunkdata().isRightClickBlock(block))return;
@@ -137,13 +140,13 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                 }
                 if (player.getPassenger() != null) {
                     if (!event.getBlockFace().equals(BlockFace.UP)) return;
-                    if (!getEntities().isAllowCarry(block)) return;
+                    if (!getCarry().isAllowCarry(block)) return;
                     Entity passenger = player.getPassenger();
-                    if (!getEntities().isEnableCarry(passenger)) return;
+                    if (!getCarry().isEnable(passenger)) return;
                     if (!player.hasPermission("essentials.carry." + passenger.getType().toString().toLowerCase()))return;
                     event.setCancelled(true);
                     player.swingMainHand();
-                    getEntities().removeMount(player, passenger, block);
+                    getCarry().removeMount(player, passenger, block);
                 }
             }
         }
