@@ -115,23 +115,33 @@ public record Villagers(EssentialsA plugin) {
         }
     }
     public void reload() {
-        for (File files : getFile("villager").listFiles()) {
-            FileConfiguration config = YamlConfiguration.loadConfiguration(files);
-            try {
-                config.load(files);
-            } catch (IOException | InvalidConfigurationException e) {
-                getMessage().sendLog(Level.WARNING, e.getMessage());
+        File folder = new File(getDataFolder(), "villager");
+        if (folder.exists() | folder.isDirectory()) {
+            for (File files : folder.listFiles()) {
+                if (files.exists()) {
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(files);
+                    try {
+                        config.load(files);
+                    } catch (IOException | InvalidConfigurationException e) {
+                        getMessage().sendLog(Level.WARNING, e.getMessage());
+                    }
+                }
             }
         }
     }
     public void disable() {
-        for (File files : getFile("villager").listFiles()) {
-            getServer().getEntity(UUID.fromString(files.getName().replace(".yml", ""))).remove();
+        File folder = getFile("villager");
+        for (File files : folder.listFiles()) {
+            Entity entity = getServer().getEntity(UUID.fromString(files.getName().replace(".yml", "")));
+            if (entity != null) {
+                entity.remove();
+            }
         }
     }
     public void setup() {
-        if (getFile("villager").exists() || getFile("villager").isDirectory()) {
-            for (File files : getFile("villager").listFiles()) {
+        File folder = getFile("villager");
+        if (folder.exists() | folder.isDirectory() | folder.list().length > 0) {
+            for (File files : folder.listFiles()) {
                 createVillager(files);
             }
         }

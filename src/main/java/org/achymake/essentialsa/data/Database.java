@@ -57,6 +57,9 @@ public record Database(EssentialsA plugin) {
     public FileConfiguration getConfig(OfflinePlayer offlinePlayer) {
         return YamlConfiguration.loadConfiguration(getFile(offlinePlayer));
     }
+    public PersistentDataContainer getData(Player player) {
+        return player.getPersistentDataContainer();
+    }
     public void setup(OfflinePlayer offlinePlayer) {
         if (exist(offlinePlayer)) {
             if (!getConfig(offlinePlayer).getString("name").equals(offlinePlayer.getName())) {
@@ -523,18 +526,17 @@ public record Database(EssentialsA plugin) {
         }
         return onlinePlayers;
     }
-    public PersistentDataContainer getData(Player player) {
-        return player.getPersistentDataContainer();
-    }
-    public void reload(OfflinePlayer[] offlinePlayers) {
-        for (OfflinePlayer offlinePlayer : offlinePlayers) {
-            if (exist(offlinePlayer)) {
-                File file = getFile(offlinePlayer);
-                FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-                try {
-                    config.load(file);
-                } catch (IOException | InvalidConfigurationException e) {
-                    getMessage().sendLog(Level.WARNING, e.getMessage());
+    public void reload() {
+        File folder = new File(getDataFolder(), "userdata");
+        if (folder.exists() | folder.isDirectory()) {
+            for (File files : folder.listFiles()) {
+                if (files.exists() | files.isFile()) {
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(files);
+                    try {
+                        config.load(files);
+                    } catch (IOException | InvalidConfigurationException e) {
+                        getMessage().sendLog(Level.WARNING, e.getMessage());
+                    }
                 }
             }
         }

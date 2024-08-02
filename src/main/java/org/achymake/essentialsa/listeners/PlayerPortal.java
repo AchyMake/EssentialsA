@@ -6,23 +6,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-public record PlayerTeleport(EssentialsA plugin) implements Listener {
-    private Database getDatabase() {
-        return plugin.getDatabase();
-    }
-    private Chairs getChairs() {
-        return plugin.getChairs();
-    }
+public record PlayerPortal(EssentialsA plugin) implements Listener {
     private Worlds getWorlds() {
         return plugin.getWorlds();
     }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerTeleport(PlayerTeleportEvent event) {
+    public void onPlayerPortal(PlayerPortalEvent event) {
         Player player = event.getPlayer();
         if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
             if (!getWorlds().isPortalEnable())return;
@@ -32,13 +24,6 @@ public record PlayerTeleport(EssentialsA plugin) implements Listener {
             if (!getWorlds().isPortalEnable())return;
             event.setCancelled(true);
             getWorlds().teleport(player, "END");
-        } else {
-            if (getChairs().hasChair(player)) {
-                event.setCancelled(true);
-                getMessage().send(player, "&cYou can't teleport while using a chair");
-            } else if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
-                getDatabase().setLocation(player, "recent");
-            }
         }
     }
 }

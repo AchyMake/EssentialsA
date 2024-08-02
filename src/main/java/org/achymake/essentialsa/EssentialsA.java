@@ -227,6 +227,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new EntityExplode(this), this);
         getManager().registerEvents(new EntityInteract(this), this);
         getManager().registerEvents(new EntityPickupItem(this), this);
+        getManager().registerEvents(new EntityPortalEnter(this), this);
         getManager().registerEvents(new EntitySpawn(this), this);
         getManager().registerEvents(new EntityTarget(this), this);
         getManager().registerEvents(new EntityTargetLivingEntity(this), this);
@@ -245,6 +246,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerLogin(this), this);
         getManager().registerEvents(new PlayerMount(this), this);
         getManager().registerEvents(new PlayerMove(this), this);
+        getManager().registerEvents(new PlayerPortal(this), this);
         getManager().registerEvents(new PlayerQuit(this), this);
         getManager().registerEvents(new PlayerRespawn(this), this);
         getManager().registerEvents(new PlayerShearBlock(this), this);
@@ -284,7 +286,7 @@ public final class EssentialsA extends JavaPlugin {
             }
         }
         getChunkdata().reload();
-        getDatabase().reload(getServer().getOfflinePlayers());
+        getDatabase().reload();
         getEntities().reload();
         getHarvester().reload();
         getJail().reload();

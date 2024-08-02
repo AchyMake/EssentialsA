@@ -40,6 +40,8 @@ public class EssentialsCommand implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     plugin.reload();
+                    plugin.getVillagers().disable();
+                    plugin.getVillagers().setup();
                     getMessage().send(consoleCommandSender, "Essentials: reloaded");
                     return true;
                 }

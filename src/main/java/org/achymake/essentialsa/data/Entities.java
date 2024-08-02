@@ -1,38 +1,20 @@
 package org.achymake.essentialsa.data;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.achymake.essentialsa.EssentialsA;
-import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.logging.Level;
 
 public record Entities(EssentialsA plugin) {
     private File getDataFolder() {
         return plugin.getDataFolder();
-    }
-    private Server getServer() {
-        return plugin.getServer();
     }
     private Message getMessage() {
         return plugin.getMessage();

@@ -372,16 +372,20 @@ public record Chunkdata(EssentialsA plugin) {
     }
     public void reload() {
         File folder = new File(getDataFolder(), "chunks");
-        if (!folder.exists())return;
-        for (String worlds : folder.list()) {
-            File folders = new File(getDataFolder(), "chunks/" + worlds);
-            if (!folders.exists())return;
-            for (File files : folders.listFiles()) {
-                FileConfiguration config = YamlConfiguration.loadConfiguration(files);
-                try {
-                    config.load(files);
-                } catch (IOException | InvalidConfigurationException e) {
-                    getMessage().sendLog(Level.WARNING, e.getMessage());
+        if (folder.exists() | folder.isDirectory()) {
+            for (String worlds : folder.list()) {
+                File folders = new File(getDataFolder(), "chunks/" + worlds);
+                if (folders.exists() | folders.isDirectory()) {
+                    for (File files : folders.listFiles()) {
+                        if (files.exists() | files.isFile()) {
+                            FileConfiguration config = YamlConfiguration.loadConfiguration(files);
+                            try {
+                                config.load(files);
+                            } catch (IOException | InvalidConfigurationException e) {
+                                getMessage().sendLog(Level.WARNING, e.getMessage());
+                            }
+                        }
+                    }
                 }
             }
         }

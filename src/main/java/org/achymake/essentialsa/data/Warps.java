@@ -6,6 +6,7 @@ import org.bukkit.Server;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public record Warps(EssentialsA plugin) {
         return YamlConfiguration.loadConfiguration(getFile());
     }
     public boolean locationExist(String warpName) {
-        return getConfig().isConfigurationSection(warpName);
+        return getConfig().getKeys(false).contains(warpName);
     }
     public void setLocation(String warpName, Location location) {
         File file = getFile();
@@ -78,6 +79,12 @@ public record Warps(EssentialsA plugin) {
             }
         }
     }
+    public void teleport(Player player, String warpName) {
+        if (locationExist(warpName)) {
+            getLocation(warpName).getChunk().load();
+            player.teleport(getLocation(warpName));
+        }
+    }
     public void reload() {
         File file = getFile();
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -88,7 +95,6 @@ public record Warps(EssentialsA plugin) {
                 getMessage().sendLog(Level.WARNING, e.getMessage());
             }
         } else {
-            config.options().copyDefaults(true);
             try {
                 config.save(file);
             } catch (IOException e) {

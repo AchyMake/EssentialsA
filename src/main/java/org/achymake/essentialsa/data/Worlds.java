@@ -8,11 +8,14 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 
 public record Worlds(EssentialsA plugin) {
@@ -28,6 +31,9 @@ public record Worlds(EssentialsA plugin) {
     private Message getMessage() {
         return plugin.getMessage();
     }
+    private FileConfiguration getConfig() {
+        return plugin.getConfig();
+    }
     public boolean folderExist(String worldName) {
         return new File(getServer().getWorldContainer(), worldName).exists();
     }
@@ -37,15 +43,26 @@ public record Worlds(EssentialsA plugin) {
     public World getWorld(String world) {
         return getServer().getWorld(world);
     }
+    public File getFile(String worldName) {
+        return new File("worlds/" + worldName + ".yml");
+    }
+    public File getFile(World world) {
+        return getFile(world.getName());
+    }
+    public boolean exists(World world) {
+        return getFile(world).exists();
+    }
+    public FileConfiguration getConfig(World world) {
+        return YamlConfiguration.loadConfiguration(getFile(world));
+    }
     public void setupWorlds() {
         getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
                 createFiles();
-                File folder = new File(getDataFolder(), "worlds");
                 getMessage().sendLog(Level.INFO, "worlds folder detected");
                 getMessage().sendLog(Level.INFO, "tempting to create worlds");
-                for (File files : folder.listFiles()) {
+                for (File files : new File(getDataFolder(), "worlds").listFiles()) {
                     String worldName = files.getName().replace(".yml", "");
                     if (worldExist(worldName)) {
                         getMessage().sendLog(Level.INFO, worldName + " already exist");
@@ -80,9 +97,6 @@ public record Worlds(EssentialsA plugin) {
                 config.set("environment", world.getEnvironment().toString());
                 config.set("seed", world.getSeed());
                 config.set("pvp", true);
-                config.set("portal.enable", false);
-                config.set("portal.NETHER_PORTAL.warp", "spawn");
-                config.set("portal.END_PORTAL.warp", "end");
                 try {
                     config.save(file);
                     getMessage().sendLog(Level.INFO, "created " + world.getName() + ".yml");
@@ -111,23 +125,11 @@ public record Worlds(EssentialsA plugin) {
         config.set("environment", world.getEnvironment().toString());
         config.set("seed", world.getSeed());
         config.set("pvp", true);
-        config.set("portal.enable", false);
-        config.set("portal.NETHER_PORTAL.warp", "spawn");
-        config.set("portal.END_PORTAL.warp", "end");
         try {
             config.save(file);
         } catch (IOException e) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
         }
-    }
-    public File getFile(World world) {
-        return new File("worlds/" + world.getName() + ".yml");
-    }
-    public boolean exists(World world) {
-        return getFile(world).exists();
-    }
-    public FileConfiguration getConfig(World world) {
-        return YamlConfiguration.loadConfiguration(getFile(world));
     }
     public boolean isPVP(World world) {
         return getConfig(world).getBoolean("pvp");
@@ -171,28 +173,23 @@ public record Worlds(EssentialsA plugin) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
         }
     }
-    public boolean isPortalEnable(World world) {
-        return getConfig(world).getBoolean("portal.enable");
+    public boolean isPortalEnable() {
+        return getConfig().getBoolean("portal.enable");
     }
-    public String getWarp(World world, PlayerTeleportEvent.TeleportCause teleportCause) {
-        if (teleportCause.equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
-            return getConfig(world).getString("portal.END_PORTAL.warp");
-
-        } else if (teleportCause.equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
-            return getConfig(world).getString("portal.NETHER_PORTAL.warp");
-        } else {
-            return null;
-        }
+    public void teleport(Player player, String portalType) {
+        player.teleport(getSpawn(getWorld(getConfig().getString("portal." + player.getWorld().getName() + "." + portalType))));
     }
     public void reload() {
         File folder = new File(getDataFolder(), "worlds");
-        if (folder.exists()) {
+        if (folder.exists() | folder.isDirectory()) {
             for (File files : folder.listFiles()) {
-                FileConfiguration config = YamlConfiguration.loadConfiguration(files);
-                try {
-                    config.load(files);
-                } catch (IOException | InvalidConfigurationException e) {
-                    getMessage().sendLog(Level.WARNING, e.getMessage());
+                if (files.exists() | files.isFile()) {
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(files);
+                    try {
+                        config.load(files);
+                    } catch (IOException | InvalidConfigurationException e) {
+                        getMessage().sendLog(Level.WARNING, e.getMessage());
+                    }
                 }
             }
         }
