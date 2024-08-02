@@ -8,6 +8,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
@@ -74,12 +75,14 @@ public record Worlds(EssentialsA plugin) {
                 getMessage().sendLog(Level.INFO, world.getName() + " already exist");
             } else {
                 FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-                config.addDefault("name", world.getName());
-                config.addDefault("display-name", world.getName());
-                config.addDefault("environment", world.getEnvironment().toString());
-                config.addDefault("seed", world.getSeed());
-                config.addDefault("pvp", true);
-                config.options().copyDefaults(true);
+                config.set("name", world.getName());
+                config.set("display-name", world.getName());
+                config.set("environment", world.getEnvironment().toString());
+                config.set("seed", world.getSeed());
+                config.set("pvp", true);
+                config.set("portal.enable", false);
+                config.set("portal.NETHER_PORTAL.warp", "spawn");
+                config.set("portal.END_PORTAL.warp", "end");
                 try {
                     config.save(file);
                     getMessage().sendLog(Level.INFO, "created " + world.getName() + ".yml");
@@ -108,6 +111,9 @@ public record Worlds(EssentialsA plugin) {
         config.set("environment", world.getEnvironment().toString());
         config.set("seed", world.getSeed());
         config.set("pvp", true);
+        config.set("portal.enable", false);
+        config.set("portal.NETHER_PORTAL.warp", "spawn");
+        config.set("portal.END_PORTAL.warp", "end");
         try {
             config.save(file);
         } catch (IOException e) {
@@ -163,6 +169,19 @@ public record Worlds(EssentialsA plugin) {
             config.save(file);
         } catch (IOException e) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
+        }
+    }
+    public boolean isPortalEnable(World world) {
+        return getConfig(world).getBoolean("portal.enable");
+    }
+    public String getWarp(World world, PlayerTeleportEvent.TeleportCause teleportCause) {
+        if (teleportCause.equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
+            return getConfig(world).getString("portal.END_PORTAL.warp");
+
+        } else if (teleportCause.equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
+            return getConfig(world).getString("portal.NETHER_PORTAL.warp");
+        } else {
+            return null;
         }
     }
     public void reload() {

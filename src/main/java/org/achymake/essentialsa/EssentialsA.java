@@ -43,7 +43,6 @@ public final class EssentialsA extends JavaPlugin {
     private static Kits kits;
     private static Levels levels;
     private static Message message;
-    private static Portals portals;
     private static Spawn spawn;
     private static Villagers villagers;
     private static Warps warps;
@@ -103,7 +102,6 @@ public final class EssentialsA extends JavaPlugin {
         jail = new Jail(this);
         kits = new Kits(this);
         levels = new Levels(this);
-        portals = new Portals(this);
         spawn = new Spawn(this);
         villagers = new Villagers(this);
         warps = new Warps(this);
@@ -292,9 +290,9 @@ public final class EssentialsA extends JavaPlugin {
         getJail().reload();
         getKits().reload();
         getLevels().reload();
-        getPortals().reload();
         getSpawn().reload();
         getWarps().reload();
+        getWorlds().reload();
         getWorth().reload();
         getVillagers().reload();
     }
@@ -336,9 +334,6 @@ public final class EssentialsA extends JavaPlugin {
     }
     public Spawn getSpawn() {
         return spawn;
-    }
-    public Portals getPortals() {
-        return portals;
     }
     public Message getMessage() {
         return message;
