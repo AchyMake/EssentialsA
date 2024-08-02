@@ -8,6 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -18,6 +19,9 @@ public record Message(EssentialsA plugin) {
     }
     private Server getServer() {
         return plugin.getServer();
+    }
+    private BukkitScheduler getScheduler() {
+        return plugin().getScheduler();
     }
     private UpdateChecker getUpdateChecker() {
         return plugin.getUpdateChecker();
@@ -35,9 +39,14 @@ public record Message(EssentialsA plugin) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
     public void sendStringList(Player player, List<String> strings) {
-        for (String messages : strings) {
-            send(player, messages.replaceAll("%player%", player.getName()));
-        }
+        getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                for (String messages : strings) {
+                    send(player, messages.replaceAll("%player%", player.getName()));
+                }
+            }
+        },3);
     }
     public void sendStringList(ConsoleCommandSender consoleCommandSender, List<String> strings) {
         for (String messages : strings) {
