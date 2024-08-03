@@ -1,10 +1,11 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Chunk;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,8 +16,8 @@ public record PlayerHarvestBlock(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -24,13 +25,17 @@ public record PlayerHarvestBlock(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerHarvestBlock(PlayerHarvestBlockEvent event) {
         Player player = event.getPlayer();
-        Chunk chunk = event.getHarvestedBlock().getChunk();
         if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
-        } else if (getChunkdata().isClaimed(chunk)) {
-            if (getChunkdata().hasAccess(player, chunk))return;
+        }
+        if (getChunks().isEnable()) {
+            Block block = event.getHarvestedBlock();
+            Chunk chunk = block.getChunk();
+            if (!getChunks().isClaimed(chunk))return;
+            if (!getChunks().isDisabledHarvestBlocks(block))return;
+            if (getChunks().hasAccess(player, chunk))return;
             event.setCancelled(true);
-            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
         }
     }
 }

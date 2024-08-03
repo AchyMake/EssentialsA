@@ -26,8 +26,8 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
     private Entities getEntities() {
         return plugin.getEntities();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -55,10 +55,10 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                     player.getServer().dispatchCommand(player.getServer().getConsoleSender(), getVillagers().getCommand(entity).replaceAll("%player%", player.getName()));
                 }
             }
-        } else if (getChunkdata().isClaimed(chunk)) {
+        } else if (getChunks().isClaimed(chunk)) {
             if (entity.isInvulnerable())return;
             if (entity instanceof Player)return;
-            if (getChunkdata().hasAccess(player, chunk)) {
+            if (getChunks().hasAccess(player, chunk)) {
                 if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
                 if (!getCarry().isEnable(entity))return;
                 if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
@@ -73,12 +73,13 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                     getCarry().stack(player, entity);
                 }
             } else {
-                if (getEntities().isHostile(entity))return;
+                if (!getChunks().isEnable())return;
                 if (entity.getType().equals(EntityType.PLAYER))return;
                 if (entity.getType().equals(EntityType.MINECART))return;
                 if (entity.getType().equals(EntityType.BOAT))return;
+                if (!getEntities().isFriendly(entity))return;
                 event.setCancelled(true);
-                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
             }
         } else {
             if (entity.isInvulnerable())return;

@@ -17,11 +17,8 @@ public record PlayerLeashEntity(EssentialsA plugin) implements Listener {
     private Villagers getVillagers() {
         return plugin.getVillagers();
     }
-    private Carry getCarry() {
-        return plugin.getCarry();
-    }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -29,23 +26,24 @@ public record PlayerLeashEntity(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerLeashEntity(PlayerLeashEntityEvent event) {
         Player player = event.getPlayer();
+        Entity entity = event.getEntity();
         if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
-        } else {
-            Entity entity = event.getEntity();
+        }
+        if (entity.isInsideVehicle()) {
+            if (entity.getVehicle() instanceof Player) {
+                event.setCancelled(true);
+            }
+        }
+        if (getVillagers().isNPC(entity)) {
+            event.setCancelled(true);
+        }
+        if (getChunks().isEnable()) {
             Chunk chunk = entity.getChunk();
-            if (entity.isInsideVehicle()) {
-                if (entity.getVehicle() instanceof Player) {
-                    event.setCancelled(true);
-                }
-            }
-            if (getVillagers().isNPC(entity)) {
-                event.setCancelled(true);
-            } else if (getChunkdata().isClaimed(chunk)) {
-                if (getChunkdata().hasAccess(player, chunk))return;
-                event.setCancelled(true);
-                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-            }
+            if (!getChunks().isClaimed(chunk))return;
+            if (getChunks().hasAccess(player, chunk))return;
+            event.setCancelled(true);
+            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
         }
     }
 }

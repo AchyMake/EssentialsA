@@ -29,8 +29,8 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
     private Carry getCarry() {
         return plugin.getCarry();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private BukkitScheduler getScheduler() {
         return plugin.getScheduler();
@@ -67,17 +67,18 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
                 }
             }
             if (to.getChunk() != from.getChunk()) {
+                if (!getChunks().isEnable())return;
                 Chunk chunk = to.getChunk();
-                if (getChunkdata().isClaimed(chunk)) {
-                    if (getChunkdata().isBanned(chunk, player)) {
+                if (getChunks().isClaimed(chunk)) {
+                    if (getChunks().isBanned(chunk, player)) {
                         if (plugin.getChunkEditors().contains(player)) {
-                            visit(player, getChunkdata().getOwner(chunk));
+                            visit(player, getChunks().getOwner(chunk));
                         } else {
                             event.setCancelled(true);
-                            getMessage().sendActionBar(player, "&cYou are banned from&f " + getChunkdata().getOwner(chunk).getName() + "&c's chunk");
+                            getMessage().sendActionBar(player, "&cYou are banned from&f " + getChunks().getOwner(chunk).getName() + "&c's chunk");
                         }
                     } else {
-                        visit(player, getChunkdata().getOwner(chunk));
+                        visit(player, getChunks().getOwner(chunk));
                     }
                 } else {
                     exit(player);

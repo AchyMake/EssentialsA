@@ -1,7 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Chunk;
@@ -23,8 +23,8 @@ public record PlayerBucketEmpty(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Server getServer() {
         return plugin.getServer();
@@ -36,15 +36,18 @@ public record PlayerBucketEmpty(EssentialsA plugin) implements Listener {
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlockClicked();
-        Chunk chunk = block.getChunk();
         if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
-        } else if (getChunkdata().isClaimed(chunk)) {
-            if (getChunkdata().hasAccess(player, chunk)) return;
+        }
+        if (getChunks().isEnable()) {
+            Chunk chunk = block.getChunk();
+            if (!getChunks().isClaimed(chunk))return;
+            if (!getChunks().isDisableBuckets(event.getBucket()))return;
+            if (getChunks().hasAccess(player, chunk))return;
             event.setCancelled(true);
-            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
-
-        } else if (getConfig().getBoolean("notification.enable")) {
+            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
+        }
+        if (getConfig().getBoolean("notification.enable")) {
             String material = event.getBucket().toString();
             if (!getConfig().getStringList("notification.bucket-empty").contains(material))return;
             String worldName = event.getBlock().getWorld().getName();

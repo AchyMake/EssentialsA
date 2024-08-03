@@ -1,10 +1,7 @@
 package org.achymake.essentialsa.data;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,6 +27,12 @@ public record Worlds(EssentialsA plugin) {
     }
     private Message getMessage() {
         return plugin.getMessage();
+    }
+    public Chunk getChunk(World world, int v1, int v2) {
+        return world.getChunkAt(v1, v2);
+    }
+    public Chunk getChunk(World world, long longValue) {
+        return world.getChunkAt(longValue);
     }
     public boolean folderExist(String worldName) {
         return new File(getServer().getWorldContainer(), worldName).exists();

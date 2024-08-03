@@ -34,7 +34,7 @@ public final class EssentialsA extends JavaPlugin {
     private static Carry carry;
     private static Chairs chairs;
     private static ChestShop chestShop;
-    private static Chunkdata chunkdata;
+    private static Chunks chunks;
     private static Database database;
     private static Economy economy;
     private static Entities entities;
@@ -95,7 +95,7 @@ public final class EssentialsA extends JavaPlugin {
         carry = new Carry(this);
         chairs = new Chairs(this);
         chestShop = new ChestShop(this);
-        chunkdata = new Chunkdata(this);
+        chunks = new Chunks(this);
         database = new Database(this);
         economy = new Economy(this);
         entities = new Entities(this);
@@ -259,6 +259,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerTeleport(this), this);
         getManager().registerEvents(new PlayerToggleSneak(this), this);
         getManager().registerEvents(new PrepareAnvil(this), this);
+        getManager().registerEvents(new ProjectileLaunch(this), this);
         getManager().registerEvents(new SignChange(this), this);
         getManager().registerEvents(new VillagerAcquireTrade(this), this);
         getManager().registerEvents(new VillagerCareerChange(this), this);
@@ -290,17 +291,18 @@ public final class EssentialsA extends JavaPlugin {
                 getMessage().sendLog(Level.WARNING, e.getMessage());
             }
         }
-        getChunkdata().reload();
+        getChunks().reload();
         getEntities().reload();
         getHarvester().reload();
         getJail().reload();
         getKits().reload();
         getLevels().reload();
         getSpawn().reload();
+        getUserdata().reload();
+        getVillagers().reload();
         getWarps().reload();
         getWorlds().reload();
         getWorth().reload();
-        getVillagers().reload();
     }
     private PluginManager getManager() {
         return getServer().getPluginManager();
@@ -368,8 +370,8 @@ public final class EssentialsA extends JavaPlugin {
     public Database getDatabase() {
         return database;
     }
-    public Chunkdata getChunkdata() {
-        return chunkdata;
+    public Chunks getChunks() {
+        return chunks;
     }
     public ChestShop getChestShop() {
         return chestShop;
@@ -380,13 +382,13 @@ public final class EssentialsA extends JavaPlugin {
     public Carry getCarry() {
         return carry;
     }
+    public static EssentialsA getInstance() {
+        return instance;
+    }
     public String name() {
         return getDescription().getName();
     }
     public String version() {
         return getDescription().getVersion();
-    }
-    public static EssentialsA getInstance() {
-        return instance;
     }
 }

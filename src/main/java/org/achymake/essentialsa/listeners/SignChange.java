@@ -2,7 +2,7 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.ChestShop;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
 import org.bukkit.block.BlockFace;
@@ -16,8 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 public record SignChange(EssentialsA plugin) implements Listener {
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private ChestShop getChestShop() {
         return plugin.getChestShop();
@@ -30,8 +30,8 @@ public record SignChange(EssentialsA plugin) implements Listener {
         Player player = event.getPlayer();
         Chunk chunk = event.getBlock().getChunk();
         Sign sign = (Sign) event.getBlock().getState();
-        if (getChunkdata().isClaimed(chunk)) {
-            if (getChunkdata().hasAccess(player, chunk)) {
+        if (getChunks().isClaimed(chunk)) {
+            if (getChunks().hasAccess(player, chunk)) {
                 if (getChestShop().isShop(sign)) {
                     event.setCancelled(true);
                     getMessage().send(player, "&cSign is already a chest shop");
@@ -63,8 +63,10 @@ public record SignChange(EssentialsA plugin) implements Listener {
                     }
                 }
             } else {
+                if (!getChunks().isEnable())return;
+                if (!getChunks().isDisableSignChange())return;
                 event.setCancelled(true);
-                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
             }
         } else {
             if (getChestShop().isShop(sign)) {

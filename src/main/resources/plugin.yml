@@ -1071,6 +1071,9 @@ permissions:
   essentials.carry.attack:
     description: message
     default: op
+  essentials.carry.shoot:
+    description: message
+    default: op
   essentials.harvester:
     description: message
     default: op

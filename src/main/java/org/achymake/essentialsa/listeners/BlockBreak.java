@@ -2,12 +2,8 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.*;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -32,8 +28,8 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
     private ChestShop getChestShop() {
         return plugin.getChestShop();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Server getServer() {
         return plugin.getServer();
@@ -47,12 +43,25 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
         Block block = event.getBlock();
         if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
-        } else if (cancel(player, block)) {
-            event.setCancelled(true);
-        } else if (getChunkdata().isClaimed(block.getChunk())) {
-            if (getChunkdata().hasAccess(player, block.getChunk()))return;
-            event.setCancelled(true);
-            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(block.getChunk()).getName());
+        } else if (getChestShop().isShop(block)) {
+            Chest chest = getChestShop().getShop(block);
+            if (getChestShop().getOwner(chest) == player) {
+                getChestShop().removeOwner(chest);
+                chest.update();
+            } else {
+                event.setCancelled(true);
+                getMessage().send(player, "&cShop is owned by&f " + getChestShop().getOwner(getChestShop().getShop(block)).getName());
+            }
+        } else if (getChunks().isEnable()) {
+            Chunk chunk = block.getChunk();
+            if (!getChunks().isClaimed(chunk))return;
+            if (!getChunks().isDisableBlockBreak())return;
+            if (getChunks().hasAccess(player, chunk)) {
+                notifyAdmin(player, block);
+            } else {
+                event.setCancelled(true);
+                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
+            }
         } else {
             if (!player.getGameMode().equals(GameMode.SURVIVAL))return;
             notifyAdmin(player, block);
@@ -62,79 +71,6 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
                 dropSpawner(player, block);
                 event.setExpToDrop(0);
             }
-        }
-    }
-    private boolean cancel(Player player, Block block) {
-        if (Tag.WALL_SIGNS.isTagged(block.getType())) {
-            Sign sign = (Sign) block.getState();
-            if (getChestShop().isShop(sign)) {
-                if (sign.getBlockData() instanceof WallSign wallSign) {
-                    if (wallSign.getFacing().equals(BlockFace.EAST)) {
-                        if (sign.getLocation().add(-1,0,0).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
-                                getChestShop().removeOwner(chest);
-                                chest.update();
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        } else {
-                            return false;
-                        }
-                    } else if (wallSign.getFacing().equals(BlockFace.NORTH)) {
-                        if (sign.getLocation().add(0,0,1).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
-                                getChestShop().removeOwner(chest);
-                                chest.update();
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        } else {
-                            return false;
-                        }
-                    } else if (wallSign.getFacing().equals(BlockFace.WEST)) {
-                        if (sign.getLocation().add(1,0,0).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
-                                getChestShop().removeOwner(chest);
-                                chest.update();
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        } else {
-                            return false;
-                        }
-                    } else if (wallSign.getFacing().equals(BlockFace.SOUTH)) {
-                        if (sign.getLocation().add(0,0,-1).getBlock().getState() instanceof Chest chest) {
-                            if (getChestShop().getOwner(chest) == player || getChestShop().isChestShopEditor(player)) {
-                                getChestShop().removeOwner(chest);
-                                chest.update();
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        } else {
-                            return false;
-                        }
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
-            Chest chest = (Chest) block.getState();
-            if (getChestShop().isShop(chest)) {
-                return player != getChestShop().getOwner(chest) && !getChestShop().isChestShopEditor(player);
-            } else {
-                return false;
-            }
-        } else {
-            return false;
         }
     }
     private void notifyAdmin(Player player, Block block) {

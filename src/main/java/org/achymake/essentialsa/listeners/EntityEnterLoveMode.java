@@ -1,7 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Villagers;
 import org.bukkit.Chunk;
@@ -16,8 +16,8 @@ public record EntityEnterLoveMode(EssentialsA plugin) implements Listener {
     private Villagers getVillagers() {
         return plugin.getVillagers();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -28,12 +28,14 @@ public record EntityEnterLoveMode(EssentialsA plugin) implements Listener {
         if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);
         } else {
-            if (!(event.getHumanEntity() instanceof Player player))return;
-            Chunk chunk = entity.getChunk();
-            if (!getChunkdata().isClaimed(chunk))return;
-            if (getChunkdata().hasAccess(player, chunk))return;
-            event.setCancelled(true);
-            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+            if (event.getHumanEntity() instanceof Player player) {
+                if (!getChunks().isEnable())return;
+                Chunk chunk = entity.getChunk();
+                if (!getChunks().isClaimed(chunk))return;
+                if (getChunks().hasAccess(player, chunk))return;
+                event.setCancelled(true);
+                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Carry;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Entities;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
@@ -13,8 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityMountEvent;
 
 public record EntityMount(EssentialsA plugin) implements Listener {
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Carry getCarry() {
         return plugin.getCarry();
@@ -35,14 +35,15 @@ public record EntityMount(EssentialsA plugin) implements Listener {
                 getEntities().setScale(entity, 0.5);
             }
         }
-        if (getChunkdata().isClaimed(chunk)) {
+        if (getChunks().isEnable()) {
+            if (!getChunks().isClaimed(chunk))return;
             if (entity instanceof Player player) {
                 if (mount.getType().equals(EntityType.BOAT))return;
                 if (mount.getType().equals(EntityType.MINECART))return;
                 if (mount.getType().equals(EntityType.ARMOR_STAND))return;
-                if (getChunkdata().hasAccess(player, chunk))return;
+                if (getChunks().hasAccess(player, chunk))return;
                 event.setCancelled(true);
-                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
             }
         }
     }

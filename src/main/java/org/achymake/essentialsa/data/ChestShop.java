@@ -4,8 +4,12 @@ import org.achymake.essentialsa.EssentialsA;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -46,6 +50,66 @@ public record ChestShop(EssentialsA plugin) {
             if (getChestShopEditors().contains(player)) {
                 getChestShopEditors().remove(player);
             }
+        }
+    }
+    public boolean isShop(Block block) {
+        if (Tag.WALL_SIGNS.isTagged(block.getType())) {
+            Sign sign = (Sign) block.getState();
+            return isShop(sign);
+        } else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
+            Chest chest = (Chest) block.getState();
+            return isShop(chest);
+        } else {
+            return false;
+        }
+    }
+    public Chest getShop(Block block) {
+        if (Tag.WALL_SIGNS.isTagged(block.getType())) {
+            Sign sign = (Sign) block.getState();
+            if (isShop(sign)) {
+                if (sign.getBlockData() instanceof WallSign wallSign) {
+                    if (wallSign.getFacing().equals(BlockFace.EAST)) {
+                        if (sign.getLocation().add(-1,0,0).getBlock().getState() instanceof Chest chest) {
+                            return chest;
+                        } else {
+                            return null;
+                        }
+                    } else if (wallSign.getFacing().equals(BlockFace.NORTH)) {
+                        if (sign.getLocation().add(0,0,1).getBlock().getState() instanceof Chest chest) {
+                            return chest;
+                        } else {
+                            return null;
+                        }
+                    } else if (wallSign.getFacing().equals(BlockFace.WEST)) {
+                        if (sign.getLocation().add(1,0,0).getBlock().getState() instanceof Chest chest) {
+                            return chest;
+                        } else {
+                            return null;
+                        }
+                    } else if (wallSign.getFacing().equals(BlockFace.SOUTH)) {
+                        if (sign.getLocation().add(0,0,-1).getBlock().getState() instanceof Chest chest) {
+                            return chest;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
+            Chest chest = (Chest) block.getState();
+            if (isShop(chest)) {
+                return chest;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
         }
     }
     public void addOwner(OfflinePlayer offlinePlayer, Sign sign) {

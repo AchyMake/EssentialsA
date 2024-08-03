@@ -64,8 +64,8 @@ public class GiveCommand implements CommandExecutor, TabCompleter {
                 }
             }
             if (args.length == 2) {
-                for (Material test : Material.values()) {
-                    commands.add(test.toString().toLowerCase());
+                for (Material material : Material.values()) {
+                    commands.add(material.toString().toLowerCase());
                 }
             }
             if (args.length == 3) {

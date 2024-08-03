@@ -1,10 +1,11 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Entities;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +17,8 @@ public record EntityChangeBlock(EssentialsA plugin) implements Listener {
     private Entities getEntities() {
         return plugin.getEntities();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -25,19 +26,22 @@ public record EntityChangeBlock(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityChangeBlock(EntityChangeBlockEvent event) {
         Entity entity = event.getEntity();
-        Chunk chunk = event.getBlock().getChunk();
-        if (getChunkdata().isClaimed(chunk)) {
+        Block block = event.getBlock();
+        Chunk chunk = block.getChunk();
+        if (getChunks().isEnable()) {
+            if (!getChunks().isClaimed(chunk))return;
             if (entity instanceof Player player) {
-                if (getChunkdata().hasAccess(player, chunk))return;
+                if (!getChunks().isDisabledChangeBlocks(block))return;
+                if (getChunks().hasAccess(player, chunk))return;
                 event.setCancelled(true);
-                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
             } else if (getEntities().isHostile(entity)) {
                 event.setCancelled(true);
             }
-        } else {
-            if (entity instanceof Player)return;
-            if (!getEntities().isEnable(entity))return;
+        }
+        if (getEntities().isEnable(entity)) {
             if (!getEntities().disableBlockChange(entity))return;
+            if (entity instanceof Player)return;
             event.setCancelled(true);
         }
     }

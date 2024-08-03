@@ -1,7 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Entities;
 import org.achymake.essentialsa.data.Villagers;
 import org.bukkit.Chunk;
@@ -19,25 +19,27 @@ public record EntityTarget(EssentialsA plugin) implements Listener {
     private Entities getEntities() {
         return plugin.getEntities();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityTarget(EntityTargetEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof Player)return;
         if (event.getTarget() == null)return;
         Entity target = event.getTarget();
         if (getVillagers().isNPC(target)) {
+            if (entity instanceof Player)return;
             event.setCancelled(true);
-        } else {
+        }
+        if (getEntities().disableTarget(entity, target)) {
+            event.setCancelled(true);
+        }
+        if (getChunks().isEnable()) {
             Chunk chunk = entity.getChunk();
-            if (getChunkdata().isClaimed(chunk)) {
-                if (!(target instanceof Player player))return;
-                if (getChunkdata().hasAccess(player, chunk))return;
-                if (getEntities().isHostile(entity))return;
-                event.setCancelled(true);
-            } else if (getEntities().disableTarget(entity, target)) {
+            if (!getChunks().isClaimed(chunk))return;
+            if (target instanceof Player player) {
+                if (!getEntities().isFriendly(entity))return;
+                if (getChunks().hasAccess(player, chunk))return;
                 event.setCancelled(true);
             }
         }

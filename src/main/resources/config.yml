@@ -17,25 +17,6 @@ homes:
   default: 3
   vip: 6
   staff: 12
-chunks:
-  economy:
-    cost: 1000.0
-    refund: 750.0
-    multiply: 25
-  claim:
-    max-claims: 32
-    redstone-only-inside: false
-    particle: TOTEM
-    sound:
-      type: BLOCK_AMETHYST_BLOCK_BREAK
-      volume: 0.75
-      pitch: 1.0
-  unclaim:
-    particle: SPELL_INSTANT
-    sound:
-      type: BLOCK_AMETHYST_BLOCK_BREAK
-      volume: 0.75
-      pitch: 1.0
 commands:
   rtp:
     world: world

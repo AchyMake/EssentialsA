@@ -1,0 +1,55 @@
+enable: true
+worlds:
+  - world
+  - world_nether
+  - world_the_end
+economy:
+  cost: 1000.0
+  refund: 750.0
+  multiply: 25
+claim:
+  max-claims: 32
+  redstone-only-inside: false
+  particle: TOTEM
+  sound:
+    type: BLOCK_AMETHYST_BLOCK_BREAK
+    volume: 0.75
+    pitch: 1.0
+unclaim:
+  particle: SPELL_INSTANT
+  sound:
+    type: BLOCK_AMETHYST_BLOCK_BREAK
+    volume: 0.75
+    pitch: 1.0
+settings:
+  disable-block-break: true
+  disable-block-fertilize: true
+  disable-block-place: true
+  disable-cauldron-level-change: true
+  disabled-interact-physical-blocks:
+    - MATERIAL
+  disabled-interact-blocks:
+    - MATERIAL
+  disabled-harvest-blocks:
+    - MATERIAL
+  disabled-change-blocks:
+    - DECORATED_POT
+    - CHISELED_BOOKSHELF
+    - DISPENSER
+    - DROPPER
+    - HOPPER
+    - DAYLIGHT_DETECTOR
+    - LECTERN
+    - COMPARATOR
+    - REPEATER
+    - REDSTONE_WIRE
+    - LEVER
+    - JUKEBOX
+    - NOTE_BLOCK
+    - BEEHIVE
+    - BEE_NEST
+  disabled-buckets:
+    - MATERIAL
+  disabled-shear-blocks:
+    - MATERIAL
+  disable-sign-change: true

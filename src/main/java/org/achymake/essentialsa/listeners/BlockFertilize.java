@@ -1,7 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Chunk;
@@ -15,8 +15,8 @@ public record BlockFertilize(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -28,11 +28,12 @@ public record BlockFertilize(EssentialsA plugin) implements Listener {
         if (player == null)return;
         if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
-        } else if (getChunkdata().isClaimed(chunk)) {
-            if (!getChunkdata().isClaimed(chunk))return;
-            if (getChunkdata().hasAccess(player, chunk))return;
+        } else if (getChunks().isEnable()) {
+            if (!getChunks().isClaimed(chunk))return;
+            if (!getChunks().isDisableBlockFertilize())return;
+            if (getChunks().hasAccess(player, chunk))return;
             event.setCancelled(true);
-            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
         }
     }
 }

@@ -1,12 +1,14 @@
 package org.achymake.essentialsa.data;
 
 import org.achymake.essentialsa.EssentialsA;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
+import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +68,9 @@ public record Entities(EssentialsA plugin) {
     }
     public boolean isHostile(Entity entity) {
         return getConfig(entity).getBoolean("hostile");
+    }
+    public boolean isFriendly(Entity entity) {
+        return !getConfig(entity).getBoolean("hostile");
     }
     public boolean isAdult(Entity entity) {
         return switch (entity) {
@@ -378,7 +383,7 @@ public record Entities(EssentialsA plugin) {
             }
         };
     }
-    public void setTarget(Entity e, Entity target) {
+    public void attack(Entity e, Entity target) {
         switch (e) {
             case Allay entity -> entity.attack(target);
             case Armadillo entity -> entity.attack(target);
@@ -406,7 +411,7 @@ public record Entities(EssentialsA plugin) {
             case Endermite entity -> entity.attack(target);
             case Evoker entity -> entity.attack(target);
             case Fox entity -> entity.attack(target);
-            case Frog entity -> entity.setTongueTarget(target);
+            case Frog entity -> entity.attack(target);
             case Ghast entity -> entity.attack(target);
             case Giant entity -> entity.attack(target);
             case GlowSquid entity -> entity.attack(target);
@@ -463,6 +468,95 @@ public record Entities(EssentialsA plugin) {
             case Wolf entity -> entity.attack(target);
             case Zombie entity -> entity.attack(target);
             case ZombieHorse entity -> entity.attack(target);
+            default -> {
+            }
+        };
+    }
+    public void launchProjectile(Entity e, Class classValue, Vector vector) {
+        switch (e) {
+            case Allay entity -> entity.launchProjectile(classValue, vector);
+            case Armadillo entity -> entity.launchProjectile(classValue, vector);
+            case ArmorStand entity -> entity.launchProjectile(classValue, vector);
+            case Axolotl entity -> entity.launchProjectile(classValue, vector);
+            case Bat entity -> entity.launchProjectile(classValue, vector);
+            case Bee entity -> entity.launchProjectile(classValue, vector);
+            case Blaze entity -> entity.launchProjectile(classValue, vector);
+            case Bogged entity -> entity.launchProjectile(classValue, vector);
+            case Breeze entity -> entity.launchProjectile(classValue, vector);
+            case Camel entity -> entity.launchProjectile(classValue, vector);
+            case Cat entity -> entity.launchProjectile(classValue, vector);
+            case CaveSpider entity -> entity.launchProjectile(classValue, vector);
+            case Chicken entity -> entity.launchProjectile(classValue, vector);
+            case Cod entity -> entity.launchProjectile(classValue, vector);
+            case MushroomCow entity -> entity.launchProjectile(classValue, vector);
+            case Cow entity -> entity.launchProjectile(classValue, vector);
+            case Creeper entity -> entity.launchProjectile(classValue, vector);
+            case Dolphin entity -> entity.launchProjectile(classValue, vector);
+            case Donkey entity -> entity.launchProjectile(classValue, vector);
+            case Drowned entity -> entity.launchProjectile(classValue, vector);
+            case ElderGuardian entity -> entity.launchProjectile(classValue, vector);
+            case EnderDragon entity -> entity.launchProjectile(classValue, vector);
+            case Enderman entity -> entity.launchProjectile(classValue, vector);
+            case Endermite entity -> entity.launchProjectile(classValue, vector);
+            case Evoker entity -> entity.launchProjectile(classValue, vector);
+            case Fox entity -> entity.launchProjectile(classValue, vector);
+            case Frog entity -> entity.launchProjectile(classValue, vector);
+            case Ghast entity -> entity.launchProjectile(classValue, vector);
+            case Giant entity -> entity.launchProjectile(classValue, vector);
+            case GlowSquid entity -> entity.launchProjectile(classValue, vector);
+            case Goat entity -> entity.launchProjectile(classValue, vector);
+            case Guardian entity -> entity.launchProjectile(classValue, vector);
+            case Hoglin entity -> entity.launchProjectile(classValue, vector);
+            case Horse entity -> entity.launchProjectile(classValue, vector);
+            case Husk entity -> entity.launchProjectile(classValue, vector);
+            case Illusioner entity -> entity.launchProjectile(classValue, vector);
+            case IronGolem entity -> entity.launchProjectile(classValue, vector);
+            case TraderLlama entity -> entity.launchProjectile(classValue, vector);
+            case Llama entity -> entity.launchProjectile(classValue, vector);
+            case MagmaCube entity -> entity.launchProjectile(classValue, vector);
+            case Mule entity -> entity.launchProjectile(classValue, vector);
+            case Ocelot entity -> entity.launchProjectile(classValue, vector);
+            case Panda entity -> entity.launchProjectile(classValue, vector);
+            case Parrot entity -> entity.launchProjectile(classValue, vector);
+            case Phantom entity -> entity.launchProjectile(classValue, vector);
+            case PigZombie entity -> entity.launchProjectile(classValue, vector);
+            case Pig entity -> entity.launchProjectile(classValue, vector);
+            case Piglin entity -> entity.launchProjectile(classValue, vector);
+            case PiglinBrute entity -> entity.launchProjectile(classValue, vector);
+            case Pillager entity -> entity.launchProjectile(classValue, vector);
+            case Player entity -> entity.launchProjectile(classValue, vector);
+            case PolarBear entity -> entity.launchProjectile(classValue, vector);
+            case PufferFish entity -> entity.launchProjectile(classValue, vector);
+            case Rabbit entity -> entity.launchProjectile(classValue, vector);
+            case Ravager entity -> entity.launchProjectile(classValue, vector);
+            case Salmon entity -> entity.launchProjectile(classValue, vector);
+            case Sheep entity -> entity.launchProjectile(classValue, vector);
+            case Shulker entity -> entity.launchProjectile(classValue, vector);
+            case Silverfish entity -> entity.launchProjectile(classValue, vector);
+            case Skeleton entity -> entity.launchProjectile(classValue, vector);
+            case SkeletonHorse entity -> entity.launchProjectile(classValue, vector);
+            case Slime entity -> entity.launchProjectile(classValue, vector);
+            case Sniffer entity -> entity.launchProjectile(classValue, vector);
+            case Snowman entity -> entity.launchProjectile(classValue, vector);
+            case Spider entity -> entity.launchProjectile(classValue, vector);
+            case Squid entity -> entity.launchProjectile(classValue, vector);
+            case Stray entity -> entity.launchProjectile(classValue, vector);
+            case Strider entity -> entity.launchProjectile(classValue, vector);
+            case Tadpole entity -> entity.launchProjectile(classValue, vector);
+            case TropicalFish entity -> entity.launchProjectile(classValue, vector);
+            case Turtle entity -> entity.launchProjectile(classValue, vector);
+            case Vex entity -> entity.launchProjectile(classValue, vector);
+            case ZombieVillager entity -> entity.launchProjectile(classValue, vector);
+            case Villager entity -> entity.launchProjectile(classValue, vector);
+            case Vindicator entity -> entity.launchProjectile(classValue, vector);
+            case WanderingTrader entity -> entity.launchProjectile(classValue, vector);
+            case Warden entity -> entity.launchProjectile(classValue, vector);
+            case Witch entity -> entity.launchProjectile(classValue, vector);
+            case Wither entity -> entity.launchProjectile(classValue, vector);
+            case WitherSkeleton entity -> entity.launchProjectile(classValue, vector);
+            case Wolf entity -> entity.launchProjectile(classValue, vector);
+            case Zombie entity -> entity.launchProjectile(classValue, vector);
+            case ZombieHorse entity -> entity.launchProjectile(classValue, vector);
             default -> {
             }
         };

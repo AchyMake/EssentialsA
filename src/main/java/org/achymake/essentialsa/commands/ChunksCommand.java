@@ -1,7 +1,7 @@
 package org.achymake.essentialsa.commands;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Userdata;
 import org.bukkit.Bukkit;
@@ -21,8 +21,8 @@ public class ChunksCommand implements CommandExecutor, TabCompleter {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -33,144 +33,146 @@ public class ChunksCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("unclaim")) {
-                    if (player.hasPermission("essentials.command.chunks.unclaim")) {
-                        Chunk chunk = player.getLocation().getChunk();
-                        if (getChunkdata().isClaimed(chunk)) {
-                            getMessage().send(player, "&6You safely unclaimed&f " + getChunkdata().getOwner(chunk).getName() + "&6's chunk");
-                            getChunkdata().remove(getChunkdata().getOwner(chunk), chunk);
-                            getChunkdata().unclaimEffect(player, chunk);
-                            getChunkdata().unclaimSound(player);
-                        } else {
-                            getMessage().send(player, "&cCurrent chunk is already unclaimed");
-                        }
-                        return true;
-                    }
-                }
-                if (args[0].equalsIgnoreCase("info")) {
-                    if (player.hasPermission("essentials.command.chunks.info")) {
-                        Chunk chunk = player.getLocation().getChunk();
-                        if (getChunkdata().isClaimed(chunk)) {
-                            getMessage().send(player, "&6Chunks Info:&f Chunk");
-                            getMessage().send(player, "&6Owner:&f " + getChunkdata().getOwner(chunk).getName());
-                            getMessage().send(player, "&6Date claimed:&f " + getChunkdata().getDateClaimed(chunk));
-                            getMessage().send(player, "&6Chunks claimed:&f " + getChunkdata().getClaimCount(chunk));
-                            if (getChunkdata().getMembers(getChunkdata().getOwner(chunk)).isEmpty()) {
-                                getMessage().send(player, getChunkdata().getOwner(chunk).getName() + "&6 has no members");
+            if (getChunks().isEnable()) {
+                if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("unclaim")) {
+                        if (player.hasPermission("essentials.command.chunks.unclaim")) {
+                            Chunk chunk = player.getLocation().getChunk();
+                            if (getChunks().isClaimed(chunk)) {
+                                getMessage().send(player, "&6You safely unclaimed&f " + getChunks().getOwner(chunk).getName() + "&6's chunk");
+                                getChunks().remove(getChunks().getOwner(chunk), chunk);
+                                getChunks().unclaimEffect(player, chunk);
+                                getChunks().unclaimSound(player);
                             } else {
-                                getMessage().send(player, getChunkdata().getOwner(chunk).getName()+"&6 members:");
-                                for (OfflinePlayer offlinePlayer : getChunkdata().getMembers(getChunkdata().getOwner(chunk))) {
-                                    getMessage().send(player, "- " + offlinePlayer.getName());
-                                }
+                                getMessage().send(player, "&cCurrent chunk is already unclaimed");
                             }
-                        }
-                        return true;
-                    }
-                }
-                if (args[0].equalsIgnoreCase("help")) {
-                    if (player.hasPermission("essentials.command.chunks.help")) {
-                        getMessage().send(player, "&6Chunks Help:");
-                        if (player.hasPermission("essentials.command.chunks.delete")) {
-                            getMessage().send(player, "&f/chunks delete &7- safely unclaims chunk");
-                        }
-                        if (player.hasPermission("essentials.command.chunks.edit")) {
-                            getMessage().send(player, "&f/chunks edit &7- toggle chunk edit");
-                        }
-                        if (player.hasPermission("essentials.command.chunks.effect")) {
-                            getMessage().send(player, "&f/chunks effect claim &7- effects of claiming");
-                            getMessage().send(player, "&f/chunks effect unclaim &7- effects of unclaiming");
-                        }
-                        getMessage().send(player, "&f/chunks help &7- show this list");
-                        if (player.hasPermission("essentials.command.chunks.info")) {
-                            getMessage().send(player, "&f/chunks info &7- checks info of chunk");
-                        }
-                        if (player.hasPermission("essentials.command.chunks.reload")) {
-                            getMessage().send(player, "&f/chunks reload &7- reload chunks plugin");
-                        }
-                        if (player.hasPermission("essentials.command.chunks.setowner")) {
-                            getMessage().send(player, "&f/chunks setowner target &7- sets chunk owner");
-                        }
-                        return true;
-                    }
-                }
-                if (args[0].equalsIgnoreCase("edit")) {
-                    if (player.hasPermission("essentials.command.chunks.edit")) {
-                        if (plugin.getChunkEditors().contains(player)) {
-                            plugin.getChunkEditors().remove(player);
-                            getMessage().sendActionBar(player, "&6Chunk Edit:&c Disabled");
-                        } else {
-                            plugin.getChunkEditors().add(player);
-                            getMessage().sendActionBar(player, "&6Chunk Edit:&a Enabled");
-                        }
-                        return true;
-                    }
-                }
-            }
-            if (args.length == 2) {
-                if (args[0].equalsIgnoreCase("effect")) {
-                    if (player.hasPermission("essentials.command.chunks.effect")) {
-                        if (args[1].equalsIgnoreCase("claim")) {
-                            Chunk chunk = player.getChunk();
-                            getChunkdata().claimEffect(player, chunk);
-                            getChunkdata().claimSound(player);
-                            getMessage().sendActionBar(player, "&6Started the effects of Claiming");
-                        }
-                        if (args[1].equalsIgnoreCase("unclaim")) {
-                            Chunk chunk = player.getChunk();
-                            getChunkdata().unclaimEffect(player, chunk);
-                            getChunkdata().unclaimSound(player);
-                            getMessage().sendActionBar(player, "&6Started the effects of Unclaiming");
-                        }
-                        return true;
-                    }
-                }
-                if (args[0].equalsIgnoreCase("info")) {
-                    if (player.hasPermission("essentials.command.chunks.info")) {
-                        OfflinePlayer target = player.getServer().getOfflinePlayer(args[1]);
-                        if (getUserdata().exist(target)) {
-                            getMessage().send(player, "&6Chunks Info:&f "+target.getName());
-                            getMessage().send(player, "&6Chunks claimed:&f " + getChunkdata().getClaimCount(target));
-                            if (getChunkdata().getMembers(target).isEmpty()) {
-                                getMessage().send(player, target.getName() + "&6 has no members");
-                            } else {
-                                getMessage().send(player, "&6Members:");
-                                for (OfflinePlayer offlinePlayer : getChunkdata().getMembers(target)) {
-                                    getMessage().send(player, "- " + offlinePlayer.getName());
-                                }
-                            }
-                        }
-                        return true;
-                    }
-                }
-                if (args[0].equalsIgnoreCase("setowner")) {
-                    if (player.hasPermission("essentials.command.chunks.setowner")) {
-                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
-                        Chunk chunk = player.getLocation().getChunk();
-                        if (getChunkdata().isAllowedClaim(chunk)) {
-                            if (getUserdata().exist(target)) {
-                                getChunkdata().setOwner(player, target, chunk);
-                                getChunkdata().claimEffect(player, chunk);
-                                getChunkdata().claimSound(player);
-                                getMessage().send(player, "&6Chunk is now owned by&f " + getChunkdata().getOwner(chunk).getName());
-                            } else {
-                                getMessage().send(player, target.getName() + "&c has never joined");
-                            }
-                        } else {
-                            getMessage().send(player, "&c&lHey!&7 Sorry but you are not allowed to claim here");
-                        }
-                        return true;
-                    }
-                }
-            }
-            if (args.length == 3) {
-                if (args[0].equalsIgnoreCase("unclaim")) {
-                    if (player.hasPermission("essentials.command.chunks.unclaim")) {
-                        if (args[2].equalsIgnoreCase("all")) {
-                            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-                            getChunkdata().removeAll(offlinePlayer);
-                            getMessage().send(player, "&6You safely unclaimed all&f " + offlinePlayer.getName() + "&6's chunks");
                             return true;
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("info")) {
+                        if (player.hasPermission("essentials.command.chunks.info")) {
+                            Chunk chunk = player.getLocation().getChunk();
+                            if (getChunks().isClaimed(chunk)) {
+                                getMessage().send(player, "&6Chunks Info:&f Chunk");
+                                getMessage().send(player, "&6Owner:&f " + getChunks().getOwner(chunk).getName());
+                                getMessage().send(player, "&6Date claimed:&f " + getChunks().getDateClaimed(chunk));
+                                getMessage().send(player, "&6Chunks claimed:&f " + getChunks().getClaimCount(chunk));
+                                if (getChunks().getMembers(getChunks().getOwner(chunk)).isEmpty()) {
+                                    getMessage().send(player, getChunks().getOwner(chunk).getName() + "&6 has no members");
+                                } else {
+                                    getMessage().send(player, getChunks().getOwner(chunk).getName()+"&6 members:");
+                                    for (OfflinePlayer offlinePlayer : getChunks().getMembers(getChunks().getOwner(chunk))) {
+                                        getMessage().send(player, "- " + offlinePlayer.getName());
+                                    }
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("help")) {
+                        if (player.hasPermission("essentials.command.chunks.help")) {
+                            getMessage().send(player, "&6Chunks Help:");
+                            if (player.hasPermission("essentials.command.chunks.delete")) {
+                                getMessage().send(player, "&f/chunks delete &7- safely unclaims chunk");
+                            }
+                            if (player.hasPermission("essentials.command.chunks.edit")) {
+                                getMessage().send(player, "&f/chunks edit &7- toggle chunk edit");
+                            }
+                            if (player.hasPermission("essentials.command.chunks.effect")) {
+                                getMessage().send(player, "&f/chunks effect claim &7- effects of claiming");
+                                getMessage().send(player, "&f/chunks effect unclaim &7- effects of unclaiming");
+                            }
+                            getMessage().send(player, "&f/chunks help &7- show this list");
+                            if (player.hasPermission("essentials.command.chunks.info")) {
+                                getMessage().send(player, "&f/chunks info &7- checks info of chunk");
+                            }
+                            if (player.hasPermission("essentials.command.chunks.reload")) {
+                                getMessage().send(player, "&f/chunks reload &7- reload chunks plugin");
+                            }
+                            if (player.hasPermission("essentials.command.chunks.setowner")) {
+                                getMessage().send(player, "&f/chunks setowner target &7- sets chunk owner");
+                            }
+                            return true;
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("edit")) {
+                        if (player.hasPermission("essentials.command.chunks.edit")) {
+                            if (plugin.getChunkEditors().contains(player)) {
+                                plugin.getChunkEditors().remove(player);
+                                getMessage().sendActionBar(player, "&6Chunk Edit:&c Disabled");
+                            } else {
+                                plugin.getChunkEditors().add(player);
+                                getMessage().sendActionBar(player, "&6Chunk Edit:&a Enabled");
+                            }
+                            return true;
+                        }
+                    }
+                }
+                if (args.length == 2) {
+                    if (args[0].equalsIgnoreCase("effect")) {
+                        if (player.hasPermission("essentials.command.chunks.effect")) {
+                            if (args[1].equalsIgnoreCase("claim")) {
+                                Chunk chunk = player.getChunk();
+                                getChunks().claimEffect(player, chunk);
+                                getChunks().claimSound(player);
+                                getMessage().sendActionBar(player, "&6Started the effects of Claiming");
+                            }
+                            if (args[1].equalsIgnoreCase("unclaim")) {
+                                Chunk chunk = player.getChunk();
+                                getChunks().unclaimEffect(player, chunk);
+                                getChunks().unclaimSound(player);
+                                getMessage().sendActionBar(player, "&6Started the effects of Unclaiming");
+                            }
+                            return true;
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("info")) {
+                        if (player.hasPermission("essentials.command.chunks.info")) {
+                            OfflinePlayer target = player.getServer().getOfflinePlayer(args[1]);
+                            if (getUserdata().exist(target)) {
+                                getMessage().send(player, "&6Chunks Info:&f "+target.getName());
+                                getMessage().send(player, "&6Chunks claimed:&f " + getChunks().getClaimCount(target));
+                                if (getChunks().getMembers(target).isEmpty()) {
+                                    getMessage().send(player, target.getName() + "&6 has no members");
+                                } else {
+                                    getMessage().send(player, "&6Members:");
+                                    for (OfflinePlayer offlinePlayer : getChunks().getMembers(target)) {
+                                        getMessage().send(player, "- " + offlinePlayer.getName());
+                                    }
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                    if (args[0].equalsIgnoreCase("setowner")) {
+                        if (player.hasPermission("essentials.command.chunks.setowner")) {
+                            OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+                            Chunk chunk = player.getChunk();
+                            if (getChunks().isAllowedClaim(chunk)) {
+                                if (getUserdata().exist(target)) {
+                                    getChunks().setOwner(player, target, chunk);
+                                    getChunks().claimEffect(player, chunk);
+                                    getChunks().claimSound(player);
+                                    getMessage().send(player, "&6Chunk is now owned by&f " + getChunks().getOwner(chunk).getName());
+                                } else {
+                                    getMessage().send(player, target.getName() + "&c has never joined");
+                                }
+                            } else {
+                                getMessage().send(player, "&c&lHey!&7 Sorry but you are not allowed to claim here");
+                            }
+                            return true;
+                        }
+                    }
+                }
+                if (args.length == 3) {
+                    if (args[0].equalsIgnoreCase("unclaim")) {
+                        if (player.hasPermission("essentials.command.chunks.unclaim")) {
+                            if (args[2].equalsIgnoreCase("all")) {
+                                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
+                                getChunks().removeAll(offlinePlayer);
+                                getMessage().send(player, "&6You safely unclaimed all&f " + offlinePlayer.getName() + "&6's chunks");
+                                return true;
+                            }
                         }
                     }
                 }

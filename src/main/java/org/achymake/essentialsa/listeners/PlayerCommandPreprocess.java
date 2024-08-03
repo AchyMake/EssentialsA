@@ -1,7 +1,7 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunkdata;
+import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.bukkit.Chunk;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,8 +15,8 @@ public record PlayerCommandPreprocess(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
         return plugin.getConfig();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -24,19 +24,19 @@ public record PlayerCommandPreprocess(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
-        Chunk chunk = player.getChunk();
-        if (getChunkdata().isClaimed(chunk)) {
-            if (!event.getMessage().startsWith("/sethome"))return;
-            if (getChunkdata().hasAccess(player, chunk))return;
-            event.setCancelled(true);
-            getMessage().send(player, "&cYou are not allowed to sethome inside&f " + getChunkdata().getOwner(chunk).getName() + "&c's chunk");
-        } else {
-            if (player.hasPermission("essentials.event.command.exempt"))return;
-            for (String disabled : getConfig().getStringList("commands.disable")) {
-                if (event.getMessage().toLowerCase().startsWith("/" + disabled.toLowerCase())) {
-                    event.setCancelled(true);
-                }
+        if (player.hasPermission("essentials.event.command.exempt"))return;
+        for (String disabled : getConfig().getStringList("commands.disable")) {
+            if (event.getMessage().toLowerCase().startsWith("/" + disabled.toLowerCase())) {
+                event.setCancelled(true);
             }
+        }
+        if (getChunks().isEnable()) {
+            Chunk chunk = player.getChunk();
+            if (getChunks().isClaimed(chunk))return;
+            if (!event.getMessage().toLowerCase().startsWith("/sethome"))return;
+            if (getChunks().hasAccess(player, chunk))return;
+            event.setCancelled(true);
+            getMessage().send(player, "&cYou are not allowed to sethome inside&f " + getChunks().getOwner(chunk).getName() + "&c's chunk");
         }
     }
 }

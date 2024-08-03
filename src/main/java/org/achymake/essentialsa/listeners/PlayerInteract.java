@@ -11,8 +11,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -36,8 +35,8 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
     private Carry getCarry() {
         return plugin.getCarry();
     }
-    private Chunkdata getChunkdata() {
-        return plugin.getChunkdata();
+    private Chunks getChunks() {
+        return plugin.getChunks();
     }
     private Harvester getHarvester() {
         return plugin.getHarvester();
@@ -47,25 +46,33 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getClickedBlock() == null)return;
-        Block block = event.getClickedBlock();
-        Chunk chunk = block.getChunk();
         Player player = event.getPlayer();
         if (event.getAction().equals(Action.PHYSICAL)) {
+            if (event.getClickedBlock() == null)return;
+            Block block = event.getClickedBlock();
+            Chunk chunk = block.getChunk();
             if (getUserdata().isFrozen(player) || getUserdata().isJailed(player) || getUserdata().isVanished(player)) {
                 event.setCancelled(true);
-            } else if (getChunkdata().isClaimed(chunk)) {
-                if (!getChunkdata().isPhysical(block))return;
-                if (getChunkdata().hasAccess(player, chunk)) {
+            } else if (getChunks().isEnable()) {
+                if (!getChunks().isClaimed(chunk))return;
+                if (getChunks().hasAccess(player, chunk)) {
                     if (!disabledTrampling(block))return;
                     event.setCancelled(true);
                 } else {
-                    event.setCancelled(true);
+                    if (disabledTrampling(block)) {
+                        event.setCancelled(true);
+                    } else {
+                        if (!getChunks().isDisabledInteractPhysicalBlocks(block))return;
+                        event.setCancelled(true);
+                    }
                 }
             } else if (disabledTrampling(block)) {
                 event.setCancelled(true);
             }
         } else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (event.getClickedBlock() == null)return;
+            Block block = event.getClickedBlock();
+            Chunk chunk = block.getChunk();
             if (event.getHand() != EquipmentSlot.HAND)return;
             if (Tag.WALL_SIGNS.isTagged(block.getType())) {
                 Sign sign = (Sign) block.getState();
@@ -109,8 +116,9 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                     if (getChairs().isOccupied(block))return;
                     getChairs().sit(player, block);
                 }
-                if (getChunkdata().isClaimed(chunk)) {
-                    if (getChunkdata().hasAccess(player, chunk)) {
+                if (getChunks().isEnable()) {
+                    if (!getChunks().isClaimed(chunk))return;
+                    if (getChunks().hasAccess(player, chunk)) {
                         if (getHarvester().isHoe(player.getInventory().getItemInMainHand())) {
                             if (!getHarvester().isAllowHarvest(block))return;
                             getHarvester().harvest(player, block);
@@ -130,9 +138,9 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                             }
                         }
                     } else {
-                        if (!getChunkdata().isRightClickBlock(block))return;
+                        if (!getChunks().isDisabledInteractBlocks(block))return;
                         event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunkdata().getOwner(chunk).getName());
+                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
                     }
                 } else {
                     if (getHarvester().isHoe(player.getInventory().getItemInMainHand())) {
