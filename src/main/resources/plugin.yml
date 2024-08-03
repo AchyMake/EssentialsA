@@ -1068,7 +1068,7 @@ permissions:
   essentials.carry.stack:
     description: message
     default: op
-  essentials.carry.target:
+  essentials.carry.attack:
     description: message
     default: op
   essentials.harvester:
