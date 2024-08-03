@@ -48,21 +48,21 @@ public record Harvester(EssentialsA plugin) {
     }
     public boolean isAllowHarvest(Block block) {
         try {
-            ProtectedCuboidRegion region = new ProtectedCuboidRegion("_", BlockVector3.at(block.getX(), block.getY(), block.getZ()), BlockVector3.at(block.getX(), block.getY(), block.getZ()));
             RegionManager regionManager = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(block.getWorld()));
             if (regionManager == null) {
                 return true;
             } else {
+                ProtectedCuboidRegion region = new ProtectedCuboidRegion("_", BlockVector3.at(block.getX(), block.getY(), block.getZ()), BlockVector3.at(block.getX(), block.getY(), block.getZ()));
                 for (ProtectedRegion regionIn : regionManager.getApplicableRegions(region)) {
                     StateFlag.State flag = regionIn.getFlag(plugin.getFlagHarvest());
                     return flag == StateFlag.State.ALLOW;
                 }
             }
+            return false;
         } catch (Exception e) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
             return false;
         }
-        return false;
     }
     public void harvest(Player player, Block block) {
         if (isWoodenHoe(player.getInventory().getItemInMainHand())) {

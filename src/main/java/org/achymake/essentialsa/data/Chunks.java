@@ -69,15 +69,15 @@ public record Chunks(EssentialsA plugin) {
             } else {
                 int x = chunk.getX() << 4;
                 int z = chunk.getZ() << 4;
-                ProtectedCuboidRegion manager = new ProtectedCuboidRegion("_", BlockVector3.at(x, -64, z), BlockVector3.at(x + 15, 320, z + 15));
-                for (ProtectedRegion regionIn : regionManager.getApplicableRegions(manager)) {
+                for (ProtectedRegion regionIn : regionManager.getApplicableRegions(new ProtectedCuboidRegion("_", BlockVector3.at(x, -64, z), BlockVector3.at(x + 15, 320, z + 15)))) {
                     return regionIn.getFlag(plugin.getFlagChunksClaim()) == StateFlag.State.ALLOW;
                 }
             }
+            return false;
         } catch (Exception e) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
+            return false;
         }
-        return false;
     }
     public void setup(OfflinePlayer offlinePlayer, Chunk chunk) {
         File file = getFile(chunk);
