@@ -47,16 +47,18 @@ public record Carry(EssentialsA plugin) {
     public boolean isAllowCarry(Block block) {
         try {
             RegionManager regionManager = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(block.getWorld()));
-            if (regionManager == null) {
-                return true;
-            } else {
+            if (regionManager != null) {
                 ProtectedCuboidRegion region = new ProtectedCuboidRegion("_", BlockVector3.at(block.getX(), block.getY(), block.getZ()), BlockVector3.at(block.getX(), block.getY(), block.getZ()));
                 for (ProtectedRegion regionIn : regionManager.getApplicableRegions(region)) {
-                    StateFlag.State flag = regionIn.getFlag(plugin.getFlagCarry());
-                    return flag == StateFlag.State.ALLOW;
+                    StateFlag.State flag = regionIn.getFlag(plugin.getFlagChunksClaim());
+                    if (flag == StateFlag.State.ALLOW) {
+                        return true;
+                    } else if (flag == StateFlag.State.DENY) {
+                        return false;
+                    }
                 }
             }
-            return false;
+            return true;
         } catch (Exception e) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
             return false;

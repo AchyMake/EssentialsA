@@ -48,44 +48,48 @@ public class ChunkCommand implements CommandExecutor, TabCompleter {
                     if (args[0].equalsIgnoreCase("claim")) {
                         if (player.hasPermission("essentials.command.chunk.claim")) {
                             Chunk chunk = player.getChunk();
-                            if (getChunks().isAllowedClaim(chunk) | getChunks().isAllowedWorld(chunk.getWorld())) {
-                                if (getChunks().isClaimed(chunk)) {
-                                    if (getChunks().isOwner(player ,chunk)) {
-                                        getMessage().send(player, "&cYou already own it");
-                                    } else {
-                                        getMessage().send(player, "&cChunk is already owned by " + getChunks().getOwner(chunk).getName());
-                                    }
-                                } else {
-                                    if (getChunks().getClaimCount(player) >= getConfig().getInt("chunks.claim.max-claims")) {
-                                        getMessage().send(player, "&cYou have reach you're limit of&f " + getChunks().getClaimCount(player) + "&c claimed chunks");
-                                    } else {
-                                        double cost = getConfig().getDouble("chunks.economy.cost");
-                                        int claimed = getChunks().getClaimCount(player);
-                                        if (claimed > 0) {
-                                            int multiply = getConfig().getInt("chunks.economy.multiply");
-                                            double calculator = multiply * cost / 100 * claimed;
-                                            double result = cost + calculator;
-                                            if (getEconomy().has(player, result)) {
-                                                getChunks().setup(player, chunk);
-                                                getChunks().claimEffect(player, chunk);
-                                                getChunks().claimSound(player);
-                                                getEconomy().withdrawPlayer(player, result);
-                                                getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currencyNamePlural() + getEconomy().format(result));
-                                            } else {
-                                                getMessage().send(player, "&cYou do not have&a " +  getEconomy().currencyNamePlural() + result + "&c to claim it");
-                                            }
+                            if (getChunks().isAllowedClaim(chunk) ) {
+                                if (getChunks().isAllowedWorld(chunk.getWorld())) {
+                                    if (getChunks().isClaimed(chunk)) {
+                                        if (getChunks().isOwner(player ,chunk)) {
+                                            getMessage().send(player, "&cYou already own it");
                                         } else {
-                                            if (getEconomy().has(player, cost)) {
-                                                getChunks().setup(player, chunk);
-                                                getChunks().claimEffect(player, chunk);
-                                                getChunks().claimSound(player);
-                                                getEconomy().withdrawPlayer(player, cost);
-                                                getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currencyNamePlural() + getEconomy().format(cost));
+                                            getMessage().send(player, "&cChunk is already owned by " + getChunks().getOwner(chunk).getName());
+                                        }
+                                    } else {
+                                        if (getChunks().getClaimCount(player) >= getConfig().getInt("chunks.claim.max-claims")) {
+                                            getMessage().send(player, "&cYou have reach you're limit of&f " + getChunks().getClaimCount(player) + "&c claimed chunks");
+                                        } else {
+                                            double cost = getConfig().getDouble("chunks.economy.cost");
+                                            int claimed = getChunks().getClaimCount(player);
+                                            if (claimed > 0) {
+                                                int multiply = getConfig().getInt("chunks.economy.multiply");
+                                                double calculator = multiply * cost / 100 * claimed;
+                                                double result = cost + calculator;
+                                                if (getEconomy().has(player, result)) {
+                                                    getChunks().setup(player, chunk);
+                                                    getChunks().claimEffect(player, chunk);
+                                                    getChunks().claimSound(player);
+                                                    getEconomy().withdrawPlayer(player, result);
+                                                    getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currencyNamePlural() + getEconomy().format(result));
+                                                } else {
+                                                    getMessage().send(player, "&cYou do not have&a " +  getEconomy().currencyNamePlural() + result + "&c to claim it");
+                                                }
                                             } else {
-                                                getMessage().send(player, "&cYou do not have&a " +  getEconomy().currencyNamePlural() + getEconomy().format(cost) + "&c to claim it");
+                                                if (getEconomy().has(player, cost)) {
+                                                    getChunks().setup(player, chunk);
+                                                    getChunks().claimEffect(player, chunk);
+                                                    getChunks().claimSound(player);
+                                                    getEconomy().withdrawPlayer(player, cost);
+                                                    getMessage().send(player, "&6You claimed a chunk for&a " + getEconomy().currencyNamePlural() + getEconomy().format(cost));
+                                                } else {
+                                                    getMessage().send(player, "&cYou do not have&a " +  getEconomy().currencyNamePlural() + getEconomy().format(cost) + "&c to claim it");
+                                                }
                                             }
                                         }
                                     }
+                                } else {
+                                    getMessage().send(player, "&c&lHey!&7 Sorry but you are not allowed to claim here");
                                 }
                             } else {
                                 getMessage().send(player, "&c&lHey!&7 Sorry but you are not allowed to claim here");

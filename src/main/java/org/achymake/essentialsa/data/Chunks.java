@@ -3,6 +3,7 @@ package org.achymake.essentialsa.data;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
@@ -64,16 +65,20 @@ public record Chunks(EssentialsA plugin) {
     public boolean isAllowedClaim(Chunk chunk) {
         try {
             RegionManager regionManager = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(chunk.getWorld()));
-            if (regionManager == null) {
-                return true;
-            } else {
+            if (regionManager != null) {
                 int x = chunk.getX() << 4;
                 int z = chunk.getZ() << 4;
-                for (ProtectedRegion regionIn : regionManager.getApplicableRegions(new ProtectedCuboidRegion("_", BlockVector3.at(x, -64, z), BlockVector3.at(x + 15, 320, z + 15)))) {
-                    return regionIn.getFlag(plugin.getFlagChunksClaim()) == StateFlag.State.ALLOW;
+                ProtectedCuboidRegion protectedCuboidRegion = new ProtectedCuboidRegion("_", BlockVector3.at(x, -64, z), BlockVector3.at(x + 15, 320, z + 15));
+                for (ProtectedRegion regionIn : regionManager.getApplicableRegions(protectedCuboidRegion)) {
+                    StateFlag.State flag = regionIn.getFlag(plugin.getFlagChunksClaim());
+                    if (flag == StateFlag.State.ALLOW) {
+                        return true;
+                    } else if (flag == StateFlag.State.DENY) {
+                        return false;
+                    }
                 }
             }
-            return false;
+            return true;
         } catch (Exception e) {
             getMessage().sendLog(Level.WARNING, e.getMessage());
             return false;
