@@ -364,7 +364,7 @@ public record Chunks(EssentialsA plugin) {
                 getMessage().sendLog(Level.WARNING, e.getMessage());
             }
         } else {
-            config.set("enable", false);
+            config.set("enable", true);
             List<String> worlds = new ArrayList<>();
             worlds.add("world");
             worlds.add("world_nether");
