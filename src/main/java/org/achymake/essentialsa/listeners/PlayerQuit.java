@@ -74,9 +74,7 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         if (getChunkEditors().contains(player)) {
             getChunkEditors().remove(player);
         }
-        if (getCarry().hasPassenger(player)) {
-            getCarry().removeMount(player);
-        }
+        getCarry().removeMount(player);
     }
     private String quitMessage(Player player) {
         return getMessage().addColor(getConfig().getString("connection.quit.message").replaceAll("%player%", player.getName()));

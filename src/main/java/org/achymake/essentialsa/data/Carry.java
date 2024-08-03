@@ -73,9 +73,17 @@ public record Carry(EssentialsA plugin) {
         getEntities().setScale(entity, 0.5);
         if (player.getPassenger() == null) {
             player.addPassenger(entity);
+            addCarryTask(player);
         }
         if (swingArm) {
             player.swingMainHand();
+        }
+        if (getPassenger(player).getType().equals(EntityType.PLAYER)) {
+            getMessage().sendActionBar(player, "&6You are carrying&f " + getPassenger(player).getName());
+        } else if (getPassenger(player).getCustomName() == null) {
+            getMessage().sendActionBar(player, "&6You are carrying&f " + getEntities().getName(getPassenger(player)));
+        } else {
+            getMessage().sendActionBar(player, "&6You are carrying&f " + getPassenger(player).getCustomName());
         }
     }
     public void stack(Player player, Entity entity) {
@@ -104,10 +112,13 @@ public record Carry(EssentialsA plugin) {
         plugin.getUserdata().removeTaskID(player, "carry");
     }
     public void removeMount(Player player) {
-        getEntities().setScale(getPassenger(player), 1);
-        player.eject();
-        plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
-        plugin.getUserdata().removeTaskID(player, "carry");
+        Entity passenger = getPassenger(player);
+        if (passenger != null) {
+            getEntities().setScale(passenger, 1);
+            passenger.leaveVehicle();
+            plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
+            plugin.getUserdata().removeTaskID(player, "carry");
+        }
     }
     public Entity getMount(Entity entity) {
         if (entity.isInsideVehicle()) {
@@ -153,19 +164,18 @@ public record Carry(EssentialsA plugin) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 20, getConfig(getPassenger(player)).getInt("carry.weight.baby") - 1));
             }
         }
-        if (getPassenger(player).getType().equals(EntityType.PLAYER)) {
-            getMessage().sendActionBar(player, "&6You are carrying&f " + getPassenger(player).getName());
-        } else if (getPassenger(player).getCustomName() == null) {
-            getMessage().sendActionBar(player, "&6You are carrying&f " + getEntities().getName(getPassenger(player)));
-        } else {
-            getMessage().sendActionBar(player, "&6You are carrying&f " + getPassenger(player).getCustomName());
-        }
     }
     private void addCarryTask(Player player) {
         int taskID = plugin.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
-                getMessage().sendActionBar(player, "&6&lVanish:&a Enabled");
+                if (getPassenger(player).getType().equals(EntityType.PLAYER)) {
+                    getMessage().sendActionBar(player, "&6You are carrying&f " + getPassenger(player).getName());
+                } else if (getPassenger(player).getCustomName() == null) {
+                    getMessage().sendActionBar(player, "&6You are carrying&f " + getEntities().getName(getPassenger(player)));
+                } else {
+                    getMessage().sendActionBar(player, "&6You are carrying&f " + getPassenger(player).getCustomName());
+                }
                 plugin.getUserdata().removeTaskID(player, "vanish");
                 addCarryTask(player);
             }
