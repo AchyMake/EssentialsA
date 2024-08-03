@@ -32,7 +32,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
         Entity damager = event.getDamager();
-        double damage = event.getDamage();
         Chunk chunk = entity.getChunk();
         switch (damager) {
             case Arrow arrow -> {
@@ -75,13 +74,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 if (!player.hasPermission("essentials.carry.attack"))return;
                                 plugin.getEntities().setTarget(player.getPassenger(), entity);
                             }
-                        }
-                    }
-                } else {
-                    if (entity.isInsideVehicle()) {
-                        if (entity.getVehicle() instanceof Player player) {
-                            event.setCancelled(true);
-                            player.damage(damage);
                         }
                     }
                 }
@@ -168,13 +160,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             }
                         }
                     }
-                } else {
-                    if (entity.isInsideVehicle()) {
-                        if (entity.getVehicle() instanceof Player player) {
-                            event.setCancelled(true);
-                            player.damage(damage);
-                        }
-                    }
                 }
             }
             case SpectralArrow spectralArrow -> {
@@ -216,13 +201,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 if (!player.hasPermission("essentials.carry.attack"))return;
                                 plugin.getEntities().setTarget(player.getPassenger(), entity);
                             }
-                        }
-                    }
-                } else {
-                    if (entity.isInsideVehicle()) {
-                        if (entity.getVehicle() instanceof Player player) {
-                            event.setCancelled(true);
-                            player.damage(damage);
                         }
                     }
                 }
@@ -268,13 +246,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             }
                         }
                     }
-                } else {
-                    if (entity.isInsideVehicle()) {
-                        if (entity.getVehicle() instanceof Player player) {
-                            event.setCancelled(true);
-                            player.damage(damage);
-                        }
-                    }
                 }
             }
             case Trident trident -> {
@@ -316,13 +287,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 if (!player.hasPermission("essentials.carry.attack"))return;
                                 plugin.getEntities().setTarget(player.getPassenger(), entity);
                             }
-                        }
-                    }
-                } else {
-                    if (entity.isInsideVehicle()) {
-                        if (entity.getVehicle() instanceof Player player) {
-                            event.setCancelled(true);
-                            player.damage(damage);
                         }
                     }
                 }
@@ -368,25 +332,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             }
                         }
                     }
-                } else {
-                    if (entity.isInsideVehicle()) {
-                        if (entity.getVehicle() instanceof Player player) {
-                            event.setCancelled(true);
-                            player.damage(damage);
-                        }
-                    }
                 }
             }
             default -> {
                 if (getVillagers().isNPC(entity)) {
                     event.setCancelled(true);
                 } else {
-                    if (entity.isInsideVehicle()) {
-                        if (entity.getVehicle() instanceof Player player) {
-                            event.setCancelled(true);
-                            player.damage(damage);
-                        }
-                    }
                     if (event.getDamager() instanceof Player)return;
                     if (!getEntities().disableDamage(damager, entity))return;
                     event.setCancelled(true);

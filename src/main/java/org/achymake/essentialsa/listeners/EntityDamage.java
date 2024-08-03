@@ -28,11 +28,9 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
         if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);
         } else if (entity.isInsideVehicle()) {
-            if (plugin.getCarry().getMount(entity) instanceof Player player) {
-                entity.leaveVehicle();
-                plugin.getEntities().setScale(entity, 1);
-                plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
-                plugin.getUserdata().removeTaskID(player, "carry");
+            if (entity.getVehicle() instanceof Player player) {
+                event.setCancelled(true);
+                player.damage(event.getDamage());
             }
         } else if (entity instanceof Player player) {
             if (getChairs().hasChair(player)) {
