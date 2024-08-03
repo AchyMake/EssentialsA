@@ -28,7 +28,12 @@ public record EntityDismount(EssentialsA plugin) implements Listener {
         Entity entity = event.getEntity();
         if (dismounted instanceof Player) {
             if (getCarry().isEnable(entity)) {
-                getEntities().setScale(entity, 1);
+                if (entity.isSneaking()) {
+                    event.setCancelled(true);
+                } else {
+                    getEntities().setScale(entity, 1);
+                    getEntities().setAI(entity, true);
+                }
             }
         }
         if (event.getEntity() instanceof Player player) {

@@ -39,6 +39,7 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         if (player.getPassenger() != null) {
             Entity entity = player.getPassenger();
             plugin.getEntities().setScale(entity, 1);
+            plugin.getCarry().removeMount(player);
         }
         removeTeleportTask(player);
         getUserdata().saveQuit(player);

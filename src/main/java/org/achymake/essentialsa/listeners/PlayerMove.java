@@ -60,6 +60,7 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
             if (player.getPassenger() != null) {
                 Entity passenger = player.getPassenger();
                 if (getCarry().isEnable(passenger)) {
+                    passenger.setRotation(player.getYaw(), player.getPitch());
                     if (getDatabase().hasMoved(from, to)) {
                         getCarry().addEffects(player);
                     }

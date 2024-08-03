@@ -31,15 +31,19 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
+        Entity damager = event.getDamager();
+        if (damager instanceof Player player) {
+            if (player.getPassenger() != null) {
+                if (!player.hasPermission("essentials.carry.target"))return;
+                plugin.getEntities().setTarget(player.getPassenger(), entity);
+            }
+        }
         if (entity.isInsideVehicle()) {
             if (plugin.getCarry().getMount(entity) instanceof Player player) {
-                entity.leaveVehicle();
-                plugin.getEntities().setScale(entity, 1);
-                plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
-                plugin.getUserdata().removeTaskID(player, "carry");
+                player.damage(event.getDamage());
+                event.setCancelled(true);
             }
         } else {
-            Entity damager = event.getDamager();
             Chunk chunk = entity.getChunk();
             switch (damager) {
                 case Arrow arrow -> {

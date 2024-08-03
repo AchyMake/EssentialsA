@@ -257,6 +257,7 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerShearEntity(this), this);
         getManager().registerEvents(new PlayerSpawnLocation(this), this);
         getManager().registerEvents(new PlayerTeleport(this), this);
+        getManager().registerEvents(new PlayerToggleSneak(this), this);
         getManager().registerEvents(new PrepareAnvil(this), this);
         getManager().registerEvents(new SignChange(this), this);
         getManager().registerEvents(new VillagerAcquireTrade(this), this);

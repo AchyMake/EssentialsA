@@ -72,6 +72,7 @@ public record Carry(EssentialsA plugin) {
         }
         if (player.getPassenger() == null) {
             player.addPassenger(entity);
+            getEntities().setAI(entity, false);
             addCarryTask(player);
         }
         if (swingArm) {
