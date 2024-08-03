@@ -116,7 +116,7 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                             getHarvester().harvest(player, block);
                         }
                         if (getCarry().hasPassenger(player)) {
-                            Entity passenger = player.getPassenger();
+                            Entity passenger = getCarry().getPassenger(player);
                             if (passenger != null) {
                                 if (!event.getBlockFace().equals(BlockFace.UP)) return;
                                 if (!getCarry().isAllowCarry(block))return;
@@ -140,7 +140,7 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                         getHarvester().harvest(player, block);
                     }
                     if (getCarry().hasPassenger(player)) {
-                        Entity passenger = player.getPassenger();
+                        Entity passenger = getCarry().getPassenger(player);
                         if (passenger != null) {
                             if (!event.getBlockFace().equals(BlockFace.UP))return;
                             if (!getCarry().isAllowCarry(block))return;

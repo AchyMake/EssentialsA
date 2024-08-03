@@ -64,6 +64,7 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
                 if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
                 if (!player.getInventory().getItemInMainHand().isEmpty())return;
                 if (!player.getInventory().getItemInOffHand().isEmpty())return;
+                if (entity.isInsideVehicle())return;
                 if (player.isSneaking()) {
                     event.setCancelled(true);
                     getCarry().carry(player, entity, true);
@@ -87,6 +88,7 @@ public record PlayerInteractEntity(EssentialsA plugin) implements Listener {
             if (!player.hasPermission("essentials.carry." + entity.getType().toString().toLowerCase()))return;
             if (!player.getInventory().getItemInMainHand().isEmpty())return;
             if (!player.getInventory().getItemInOffHand().isEmpty())return;
+            if (entity.isInsideVehicle())return;
             if (player.isSneaking()) {
                 event.setCancelled(true);
                 getCarry().carry(player, entity, true);

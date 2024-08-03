@@ -34,8 +34,10 @@ public record PlayerLeashEntity(EssentialsA plugin) implements Listener {
         } else {
             Entity entity = event.getEntity();
             Chunk chunk = entity.getChunk();
-            if (getCarry().hasMount(entity)) {
-                event.setCancelled(true);
+            if (entity.isInsideVehicle()) {
+                if (entity.getVehicle() instanceof Player) {
+                    event.setCancelled(true);
+                }
             }
             if (getVillagers().isNPC(entity)) {
                 event.setCancelled(true);

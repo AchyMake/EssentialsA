@@ -137,19 +137,17 @@ public class WorldCommand implements CommandExecutor, TabCompleter {
                 }
             }
             if (args.length == 4) {
-                if (args[0].equalsIgnoreCase("create")) {
-                    if (args[2].equalsIgnoreCase("gamerule")) {
-                        String worldName = args[1];
-                        String gamerule = args[2];
-                        String value = args[3];
-                        if (getWorlds().worldExist(worldName)) {
-                            getServer().getWorld(worldName).setGameRuleValue(gamerule, value);
-                            getMessage().send(player, worldName + "&6 changed&f " + gamerule + "&6 to&f " + value);
-                        } else {
-                            getMessage().send(player, worldName + "&c does not exist");
-                        }
-                        return true;
+                if (args[0].equalsIgnoreCase("gamerule")) {
+                    String worldName = args[1];
+                    String gamerule = args[2];
+                    String value = args[3];
+                    if (getWorlds().worldExist(worldName)) {
+                        getServer().getWorld(worldName).setGameRuleValue(gamerule, value);
+                        getMessage().send(player, worldName + "&6 changed&f " + gamerule + "&6 to&f " + value);
+                    } else {
+                        getMessage().send(player, worldName + "&c does not exist");
                     }
+                    return true;
                 }
                 if (args[0].equalsIgnoreCase("create")) {
                     String worldName = args[1];

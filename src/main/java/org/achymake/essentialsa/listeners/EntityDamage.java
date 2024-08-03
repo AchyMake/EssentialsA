@@ -13,9 +13,6 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Carry getCarry() {
-        return plugin.getCarry();
-    }
     private Villagers getVillagers() {
         return plugin.getVillagers();
     }
@@ -30,11 +27,13 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
         Entity entity = event.getEntity();
         if (getVillagers().isNPC(entity)) {
             event.setCancelled(true);
-        } else if (getCarry().hasMount(entity)) {
-            Player player = getCarry().getMount(entity);
-            if (player == null)return;
-            if (!getCarry().isAllowCarry(entity.getLocation().getBlock()))return;
-            getCarry().removeMount(player, entity);
+        } else if (entity.isInsideVehicle()) {
+            if (plugin.getCarry().getMount(entity) instanceof Player player) {
+                entity.leaveVehicle();
+                plugin.getEntities().setScale(entity, 1);
+                plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
+                plugin.getUserdata().removeTaskID(player, "carry");
+            }
         } else if (entity instanceof Player player) {
             if (getChairs().hasChair(player)) {
                 getChairs().dismount(player);
