@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public record Userdata(EssentialsA plugin) {
@@ -418,9 +419,50 @@ public record Userdata(EssentialsA plugin) {
     public void setScale(Player player, double scale) {
         player.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(scale);
     }
-    public void resetScale(Player player, boolean isCommand) {
+    public void resetScale(Player player) {
         if (getScale(player) != 1) {
             setScale(player, 1);
+        }
+    }
+    public void saveQuit(Player player) {
+        setLocation(player, "quit");
+        setDouble(player, "settings.scale", getScale(player));
+        if (getConfig(player).isString("tpa.from")) {
+            OfflinePlayer target = getServer().getOfflinePlayer(UUID.fromString(getConfig(player).getString("tpa.from")));
+            setString(target, "tpa.sent", null);
+            int taskID = getConfig(target).getInt("task.tpa");
+            if (plugin.getScheduler().isQueued(taskID)) {
+                plugin.getScheduler().cancelTask(taskID);
+                setString(player, "tpa.from", null);
+            }
+            setString(target, "task.tpa", null);
+        } else if (getConfig(player).isString("tpahere.from")) {
+            OfflinePlayer target = getServer().getOfflinePlayer(UUID.fromString(getConfig(player).getString("tpahere.from")));
+            setString(target, "tpahere.sent", null);
+            int taskID = getConfig(target).getInt("task.tpa");
+            if (plugin.getScheduler().isQueued(taskID)) {
+                plugin.getScheduler().cancelTask(taskID);
+                setString(player, "tpahere.from", null);
+            }
+            setString(target, "task.tpa", null);
+        } else if (getConfig(player).isString("tpa.sent")) {
+            OfflinePlayer target = getServer().getOfflinePlayer(UUID.fromString(getConfig(player).getString("tpa.sent")));
+            setString(target, "tpa.from", null);
+            int taskID = getConfig(player).getInt("task.tpa");
+            if (plugin.getScheduler().isQueued(taskID)) {
+                plugin.getScheduler().cancelTask(taskID);
+                setString(player, "task.tpa", null);
+            }
+            setString(player, "tpa.sent", null);
+        } else if (getConfig(player).isString("tpahere.sent")) {
+            OfflinePlayer target = getServer().getOfflinePlayer(UUID.fromString(getConfig(player).getString("tpahere.sent")));
+            setString(target, "tpahere.from", null);
+            int taskID = getConfig(player).getInt("task.tpa");
+            if (plugin.getScheduler().isQueued(taskID)) {
+                plugin.getScheduler().cancelTask(taskID);
+                setString(player, "task.tpa", null);
+            }
+            setString(player, "tpahere.sent", null);
         }
     }
     public void reload() {

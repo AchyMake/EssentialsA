@@ -2,7 +2,6 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.*;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
-import java.util.UUID;
 
 public record PlayerQuit(EssentialsA plugin) implements Listener {
     private FileConfiguration getConfig() {
@@ -22,9 +20,6 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     }
     private Userdata getUserdata() {
         return plugin.getUserdata();
-    }
-    private Carry getCarry() {
-        return plugin.getCarry();
     }
     private Chairs getChairs() {
         return plugin.getChairs();
@@ -41,11 +36,13 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        if (player.getPassenger() != null) {
+            Entity entity = player.getPassenger();
+            plugin.getEntities().setScale(entity, 1);
+        }
         removeTeleportTask(player);
-        removeTPAonQuit(player);
-        getUserdata().setDouble(player, "settings.scale", getUserdata().getScale(player));
-        getUserdata().setScale(player, 1.0);
-        getUserdata().setLocation(player, "quit");
+        getUserdata().saveQuit(player);
+        getUserdata().resetScale(player);
         if (getChairs().hasChair(player)) {
             getChairs().dismount(player);
         }
@@ -74,7 +71,6 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         if (getChunkEditors().contains(player)) {
             getChunkEditors().remove(player);
         }
-        getCarry().removeMount(player);
     }
     private String quitMessage(Player player) {
         return getMessage().addColor(getConfig().getString("connection.quit.message").replaceAll("%player%", player.getName()));
@@ -99,53 +95,6 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
             for (Player players : getServer().getOnlinePlayers()) {
                 players.playSound(players, Sound.valueOf(soundType), soundVolume, soundPitch);
             }
-        }
-    }
-    private void removeTPAonQuit(Player player) {
-        if (getUserdata().getConfig(player).isString("tpa.from")) {
-            String uuidString = getUserdata().getConfig(player).getString("tpa.from");
-            UUID uuid = UUID.fromString(uuidString);
-            OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getUserdata().setString(target, "tpa.sent", null);
-            int taskID = getUserdata().getConfig(target).getInt("task.tpa");
-            if (plugin.getScheduler().isQueued(taskID)) {
-                plugin.getScheduler().cancelTask(taskID);
-                getUserdata().setString(player, "tpa.from", null);
-            }
-            getUserdata().setString(target, "task.tpa", null);
-        } else if (getUserdata().getConfig(player).isString("tpahere.from")) {
-            String uuidString = getUserdata().getConfig(player).getString("tpahere.from");
-            UUID uuid = UUID.fromString(uuidString);
-            OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getUserdata().setString(target, "tpahere.sent", null);
-            int taskID = getUserdata().getConfig(target).getInt("task.tpa");
-            if (plugin.getScheduler().isQueued(taskID)) {
-                plugin.getScheduler().cancelTask(taskID);
-                getUserdata().setString(player, "tpahere.from", null);
-            }
-            getUserdata().setString(target, "task.tpa", null);
-        } else if (getUserdata().getConfig(player).isString("tpa.sent")) {
-            String uuidString = getUserdata().getConfig(player).getString("tpa.sent");
-            UUID uuid = UUID.fromString(uuidString);
-            OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getUserdata().setString(target, "tpa.from", null);
-            int taskID = getUserdata().getConfig(player).getInt("task.tpa");
-            if (plugin.getScheduler().isQueued(taskID)) {
-                plugin.getScheduler().cancelTask(taskID);
-                getUserdata().setString(player, "task.tpa", null);
-            }
-            getUserdata().setString(player, "tpa.sent", null);
-        } else if (getUserdata().getConfig(player).isString("tpahere.sent")) {
-            String uuidString = getUserdata().getConfig(player).getString("tpahere.sent");
-            UUID uuid = UUID.fromString(uuidString);
-            OfflinePlayer target = getServer().getOfflinePlayer(uuid);
-            getUserdata().setString(target, "tpahere.from", null);
-            int taskID = getUserdata().getConfig(player).getInt("task.tpa");
-            if (plugin.getScheduler().isQueued(taskID)) {
-                plugin.getScheduler().cancelTask(taskID);
-                getUserdata().setString(player, "task.tpa", null);
-            }
-            getUserdata().setString(player, "tpahere.sent", null);
         }
     }
 }

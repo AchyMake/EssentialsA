@@ -70,7 +70,6 @@ public record Carry(EssentialsA plugin) {
         if (hasPassenger(entity)) {
             entity.eject();
         }
-        getEntities().setScale(entity, 0.5);
         if (player.getPassenger() == null) {
             player.addPassenger(entity);
             addCarryTask(player);
@@ -90,7 +89,6 @@ public record Carry(EssentialsA plugin) {
         Entity passenger = getPassenger(player);
         if (passenger == null)return;
         if (!player.hasPermission("essentials.carry.stack"))return;
-        getEntities().setScale(passenger, 1);
         if (hasPassenger(entity)) {
             getPassenger(entity).addPassenger(passenger);
             player.swingMainHand();
@@ -106,19 +104,13 @@ public record Carry(EssentialsA plugin) {
         float yaw = player.getLocation().getYaw();
         float pitch = player.getLocation().getPitch();
         Location location = new Location(block.getWorld(), x, y, z, yaw, pitch);
-        getEntities().setScale(entity, 1);
         entity.teleport(location);
         plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
         plugin.getUserdata().removeTaskID(player, "carry");
     }
     public void removeMount(Player player) {
-        Entity passenger = getPassenger(player);
-        if (passenger != null) {
-            getEntities().setScale(passenger, 1);
-            passenger.leaveVehicle();
-            plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
-            plugin.getUserdata().removeTaskID(player, "carry");
-        }
+        plugin.getScheduler().cancelTask(plugin.getUserdata().getTaskID(player, "carry"));
+        plugin.getUserdata().removeTaskID(player, "carry");
     }
     public Entity getMount(Entity entity) {
         if (entity.isInsideVehicle()) {

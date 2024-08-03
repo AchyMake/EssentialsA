@@ -226,8 +226,10 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new EntityDamageByEntity(this), this);
         getManager().registerEvents(new EntityDeath(this), this);
         getManager().registerEvents(new EntityDismount(this), this);
+        getManager().registerEvents(new EntityEnterLoveMode(this), this);
         getManager().registerEvents(new EntityExplode(this), this);
         getManager().registerEvents(new EntityInteract(this), this);
+        getManager().registerEvents(new EntityMount(this), this);
         getManager().registerEvents(new EntityPickupItem(this), this);
         getManager().registerEvents(new EntityPortalEnter(this), this);
         getManager().registerEvents(new EntitySpawn(this), this);
