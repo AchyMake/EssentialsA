@@ -2,7 +2,6 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.*;
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -32,47 +31,20 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
     private Chairs getChairs() {
         return plugin.getChairs();
     }
-    private Carry getCarry() {
-        return plugin.getCarry();
-    }
-    private Chunks getChunks() {
-        return plugin.getChunks();
-    }
-    private Harvester getHarvester() {
-        return plugin.getHarvester();
-    }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (event.getAction().equals(Action.PHYSICAL)) {
             if (event.getClickedBlock() == null)return;
             Block block = event.getClickedBlock();
-            Chunk chunk = block.getChunk();
             if (getUserdata().isFrozen(player) || getUserdata().isJailed(player) || getUserdata().isVanished(player)) {
                 event.setCancelled(true);
-            } else if (getChunks().isEnable()) {
-                if (!getChunks().isClaimed(chunk))return;
-                if (getChunks().hasAccess(player, chunk)) {
-                    if (!disabledTrampling(block))return;
-                    event.setCancelled(true);
-                } else {
-                    if (disabledTrampling(block)) {
-                        event.setCancelled(true);
-                    } else {
-                        if (!getChunks().isDisabledInteractPhysicalBlocks(block))return;
-                        event.setCancelled(true);
-                    }
-                }
             } else if (disabledTrampling(block)) {
                 event.setCancelled(true);
             }
         } else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (event.getClickedBlock() == null)return;
             Block block = event.getClickedBlock();
-            Chunk chunk = block.getChunk();
             if (event.getHand() != EquipmentSlot.HAND)return;
             if (Tag.WALL_SIGNS.isTagged(block.getType())) {
                 Sign sign = (Sign) block.getState();
@@ -115,52 +87,6 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                     if (getChairs().hasChair(player))return;
                     if (getChairs().isOccupied(block))return;
                     getChairs().sit(player, block);
-                }
-                if (getChunks().isEnable()) {
-                    if (!getChunks().isClaimed(chunk))return;
-                    if (getChunks().hasAccess(player, chunk)) {
-                        if (getHarvester().isHoe(player.getInventory().getItemInMainHand())) {
-                            if (!getHarvester().isAllowHarvest(block))return;
-                            getHarvester().harvest(player, block);
-                        }
-                        if (getCarry().hasPassenger(player)) {
-                            Entity passenger = getCarry().getPassenger(player);
-                            if (passenger != null) {
-                                if (!event.getBlockFace().equals(BlockFace.UP)) return;
-                                if (!getCarry().isAllowCarry(block))return;
-                                if (!getCarry().isEnable(passenger))return;
-                                if (!player.hasPermission("essentials.carry." + passenger.getType().toString().toLowerCase()))return;
-                                if (!player.getInventory().getItemInMainHand().isEmpty())return;
-                                if (!player.getInventory().getItemInOffHand().isEmpty())return;
-                                event.setCancelled(true);
-                                player.swingMainHand();
-                                getCarry().removeMount(player, passenger, block);
-                            }
-                        }
-                    } else {
-                        if (!getChunks().isDisabledInteractBlocks(block))return;
-                        event.setCancelled(true);
-                        getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                    }
-                } else {
-                    if (getHarvester().isHoe(player.getInventory().getItemInMainHand())) {
-                        if (!getHarvester().isAllowHarvest(block))return;
-                        getHarvester().harvest(player, block);
-                    }
-                    if (getCarry().hasPassenger(player)) {
-                        Entity passenger = getCarry().getPassenger(player);
-                        if (passenger != null) {
-                            if (!event.getBlockFace().equals(BlockFace.UP))return;
-                            if (!getCarry().isAllowCarry(block))return;
-                            if (!getCarry().isEnable(passenger))return;
-                            if (!player.hasPermission("essentials.carry." + passenger.getType().toString().toLowerCase()))return;
-                            if (!player.getInventory().getItemInMainHand().isEmpty())return;
-                            if (!player.getInventory().getItemInOffHand().isEmpty())return;
-                            event.setCancelled(true);
-                            player.swingMainHand();
-                            getCarry().removeMount(player, passenger, block);
-                        }
-                    }
                 }
             }
         }

@@ -1,15 +1,8 @@
 package org.achymake.essentialsa;
 
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import org.achymake.essentialsa.api.PlaceholderProvider;
 import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.commands.*;
-import org.achymake.essentialsa.commands.ChunkCommand;
-import org.achymake.essentialsa.commands.ChunksCommand;
 import org.achymake.essentialsa.commands.VillagerCommand;
 import org.achymake.essentialsa.commands.WorldCommand;
 import org.achymake.essentialsa.data.*;
@@ -31,14 +24,11 @@ import java.util.logging.Level;
 
 public final class EssentialsA extends JavaPlugin {
     private static EssentialsA instance;
-    private static Carry carry;
     private static Chairs chairs;
     private static ChestShop chestShop;
-    private static Chunks chunks;
     private static Database database;
     private static Economy economy;
     private static Entities entities;
-    private static Harvester harvester;
     private static Jail jail;
     private static Kits kits;
     private static Levels levels;
@@ -55,51 +45,15 @@ public final class EssentialsA extends JavaPlugin {
     private final List<Player> chestShopEditors = new ArrayList<>();
     private final HashMap<String, Long> commandCooldown = new HashMap<>();
     private final HashMap<String, Long> kitCooldown = new HashMap<>();
-    public static StateFlag FLAG_CHUNKS_CLAIM;
-    public static StateFlag FLAG_CARRY;
-    public static StateFlag FLAG_HARVEST;
-    @Override
-    public void onLoad() {
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
-            StateFlag flagClaim = new StateFlag("chunks-claim", false);
-            registry.register(flagClaim);
-            FLAG_CHUNKS_CLAIM = flagClaim;
-            StateFlag flagCarry = new StateFlag("carry", false);
-            registry.register(flagCarry);
-            FLAG_CARRY = flagCarry;
-            StateFlag flagHarvest = new StateFlag("harvest", false);
-            registry.register(flagHarvest);
-            FLAG_HARVEST = flagHarvest;
-        } catch (FlagConflictException ignored) {
-            Flag<?> existingClaim = registry.get("chunks-claim");
-            if (existingClaim instanceof StateFlag) {
-                FLAG_CHUNKS_CLAIM = (StateFlag) existingClaim;
-            }
-            Flag<?> existingCarry = registry.get("carry");
-            if (existingCarry instanceof StateFlag) {
-                FLAG_CARRY = (StateFlag) existingCarry;
-            }
-            Flag<?> existingHarvest = registry.get("harvest");
-            if (existingHarvest instanceof StateFlag) {
-                FLAG_HARVEST = (StateFlag) existingHarvest;
-            }
-        } catch (Exception e) {
-            getMessage().sendLog(Level.WARNING, e.getMessage());
-        }
-    }
     @Override
     public void onEnable() {
         instance = this;
         message = new Message(this);
-        carry = new Carry(this);
         chairs = new Chairs(this);
         chestShop = new ChestShop(this);
-        chunks = new Chunks(this);
         database = new Database(this);
         economy = new Economy(this);
         entities = new Entities(this);
-        harvester = new Harvester(this);
         jail = new Jail(this);
         kits = new Kits(this);
         levels = new Levels(this);
@@ -144,8 +98,6 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("balance").setExecutor(new BalanceCommand(this));
         getCommand("ban").setExecutor(new BanCommand(this));
         getCommand("chestshop").setExecutor(new ChestShopCommand(this));
-        getCommand("chunk").setExecutor(new ChunkCommand(this));
-        getCommand("chunks").setExecutor(new ChunksCommand(this));
         getCommand("color").setExecutor(new ColorCommand(this));
         getCommand("delhome").setExecutor(new DelHomeCommand(this));
         getCommand("delwarp").setExecutor(new DelWarpCommand(this));
@@ -218,7 +170,6 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new BlockPlace(this), this);
         getManager().registerEvents(new BlockReceiveGame(this), this);
         getManager().registerEvents(new BlockRedstone(this), this);
-        getManager().registerEvents(new CauldronChangeLevel(this), this);
         getManager().registerEvents(new EntityBlockForm(this), this);
         getManager().registerEvents(new EntityBreed(this), this);
         getManager().registerEvents(new EntityChangeBlock(this), this);
@@ -229,7 +180,6 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new EntityEnterLoveMode(this), this);
         getManager().registerEvents(new EntityExplode(this), this);
         getManager().registerEvents(new EntityInteract(this), this);
-        getManager().registerEvents(new EntityMount(this), this);
         getManager().registerEvents(new EntityPickupItem(this), this);
         getManager().registerEvents(new EntityPortalEnter(this), this);
         getManager().registerEvents(new EntitySpawn(this), this);
@@ -257,23 +207,12 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerShearEntity(this), this);
         getManager().registerEvents(new PlayerSpawnLocation(this), this);
         getManager().registerEvents(new PlayerTeleport(this), this);
-        getManager().registerEvents(new PlayerToggleSneak(this), this);
         getManager().registerEvents(new PrepareAnvil(this), this);
-        getManager().registerEvents(new ProjectileLaunch(this), this);
         getManager().registerEvents(new SignChange(this), this);
         getManager().registerEvents(new VillagerAcquireTrade(this), this);
         getManager().registerEvents(new VillagerCareerChange(this), this);
         getManager().registerEvents(new VillagerReplenishTrade(this), this);
         getManager().registerEvents(new WorldLoad(this), this);
-    }
-    public StateFlag getFlagHarvest() {
-        return FLAG_HARVEST;
-    }
-    public StateFlag getFlagChunksClaim() {
-        return FLAG_CHUNKS_CLAIM;
-    }
-    public StateFlag getFlagCarry() {
-        return FLAG_CARRY;
     }
     public void reload() {
         File file = new File(getDataFolder(), "config.yml");
@@ -291,9 +230,7 @@ public final class EssentialsA extends JavaPlugin {
                 getMessage().sendLog(Level.WARNING, e.getMessage());
             }
         }
-        getChunks().reload();
         getEntities().reload();
-        getHarvester().reload();
         getJail().reload();
         getKits().reload();
         getLevels().reload();
@@ -358,9 +295,6 @@ public final class EssentialsA extends JavaPlugin {
     public Jail getJail() {
         return jail;
     }
-    public Harvester getHarvester() {
-        return harvester;
-    }
     public Entities getEntities() {
         return entities;
     }
@@ -370,17 +304,11 @@ public final class EssentialsA extends JavaPlugin {
     public Database getDatabase() {
         return database;
     }
-    public Chunks getChunks() {
-        return chunks;
-    }
     public ChestShop getChestShop() {
         return chestShop;
     }
     public Chairs getChairs() {
         return chairs;
-    }
-    public Carry getCarry() {
-        return carry;
     }
     public static EssentialsA getInstance() {
         return instance;

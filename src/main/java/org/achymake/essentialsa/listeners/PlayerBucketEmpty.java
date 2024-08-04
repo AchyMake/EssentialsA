@@ -1,12 +1,9 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
 import org.achymake.essentialsa.data.Userdata;
-import org.bukkit.Chunk;
 import org.bukkit.Server;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,9 +20,6 @@ public record PlayerBucketEmpty(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chunks getChunks() {
-        return plugin.getChunks();
-    }
     private Server getServer() {
         return plugin.getServer();
     }
@@ -35,17 +29,8 @@ public record PlayerBucketEmpty(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
-        Block block = event.getBlockClicked();
         if (getUserdata().isDisabled(player)) {
             event.setCancelled(true);
-        }
-        if (getChunks().isEnable()) {
-            Chunk chunk = block.getChunk();
-            if (!getChunks().isClaimed(chunk))return;
-            if (!getChunks().isDisableBuckets(event.getBucket()))return;
-            if (getChunks().hasAccess(player, chunk))return;
-            event.setCancelled(true);
-            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
         }
         if (getConfig().getBoolean("notification.enable")) {
             String material = event.getBucket().toString();

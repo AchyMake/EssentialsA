@@ -2,18 +2,13 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.*;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitScheduler;
 
 public record PlayerMove(EssentialsA plugin) implements Listener {
@@ -25,12 +20,6 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
     }
     private Database getDatabase() {
         return plugin.getDatabase();
-    }
-    private Carry getCarry() {
-        return plugin.getCarry();
-    }
-    private Chunks getChunks() {
-        return plugin.getChunks();
     }
     private BukkitScheduler getScheduler() {
         return plugin.getScheduler();
@@ -57,50 +46,6 @@ public record PlayerMove(EssentialsA plugin) implements Listener {
                     }
                 }
             }
-            if (player.getPassenger() != null) {
-                Entity passenger = player.getPassenger();
-                if (getCarry().isEnable(passenger)) {
-                    passenger.setRotation(player.getYaw(), player.getPitch());
-                    if (getDatabase().hasMoved(from, to)) {
-                        getCarry().addEffects(player);
-                    }
-                }
-            }
-            if (to.getChunk() != from.getChunk()) {
-                if (!getChunks().isEnable())return;
-                Chunk chunk = to.getChunk();
-                if (getChunks().isClaimed(chunk)) {
-                    if (getChunks().isBanned(chunk, player)) {
-                        if (plugin.getChunkEditors().contains(player)) {
-                            visit(player, getChunks().getOwner(chunk));
-                        } else {
-                            event.setCancelled(true);
-                            getMessage().sendActionBar(player, "&cYou are banned from&f " + getChunks().getOwner(chunk).getName() + "&c's chunk");
-                        }
-                    } else {
-                        visit(player, getChunks().getOwner(chunk));
-                    }
-                } else {
-                    exit(player);
-                }
-            }
-        }
-    }
-    private void visit(Player player, OfflinePlayer owner) {
-        if (player.getPersistentDataContainer().has(NamespacedKey.minecraft("chunk-visitor"), PersistentDataType.STRING)) {
-            if (!player.getPersistentDataContainer().get(NamespacedKey.minecraft("chunk-visitor"), PersistentDataType.STRING).equals(owner.getName())) {
-                player.getPersistentDataContainer().remove(NamespacedKey.minecraft("chunk-visitor"));
-            }
-        } else {
-            getMessage().sendActionBar(player, "&6Visiting&f " + owner.getName() + "&6's chunk");
-            player.getPersistentDataContainer().set(NamespacedKey.minecraft("chunk-visitor"), PersistentDataType.STRING, owner.getName());
-        }
-    }
-    private void exit(Player player) {
-        if (player.getPersistentDataContainer().has(NamespacedKey.minecraft("chunk-visitor"), PersistentDataType.STRING)) {
-            String lastChunkOwner = player.getPersistentDataContainer().get(NamespacedKey.minecraft("chunk-visitor"), PersistentDataType.STRING);
-            getMessage().sendActionBar(player, "&6Exited&f " + lastChunkOwner + "&6's chunk");
-            player.getPersistentDataContainer().remove(NamespacedKey.minecraft("chunk-visitor"));
         }
     }
 }

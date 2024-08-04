@@ -5,7 +5,6 @@ import org.achymake.essentialsa.data.*;
 import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,11 +35,6 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (player.getPassenger() != null) {
-            Entity entity = player.getPassenger();
-            plugin.getEntities().setScale(entity, 1);
-            plugin.getCarry().removeMount(player);
-        }
         removeTeleportTask(player);
         getUserdata().saveQuit(player);
         getUserdata().resetScale(player);

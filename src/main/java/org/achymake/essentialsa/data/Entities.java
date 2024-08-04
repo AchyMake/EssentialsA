@@ -1,7 +1,6 @@
 package org.achymake.essentialsa.data;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -586,9 +585,6 @@ public record Entities(EssentialsA plugin) {
                 config.set("disable-target.VILLAGER", false);
                 config.set("disable-damage.VILLAGER", false);
                 config.set("disable-damage.ITEM", true);
-                config.set("carry.enable", false);
-                config.set("carry.weight.adult", 1);
-                config.set("carry.weight.baby", 0);
                 try {
                     config.save(file);
                 } catch (IOException e) {

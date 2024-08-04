@@ -28,9 +28,6 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
     private ChestShop getChestShop() {
         return plugin.getChestShop();
     }
-    private Chunks getChunks() {
-        return plugin.getChunks();
-    }
     private Server getServer() {
         return plugin.getServer();
     }
@@ -51,16 +48,6 @@ public record BlockBreak(EssentialsA plugin) implements Listener {
             } else {
                 event.setCancelled(true);
                 getMessage().send(player, "&cShop is owned by&f " + getChestShop().getOwner(getChestShop().getShop(block)).getName());
-            }
-        } else if (getChunks().isEnable()) {
-            Chunk chunk = block.getChunk();
-            if (!getChunks().isClaimed(chunk))return;
-            if (!getChunks().isDisableBlockBreak())return;
-            if (getChunks().hasAccess(player, chunk)) {
-                notifyAdmin(player, block);
-            } else {
-                event.setCancelled(true);
-                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
             }
         } else {
             if (!player.getGameMode().equals(GameMode.SURVIVAL))return;

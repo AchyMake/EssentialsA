@@ -19,9 +19,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
     private Entities getEntities() {
         return plugin.getEntities();
     }
-    private Chunks getChunks() {
-        return plugin.getChunks();
-    }
     private Worlds getWorlds() {
         return plugin.getWorlds();
     }
@@ -40,7 +37,7 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                         event.setCancelled(true);
                     } else {
                         if (entity instanceof Player target) {
-                            if (player == target)return;
+                            if (player == target) return;
                             if (getWorlds().isPVP(target.getWorld())) {
                                 if (!getUserdata().isPVP(player)) {
                                     event.setCancelled(true);
@@ -50,31 +47,13 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                     getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                                 } else {
                                     if (player.getPassenger() != null) {
-                                        if (!player.hasPermission("essentials.carry.attack"))return;
+                                        if (!player.hasPermission("essentials.carry.attack")) return;
                                         plugin.getEntities().attack(player.getPassenger(), target);
                                     }
                                 }
                             } else {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                            }
-                        } else if (getChunks().isEnable()) {
-                            if (!getChunks().isClaimed(chunk))return;
-                            if (getChunks().hasAccess(player, chunk)) {
-                                if (player.getPassenger() != null) {
-                                    if (!player.hasPermission("essentials.carry.attack"))return;
-                                    plugin.getEntities().attack(player.getPassenger(), entity);
-                                }
-                            } else {
-                                if (!getChunks().isEnable())return;
-                                if (getEntities().isHostile(entity))return;
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                            }
-                        } else {
-                            if (player.getPassenger() != null) {
-                                if (!player.hasPermission("essentials.carry.attack"))return;
-                                plugin.getEntities().attack(player.getPassenger(), entity);
                             }
                         }
                     }
@@ -103,22 +82,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                             event.setCancelled(true);
                         }
-                    } else if (getChunks().isEnable()) {
-                        if (!getChunks().isClaimed(chunk))return;
-                        if (getChunks().hasAccess(player, chunk)) {
-                            if (player.getPassenger() != null) {
-                                if (!player.hasPermission("essentials.carry.attack"))return;
-                                plugin.getEntities().attack(player.getPassenger(), entity);
-                            }
-                        } else {
-                            event.setCancelled(true);
-                            getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                        }
-                    } else {
-                        if (player.getPassenger() != null) {
-                            if (!player.hasPermission("essentials.carry.attack"))return;
-                            plugin.getEntities().attack(player.getPassenger(), entity);
-                        }
                     }
                 }
             }
@@ -145,22 +108,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             } else {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                            }
-                        } else if (getChunks().isEnable()) {
-                            if (!getChunks().isClaimed(chunk))return;
-                            if (getChunks().hasAccess(player, chunk)) {
-                                if (player.getPassenger() != null) {
-                                    if (!player.hasPermission("essentials.carry.attack"))return;
-                                    plugin.getEntities().attack(player.getPassenger(), entity);
-                                }
-                            } else {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                            }
-                        } else {
-                            if (player.getPassenger() != null) {
-                                if (!player.hasPermission("essentials.carry.attack"))return;
-                                plugin.getEntities().attack(player.getPassenger(), entity);
                             }
                         }
                     }
@@ -190,22 +137,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
-                        } else if (getChunks().isEnable()) {
-                            if (!getChunks().isClaimed(chunk))return;
-                            if (getChunks().hasAccess(player, chunk)) {
-                                if (player.getPassenger() != null) {
-                                    if (!player.hasPermission("essentials.carry.attack"))return;
-                                    plugin.getEntities().attack(player.getPassenger(), entity);
-                                }
-                            } else {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                            }
-                        } else {
-                            if (player.getPassenger() != null) {
-                                if (!player.hasPermission("essentials.carry.attack"))return;
-                                plugin.getEntities().attack(player.getPassenger(), entity);
-                            }
                         }
                     }
                 }
@@ -233,22 +164,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             } else {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                            }
-                        } else if (getChunks().isEnable()) {
-                            if (!getChunks().isClaimed(chunk))return;
-                            if (getChunks().hasAccess(player, chunk)) {
-                                if (player.getPassenger() != null) {
-                                    if (!player.hasPermission("essentials.carry.attack"))return;
-                                    plugin.getEntities().attack(player.getPassenger(), entity);
-                                }
-                            } else {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                            }
-                        } else {
-                            if (player.getPassenger() != null) {
-                                if (!player.hasPermission("essentials.carry.attack"))return;
-                                plugin.getEntities().attack(player.getPassenger(), entity);
                             }
                         }
                     }
@@ -278,22 +193,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
                             }
-                        } else if (getChunks().isEnable()) {
-                            if (!getChunks().isClaimed(chunk))return;
-                            if (getChunks().hasAccess(player, chunk)) {
-                                if (player.getPassenger() != null) {
-                                    if (!player.hasPermission("essentials.carry.attack"))return;
-                                    plugin.getEntities().attack(player.getPassenger(), entity);
-                                }
-                            } else {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                            }
-                        } else {
-                            if (player.getPassenger() != null) {
-                                if (!player.hasPermission("essentials.carry.attack"))return;
-                                plugin.getEntities().attack(player.getPassenger(), entity);
-                            }
                         }
                     }
                 }
@@ -321,22 +220,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                             } else {
                                 getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
                                 event.setCancelled(true);
-                            }
-                        } else if (getChunks().isEnable()) {
-                            if (!getChunks().isClaimed(chunk))return;
-                            if (getChunks().hasAccess(player, chunk)) {
-                                if (player.getPassenger() != null) {
-                                    if (!player.hasPermission("essentials.carry.attack"))return;
-                                    plugin.getEntities().attack(player.getPassenger(), entity);
-                                }
-                            } else {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-                            }
-                        } else {
-                            if (player.getPassenger() != null) {
-                                if (!player.hasPermission("essentials.carry.attack"))return;
-                                plugin.getEntities().attack(player.getPassenger(), entity);
                             }
                         }
                     }

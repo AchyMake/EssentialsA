@@ -1,10 +1,8 @@
 package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
-import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Entities;
 import org.achymake.essentialsa.data.Villagers;
-import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,9 +17,6 @@ public record EntityTarget(EssentialsA plugin) implements Listener {
     private Entities getEntities() {
         return plugin.getEntities();
     }
-    private Chunks getChunks() {
-        return plugin.getChunks();
-    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityTarget(EntityTargetEvent event) {
         Entity entity = event.getEntity();
@@ -33,15 +28,6 @@ public record EntityTarget(EssentialsA plugin) implements Listener {
         }
         if (getEntities().disableTarget(entity, target)) {
             event.setCancelled(true);
-        }
-        if (getChunks().isEnable()) {
-            Chunk chunk = entity.getChunk();
-            if (!getChunks().isClaimed(chunk))return;
-            if (target instanceof Player player) {
-                if (!getEntities().isFriendly(entity))return;
-                if (getChunks().hasAccess(player, chunk))return;
-                event.setCancelled(true);
-            }
         }
     }
 }

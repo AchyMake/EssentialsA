@@ -2,9 +2,7 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.ChestShop;
-import org.achymake.essentialsa.data.Chunks;
 import org.achymake.essentialsa.data.Message;
-import org.bukkit.Chunk;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
@@ -16,9 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 public record SignChange(EssentialsA plugin) implements Listener {
-    private Chunks getChunks() {
-        return plugin.getChunks();
-    }
     private ChestShop getChestShop() {
         return plugin.getChestShop();
     }
@@ -28,76 +23,35 @@ public record SignChange(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
-        Chunk chunk = event.getBlock().getChunk();
         Sign sign = (Sign) event.getBlock().getState();
-        if (getChunks().isClaimed(chunk)) {
-            if (getChunks().hasAccess(player, chunk)) {
-                if (getChestShop().isShop(sign)) {
-                    event.setCancelled(true);
-                    getMessage().send(player, "&cSign is already a chest shop");
-                } else {
-                    if (sign.getBlockData() instanceof WallSign wallSign) {
-                        if (wallSign.getFacing().equals(BlockFace.EAST)) {
-                            if (sign.getLocation().add(-1,0,0).getBlock().getState() instanceof Chest chest) {
-                                getChestShop().setupShop(player, sign, chest);
-                            }
-                        } else if (wallSign.getFacing().equals(BlockFace.NORTH)) {
-                            if (sign.getLocation().add(0,0,1).getBlock().getState() instanceof Chest chest) {
-                                getChestShop().setupShop(player, sign, chest);
-                            }
-                        } else if (wallSign.getFacing().equals(BlockFace.WEST)) {
-                            if (sign.getLocation().add(1,0,0).getBlock().getState() instanceof Chest chest) {
-                                getChestShop().setupShop(player, sign, chest);
-                            }
-                        } else if (wallSign.getFacing().equals(BlockFace.SOUTH)) {
-                            if (sign.getLocation().add(0,0,-1).getBlock().getState() instanceof Chest chest) {
-                                getChestShop().setupShop(player, sign, chest);
-                            }
-                        }
-                    }
-                }
-                if (player.hasPermission("essentials.event.sign.color")) {
-                    for (int i = 0; i < event.getLines().length; i++) {
-                        if (!event.getLine(i).contains("&"))return;
-                        event.setLine(i, getMessage().addColor(event.getLine(i)));
-                    }
-                }
-            } else {
-                if (!getChunks().isEnable())return;
-                if (!getChunks().isDisableSignChange())return;
-                event.setCancelled(true);
-                getMessage().sendActionBar(player, "&cChunk is owned by&f " + getChunks().getOwner(chunk).getName());
-            }
+        if (getChestShop().isShop(sign)) {
+            event.setCancelled(true);
+            getMessage().send(player, "&cSign is already a chest shop");
         } else {
-            if (getChestShop().isShop(sign)) {
-                event.setCancelled(true);
-                getMessage().send(player, "&cSign is already a chest shop");
-            } else {
-                if (sign.getBlockData() instanceof WallSign wallSign) {
-                    if (wallSign.getFacing().equals(BlockFace.EAST)) {
-                        if (sign.getLocation().add(-1,0,0).getBlock().getState() instanceof Chest chest) {
-                            getChestShop().setupShop(player, sign, chest);
-                        }
-                    } else if (wallSign.getFacing().equals(BlockFace.NORTH)) {
-                        if (sign.getLocation().add(0,0,1).getBlock().getState() instanceof Chest chest) {
-                            getChestShop().setupShop(player, sign, chest);
-                        }
-                    } else if (wallSign.getFacing().equals(BlockFace.WEST)) {
-                        if (sign.getLocation().add(1,0,0).getBlock().getState() instanceof Chest chest) {
-                            getChestShop().setupShop(player, sign, chest);
-                        }
-                    } else if (wallSign.getFacing().equals(BlockFace.SOUTH)) {
-                        if (sign.getLocation().add(0,0,-1).getBlock().getState() instanceof Chest chest) {
-                            getChestShop().setupShop(player, sign, chest);
-                        }
+            if (sign.getBlockData() instanceof WallSign wallSign) {
+                if (wallSign.getFacing().equals(BlockFace.EAST)) {
+                    if (sign.getLocation().add(-1,0,0).getBlock().getState() instanceof Chest chest) {
+                        getChestShop().setupShop(player, sign, chest);
+                    }
+                } else if (wallSign.getFacing().equals(BlockFace.NORTH)) {
+                    if (sign.getLocation().add(0,0,1).getBlock().getState() instanceof Chest chest) {
+                        getChestShop().setupShop(player, sign, chest);
+                    }
+                } else if (wallSign.getFacing().equals(BlockFace.WEST)) {
+                    if (sign.getLocation().add(1,0,0).getBlock().getState() instanceof Chest chest) {
+                        getChestShop().setupShop(player, sign, chest);
+                    }
+                } else if (wallSign.getFacing().equals(BlockFace.SOUTH)) {
+                    if (sign.getLocation().add(0,0,-1).getBlock().getState() instanceof Chest chest) {
+                        getChestShop().setupShop(player, sign, chest);
                     }
                 }
             }
-            if (player.hasPermission("essentials.event.sign.color")) {
-                for (int i = 0; i < event.getLines().length; i++) {
-                    if (!event.getLine(i).contains("&"))return;
-                    event.setLine(i, getMessage().addColor(event.getLine(i)));
-                }
+        }
+        if (player.hasPermission("essentials.event.sign.color")) {
+            for (int i = 0; i < event.getLines().length; i++) {
+                if (!event.getLine(i).contains("&"))return;
+                event.setLine(i, getMessage().addColor(event.getLine(i)));
             }
         }
     }

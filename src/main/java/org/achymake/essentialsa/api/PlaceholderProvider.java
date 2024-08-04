@@ -57,32 +57,6 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                 case "pvp" -> {
                     return String.valueOf(ess.getUserdata().isPVP(player));
                 }
-                case "chunk_owner" -> {
-                    if (ess.getChunks().isClaimed(player.getChunk())) {
-                        return ess.getChunks().getOwner(player.getChunk()).getName();
-                    }
-                    return "None";
-                }
-                case "chunk_access" -> {
-                    if (ess.getChunks().isClaimed(player.getChunk())) {
-                        if (ess.getChunks().hasAccess(player, player.getChunk())) {
-                            return "True";
-                        } else {
-                            return "False";
-                        }
-                    } else {
-                        return "True";
-                    }
-                }
-                case "chunk_claimed" -> {
-                    return String.valueOf(ess.getChunks().getClaimCount(player));
-                }
-                case "chunk_max_claims" -> {
-                    return String.valueOf(ess.getConfig().getInt("chunks.claim.max-claims"));
-                }
-                case "chunk_claims_left" -> {
-                    return String.valueOf(ess.getConfig().getInt("chunks.claim.max-claims") - ess.getChunks().getClaimCount(player));
-                }
                 case "world_name" -> {
                     return ess.getWorlds().getConfig(player.getWorld()).getString("name");
                 }
