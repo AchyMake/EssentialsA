@@ -22,7 +22,6 @@ import java.util.logging.Level;
 
 public final class EssentialsA extends JavaPlugin {
     private static EssentialsA instance;
-    private static Chairs chairs;
     private static ChestShop chestShop;
     private static Database database;
     private static Economy economy;
@@ -45,7 +44,6 @@ public final class EssentialsA extends JavaPlugin {
     public void onEnable() {
         instance = this;
         message = new Message(this);
-        chairs = new Chairs(this);
         chestShop = new ChestShop(this);
         database = new Database(this);
         economy = new Economy(this);
@@ -165,7 +163,6 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new EntityDamage(this), this);
         getManager().registerEvents(new EntityDamageByEntity(this), this);
         getManager().registerEvents(new EntityDeath(this), this);
-        getManager().registerEvents(new EntityDismount(this), this);
         getManager().registerEvents(new EntityExplode(this), this);
         getManager().registerEvents(new EntityInteract(this), this);
         getManager().registerEvents(new EntitySpawn(this), this);
@@ -279,9 +276,6 @@ public final class EssentialsA extends JavaPlugin {
     }
     public ChestShop getChestShop() {
         return chestShop;
-    }
-    public Chairs getChairs() {
-        return chairs;
     }
     public static EssentialsA getInstance() {
         return instance;

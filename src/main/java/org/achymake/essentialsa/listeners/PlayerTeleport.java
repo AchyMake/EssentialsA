@@ -12,19 +12,10 @@ public record PlayerTeleport(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chairs getChairs() {
-        return plugin.getChairs();
-    }
-    private Message getMessage() {
-        return plugin.getMessage();
-    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
-        if (getChairs().hasChair(player)) {
-            event.setCancelled(true);
-            getMessage().send(player, "&cYou can't teleport while using a chair");
-        } else if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
             getUserdata().setLocation(player, "recent");
         }
     }

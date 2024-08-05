@@ -13,9 +13,6 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chairs getChairs() {
-        return plugin.getChairs();
-    }
     private Message getMessage() {
         return plugin.getMessage();
     }
@@ -23,15 +20,11 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     public void onEntityDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof Player player) {
-            if (getChairs().hasChair(player)) {
-                getChairs().dismount(player);
-            } else {
-                if (plugin.getConfig().getBoolean("teleport.cancel-on-damage")) {
-                    if (getUserdata().hasTaskID(player, "teleport")) {
-                        getMessage().sendActionBar(player, "&cYou moved before teleporting!");
-                        plugin.getScheduler().cancelTask(getUserdata().getTaskID(player, "teleport"));
-                        getUserdata().removeTaskID(player, "teleport");
-                    }
+            if (plugin.getConfig().getBoolean("teleport.cancel-on-damage")) {
+                if (getUserdata().hasTaskID(player, "teleport")) {
+                    getMessage().sendActionBar(player, "&cYou moved before teleporting!");
+                    plugin.getScheduler().cancelTask(getUserdata().getTaskID(player, "teleport"));
+                    getUserdata().removeTaskID(player, "teleport");
                 }
             }
         }

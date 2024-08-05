@@ -28,9 +28,6 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
     private ChestShop getChestShop() {
         return plugin.getChestShop();
     }
-    private Chairs getChairs() {
-        return plugin.getChairs();
-    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -77,17 +74,6 @@ public record PlayerInteract(EssentialsA plugin) implements Listener {
                 if (player == getChestShop().getOwner(chest))return;
                 if (getChestShop().isChestShopEditor(player))return;
                 event.setCancelled(true);
-            } else {
-                if (event.getBlockFace().equals(BlockFace.UP)) {
-                    if (!getChairs().isAboveAir(block))return;
-                    if (!player.getInventory().getItemInMainHand().isEmpty())return;
-                    if (!player.getInventory().getItemInOffHand().isEmpty())return;
-                    if (!player.isOnGround())return;
-                    if (player.isSneaking())return;
-                    if (getChairs().hasChair(player))return;
-                    if (getChairs().isOccupied(block))return;
-                    getChairs().sit(player, block);
-                }
             }
         }
     }

@@ -20,9 +20,6 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Chairs getChairs() {
-        return plugin.getChairs();
-    }
     private List<Player> getChunkEditors() {
         return plugin.getChunkEditors();
     }
@@ -38,9 +35,6 @@ public record PlayerQuit(EssentialsA plugin) implements Listener {
         removeTeleportTask(player);
         getUserdata().saveQuit(player);
         getUserdata().resetScale(player);
-        if (getChairs().hasChair(player)) {
-            getChairs().dismount(player);
-        }
         if (getUserdata().isVanished(player)) {
             removeVanishTask(player);
             plugin.getVanished().remove(player);
