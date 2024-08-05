@@ -2,7 +2,6 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.Userdata;
-import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,9 +15,7 @@ public record PlayerBucketEntity(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerBucketEntity(PlayerBucketEntityEvent event) {
         Player player = event.getPlayer();
-        Chunk chunk = event.getEntity().getChunk();
-        if (getUserdata().isDisabled(player)) {
-            event.setCancelled(true);
-        }
+        if (!getUserdata().isDisabled(player))return;
+        event.setCancelled(true);
     }
 }

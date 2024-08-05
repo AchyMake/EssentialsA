@@ -3,8 +3,6 @@ package org.achymake.essentialsa;
 import org.achymake.essentialsa.api.PlaceholderProvider;
 import org.achymake.essentialsa.data.Economy;
 import org.achymake.essentialsa.commands.*;
-import org.achymake.essentialsa.commands.VillagerCommand;
-import org.achymake.essentialsa.commands.WorldCommand;
 import org.achymake.essentialsa.data.*;
 import org.achymake.essentialsa.listeners.*;
 import org.achymake.essentialsa.net.UpdateChecker;
@@ -35,9 +33,7 @@ public final class EssentialsA extends JavaPlugin {
     private static Message message;
     private static Spawn spawn;
     private static Userdata userdata;
-    private static Villagers villagers;
     private static Warps warps;
-    private static Worlds worlds;
     private static Worth worth;
     private static UpdateChecker updateChecker;
     private final List<Player> vanished = new ArrayList<>();
@@ -59,9 +55,7 @@ public final class EssentialsA extends JavaPlugin {
         levels = new Levels(this);
         spawn = new Spawn(this);
         userdata = new Userdata(this);
-        villagers = new Villagers(this);
         warps = new Warps(this);
-        worlds = new Worlds(this);
         worth = new Worth(this);
         updateChecker = new UpdateChecker(this);
         getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, getEconomy(), this, ServicePriority.Normal);
@@ -69,7 +63,6 @@ public final class EssentialsA extends JavaPlugin {
         commands();
         events();
         reload();
-        getWorlds().setupWorlds();
         getMessage().sendLog(Level.INFO, "Enabled " + getDescription().getName() + " " + getDescription().getVersion());
         getUpdateChecker().getUpdate();
     }
@@ -86,7 +79,6 @@ public final class EssentialsA extends JavaPlugin {
         }
         new PlaceholderProvider().unregister();
         getServer().getScheduler().cancelTasks(this);
-        getVillagers().disable();
         getMessage().sendLog(Level.INFO, "Disabled " + getDescription().getName() + " " + getDescription().getVersion());
     }
     private void commands() {
@@ -154,12 +146,10 @@ public final class EssentialsA extends JavaPlugin {
         getCommand("tphere").setExecutor(new TPHereCommand(this));
         getCommand("unban").setExecutor(new UnBanCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this));
-        getCommand("villager").setExecutor(new VillagerCommand(this));
         getCommand("walkspeed").setExecutor(new WalkSpeedCommand(this));
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("whisper").setExecutor(new WhisperCommand(this));
         getCommand("workbench").setExecutor(new WorkbenchCommand(this));
-        getCommand("world").setExecutor(new WorldCommand(this));
         getCommand("worth").setExecutor(new WorthCommand(this));
     }
     private void events() {
@@ -171,17 +161,13 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new BlockReceiveGame(this), this);
         getManager().registerEvents(new BlockRedstone(this), this);
         getManager().registerEvents(new EntityBlockForm(this), this);
-        getManager().registerEvents(new EntityBreed(this), this);
         getManager().registerEvents(new EntityChangeBlock(this), this);
         getManager().registerEvents(new EntityDamage(this), this);
         getManager().registerEvents(new EntityDamageByEntity(this), this);
         getManager().registerEvents(new EntityDeath(this), this);
         getManager().registerEvents(new EntityDismount(this), this);
-        getManager().registerEvents(new EntityEnterLoveMode(this), this);
         getManager().registerEvents(new EntityExplode(this), this);
         getManager().registerEvents(new EntityInteract(this), this);
-        getManager().registerEvents(new EntityPickupItem(this), this);
-        getManager().registerEvents(new EntityPortalEnter(this), this);
         getManager().registerEvents(new EntitySpawn(this), this);
         getManager().registerEvents(new EntityTarget(this), this);
         getManager().registerEvents(new EntityTargetLivingEntity(this), this);
@@ -200,7 +186,6 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerLogin(this), this);
         getManager().registerEvents(new PlayerMount(this), this);
         getManager().registerEvents(new PlayerMove(this), this);
-        getManager().registerEvents(new PlayerPortal(this), this);
         getManager().registerEvents(new PlayerQuit(this), this);
         getManager().registerEvents(new PlayerRespawn(this), this);
         getManager().registerEvents(new PlayerShearBlock(this), this);
@@ -209,10 +194,6 @@ public final class EssentialsA extends JavaPlugin {
         getManager().registerEvents(new PlayerTeleport(this), this);
         getManager().registerEvents(new PrepareAnvil(this), this);
         getManager().registerEvents(new SignChange(this), this);
-        getManager().registerEvents(new VillagerAcquireTrade(this), this);
-        getManager().registerEvents(new VillagerCareerChange(this), this);
-        getManager().registerEvents(new VillagerReplenishTrade(this), this);
-        getManager().registerEvents(new WorldLoad(this), this);
     }
     public void reload() {
         File file = new File(getDataFolder(), "config.yml");
@@ -236,9 +217,7 @@ public final class EssentialsA extends JavaPlugin {
         getLevels().reload();
         getSpawn().reload();
         getUserdata().reload();
-        getVillagers().reload();
         getWarps().reload();
-        getWorlds().reload();
         getWorth().reload();
     }
     private PluginManager getManager() {
@@ -268,14 +247,8 @@ public final class EssentialsA extends JavaPlugin {
     public Worth getWorth() {
         return worth;
     }
-    public Worlds getWorlds() {
-        return worlds;
-    }
     public Warps getWarps() {
         return warps;
-    }
-    public Villagers getVillagers() {
-        return villagers;
     }
     public Userdata getUserdata() {
         return userdata;

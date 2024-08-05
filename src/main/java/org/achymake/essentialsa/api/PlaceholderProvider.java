@@ -57,15 +57,6 @@ public class PlaceholderProvider extends PlaceholderExpansion {
                 case "pvp" -> {
                     return String.valueOf(ess.getUserdata().isPVP(player));
                 }
-                case "world_name" -> {
-                    return ess.getWorlds().getConfig(player.getWorld()).getString("name");
-                }
-                case "world_display_name" -> {
-                    return ess.getWorlds().getDisplayName(player.getWorld());
-                }
-                case "world_pvp" -> {
-                    return String.valueOf(ess.getWorlds().getConfig(player.getWorld()).getBoolean("pvp"));
-                }
             }
         }
         return super.onPlaceholderRequest(player, params);

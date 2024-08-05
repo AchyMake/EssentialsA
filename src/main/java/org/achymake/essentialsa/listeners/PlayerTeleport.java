@@ -15,30 +15,17 @@ public record PlayerTeleport(EssentialsA plugin) implements Listener {
     private Chairs getChairs() {
         return plugin.getChairs();
     }
-    private Worlds getWorlds() {
-        return plugin.getWorlds();
-    }
     private Message getMessage() {
         return plugin.getMessage();
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
-        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
-            if (!getWorlds().isPortalEnable())return;
+        if (getChairs().hasChair(player)) {
             event.setCancelled(true);
-            getWorlds().teleport(player, "NETHER");
-        } else if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
-            if (!getWorlds().isPortalEnable())return;
-            event.setCancelled(true);
-            getWorlds().teleport(player, "END");
-        } else {
-            if (getChairs().hasChair(player)) {
-                event.setCancelled(true);
-                getMessage().send(player, "&cYou can't teleport while using a chair");
-            } else if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
-                getUserdata().setLocation(player, "recent");
-            }
+            getMessage().send(player, "&cYou can't teleport while using a chair");
+        } else if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)) {
+            getUserdata().setLocation(player, "recent");
         }
     }
 }

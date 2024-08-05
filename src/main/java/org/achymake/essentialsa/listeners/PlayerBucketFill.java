@@ -15,8 +15,7 @@ public record PlayerBucketFill(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerBucketFill(PlayerBucketFillEvent event) {
         Player player = event.getPlayer();
-        if (getUserdata().isDisabled(player)) {
-            event.setCancelled(true);
-        }
+        if (!getUserdata().isDisabled(player))return;
+        event.setCancelled(true);
     }
 }

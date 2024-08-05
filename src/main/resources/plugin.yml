@@ -3,12 +3,10 @@ version: '${project.version}'
 main: org.achymake.essentialsa.EssentialsA
 api-version: '1.21'
 prefix: '${project.name}'
-load: STARTUP
+load: POSTWORLD
 depend:
-  - Votifier
   - Vault
   - PlaceholderAPI
-  - WorldGuard
 author: AchyMake
 description: '${project.description}'
 commands:
@@ -340,11 +338,6 @@ commands:
     description: toggle vanish
     permission: essentials.command.vanish
     permission-message: You do not have the permission to execute the command
-  villager:
-    usage: /help
-    description: villager npc
-    permission: essentials.command.villager
-    permission-message: You do not have the permission to execute the command
   walkspeed:
     usage: /help
     description: change walk speed
@@ -364,11 +357,6 @@ commands:
     usage: /help
     description: opens crafting table by command
     permission: essentials.command.workbench
-    permission-message: You do not have the permission to execute the command
-  world:
-    usage: /help
-    description: world command
-    permission: essentials.command.world
     permission-message: You do not have the permission to execute the command
   worth:
     usage: /help
@@ -766,9 +754,6 @@ permissions:
   essentials.command.vanish.exempt:
     description: message
     default: op
-  essentials.command.villager:
-    description: message
-    default: op
   essentials.command.walkspeed:
     description: message
     default: op
@@ -800,9 +785,6 @@ permissions:
     description: message
     default: op
   essentials.command.workbench.exempt:
-    description: message
-    default: op
-  essentials.command.world:
     description: message
     default: op
   essentials.command.worth:

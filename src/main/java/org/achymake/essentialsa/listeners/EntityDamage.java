@@ -13,9 +13,6 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Villagers getVillagers() {
-        return plugin.getVillagers();
-    }
     private Chairs getChairs() {
         return plugin.getChairs();
     }
@@ -25,14 +22,7 @@ public record EntityDamage(EssentialsA plugin) implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
-        if (getVillagers().isNPC(entity)) {
-            event.setCancelled(true);
-        } else if (entity.isInsideVehicle()) {
-            if (entity.getVehicle() instanceof Player player) {
-                event.setCancelled(true);
-                player.damage(event.getDamage());
-            }
-        } else if (entity instanceof Player player) {
+        if (entity instanceof Player player) {
             if (getChairs().hasChair(player)) {
                 getChairs().dismount(player);
             } else {

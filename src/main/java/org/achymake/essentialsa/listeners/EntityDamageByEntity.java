@@ -2,7 +2,6 @@ package org.achymake.essentialsa.listeners;
 
 import org.achymake.essentialsa.EssentialsA;
 import org.achymake.essentialsa.data.*;
-import org.bukkit.Chunk;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,14 +12,8 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
     private Userdata getUserdata() {
         return plugin.getUserdata();
     }
-    private Villagers getVillagers() {
-        return plugin.getVillagers();
-    }
     private Entities getEntities() {
         return plugin.getEntities();
-    }
-    private Worlds getWorlds() {
-        return plugin.getWorlds();
     }
     private Message getMessage() {
         return plugin.getMessage();
@@ -29,7 +22,6 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
         Entity damager = event.getDamager();
-        Chunk chunk = entity.getChunk();
         switch (damager) {
             case Arrow arrow -> {
                 if (arrow.getShooter() instanceof Player player) {
@@ -38,22 +30,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target) return;
-                            if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getUserdata().isPVP(player)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getUserdata().isPVP(target)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
-                                } else {
-                                    if (player.getPassenger() != null) {
-                                        if (!player.hasPermission("essentials.carry.attack")) return;
-                                        plugin.getEntities().attack(player.getPassenger(), target);
-                                    }
-                                }
-                            } else {
-                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                            if (!getUserdata().isPVP(player)) {
                                 event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                            } else if (!getUserdata().isPVP(target)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
@@ -65,22 +47,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                 } else {
                     if (entity instanceof Player target) {
                         if (player == target)return;
-                        if (getWorlds().isPVP(target.getWorld())) {
-                            if (!getUserdata().isPVP(player)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                            } else if (!getUserdata().isPVP(target)) {
-                                event.setCancelled(true);
-                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
-                            } else {
-                                if (player.getPassenger() != null) {
-                                    if (!player.hasPermission("essentials.carry.attack"))return;
-                                    plugin.getEntities().attack(player.getPassenger(), target);
-                                }
-                            }
-                        } else {
-                            getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                        if (!getUserdata().isPVP(player)) {
                             event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                        } else if (!getUserdata().isPVP(target)) {
+                            event.setCancelled(true);
+                            getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                         }
                     }
                 }
@@ -92,22 +64,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
-                            if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getUserdata().isPVP(player)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getUserdata().isPVP(target)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
-                                } else {
-                                    if (player.getPassenger() != null) {
-                                        if (!player.hasPermission("essentials.carry.attack"))return;
-                                        plugin.getEntities().attack(player.getPassenger(), target);
-                                    }
-                                }
-                            } else {
-                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                            if (!getUserdata().isPVP(player)) {
                                 event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                            } else if (!getUserdata().isPVP(target)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
@@ -120,22 +82,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
-                            if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getUserdata().isPVP(player)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getUserdata().isPVP(target)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
-                                } else {
-                                    if (player.getPassenger() != null) {
-                                        if (!player.hasPermission("essentials.carry.attack"))return;
-                                        plugin.getEntities().attack(player.getPassenger(), target);
-                                    }
-                                }
-                            } else {
-                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                            if (!getUserdata().isPVP(player)) {
                                 event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                            } else if (!getUserdata().isPVP(target)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
@@ -148,22 +100,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
-                            if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getUserdata().isPVP(player)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getUserdata().isPVP(target)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
-                                } else {
-                                    if (player.getPassenger() != null) {
-                                        if (!player.hasPermission("essentials.carry.attack"))return;
-                                        plugin.getEntities().attack(player.getPassenger(), target);
-                                    }
-                                }
-                            } else {
-                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                            if (!getUserdata().isPVP(player)) {
                                 event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                            } else if (!getUserdata().isPVP(target)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
@@ -176,22 +118,12 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
-                            if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getUserdata().isPVP(player)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getUserdata().isPVP(target)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
-                                } else {
-                                    if (player.getPassenger() != null) {
-                                        if (!player.hasPermission("essentials.carry.attack"))return;
-                                        plugin.getEntities().attack(player.getPassenger(), target);
-                                    }
-                                }
-                            } else {
-                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                            if (!getUserdata().isPVP(player)) {
                                 event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                            } else if (!getUserdata().isPVP(target)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
@@ -204,35 +136,21 @@ public record EntityDamageByEntity(EssentialsA plugin) implements Listener {
                     } else {
                         if (entity instanceof Player target) {
                             if (player == target)return;
-                            if (getWorlds().isPVP(target.getWorld())) {
-                                if (!getUserdata().isPVP(player)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
-                                } else if (!getUserdata().isPVP(target)) {
-                                    event.setCancelled(true);
-                                    getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
-                                } else {
-                                    if (player.getPassenger() != null) {
-                                        if (!player.hasPermission("essentials.carry.attack"))return;
-                                        plugin.getEntities().attack(player.getPassenger(), target);
-                                    }
-                                }
-                            } else {
-                                getMessage().send(player, "&cHey!&7 Sorry but pvp is disabled in this world");
+                            if (!getUserdata().isPVP(player)) {
                                 event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but your PVP is Disabled");
+                            } else if (!getUserdata().isPVP(target)) {
+                                event.setCancelled(true);
+                                getMessage().sendActionBar(player, "&c&lHey!&7 Sorry but&f " + target.getName() + "&7's PVP is Disabled");
                             }
                         }
                     }
                 }
             }
             default -> {
-                if (getVillagers().isNPC(entity)) {
-                    event.setCancelled(true);
-                } else {
-                    if (event.getDamager() instanceof Player)return;
-                    if (!getEntities().disableDamage(damager, entity))return;
-                    event.setCancelled(true);
-                }
+                if (event.getDamager() instanceof Player)return;
+                if (!getEntities().disableDamage(damager, entity))return;
+                event.setCancelled(true);
             }
         }
     }
